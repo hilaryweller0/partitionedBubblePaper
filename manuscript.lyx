@@ -453,7 +453,7 @@ s.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -775,7 +775,7 @@ K throughout the simulation and
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -1118,7 +1118,7 @@ K throughout.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -1271,6 +1271,28 @@ K.
  This diffusion stabilises the solution and the results are quite different
  from the result with drag between the partitions.
  
+\end_layout
+
+\begin_layout Subsubsection
+Transfers Between Partitions
+\end_layout
+
+\begin_layout Standard
+For the conditionally averaged equations to be useful for convection, there
+ must be transfer terms between the partitions based on convection.
+ These have a similar function to the closure approximations used by conventiona
+l convection schemes and could take the same form.
+ Alternatively they could depend on approximations of sub-grid scale variability.
+ Here we test mass transfers between partitions based on buoyancy anomalies
+ and based on horizontal divergence.
+ We are not assuming any sub-grid scale variability so these are not representat
+ive of convection but we need to demonstrate that the numerical method is
+ stable in the presence of large transfers between partitions.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Transfers based on buoyancy perturbations
 \end_layout
 
 \begin_layout Section
