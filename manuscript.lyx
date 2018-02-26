@@ -1047,6 +1047,32 @@ Advection of
 
 \end_layout
 
+\begin_layout Standard
+For consistency with other equations, 
+\begin_inset Formula $\theta$
+\end_inset
+
+ advection is calculated advective form using finite volume operators (using
+ Gauss's theorem):
+\begin_inset Formula 
+\begin{equation}
+\mathbf{u}_{i}\cdot\nabla\theta_{i}\approx\frac{1}{V}\left(\sum_{f\in c}\theta_{ai}U_{i}-\theta_{i}\sum_{f\in c}U_{i}\right)\label{eq:thetaAdvect}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\theta_{a}$
+\end_inset
+
+ is interpolated from cell centres to faces using the OpenFOAM van-Leer
+ advection scheme as for 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 Time Stepping Algorithm and Limiting of Source Terms
 \end_layout
