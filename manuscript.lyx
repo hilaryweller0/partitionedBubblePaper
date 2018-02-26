@@ -149,11 +149,7 @@ address{
 
 
 \backslash
-affilnum{a}Meteorology, University of Reading 
-\backslash
-
-\backslash
-
+affilnum{a}Meteorology, University of Reading}
 \end_layout
 
 \begin_layout Plain Layout
@@ -256,15 +252,803 @@ Introduction
 \end_layout
 
 \begin_layout Section
-The Conditionally Filtered Euler Equations 
+The Conditionally Filtered Euler Equations
+\end_layout
+
+\begin_layout Standard
+Traditional mass flux convection schemes solve simplified equations of motion
+ for buoyant plumes with different temperature, vertical velocity and moisture
+ properties inside the plume in comparison to the environment.
+ This is therefore a form of conditional averaging.
+ However we can take the process further and avoid many of the crude assumptions
+ made by mass flux schemes.
+ The conditional averaging process for convection was described by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWW+1x"
+
+\end_inset
+
+ and involves multiplying each equation of motion by an indicator function,
+ 
+\begin_inset Formula $I_{i}$
+\end_inset
+
+, for a number of different conditions labelled by 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\begin_inset Formula $I_{i}$
+\end_inset
+
+ is one if the condition is true at that location and zero otherwise.
+ A filter (typically volume average) is then applied and averages for each
+ condition can be found over each filter region.
+ The volume fraction in partition 
+\begin_inset Formula $i$
+\end_inset
+
+ is defined to be
+\begin_inset Formula 
+\begin{equation}
+\sigma_{i}=\bar{I_{i}}
+\end{equation}
+
+\end_inset
+
+where the overbar implies the application of the filter (or volume average).
+ Density, potential temperature and velocity can then be defined for each
+ condition:
+\begin_inset Formula 
+\begin{eqnarray*}
+\rho_{i} & = & \overline{I_{i}\rho}\\
+\theta_{i} & = & \overline{I_{i}\theta_{i}}\\
+\mathbf{u}_{i} & = & \overline{I_{i}\mathbf{u}}
+\end{eqnarray*}
+
+\end_inset
+
+and averages can be found over all partitions, using the overbar in a slightly
+ different way:
+\begin_inset Formula 
+\begin{eqnarray*}
+1 & = & \sum_{i}\sigma_{i}\\
+\overline{\rho} & = & \sum_{i}\sigma_{i}\rho_{i}\\
+\overline{\theta} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
+\overline{\mathbf{u}_{i}} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}.
+\end{eqnarray*}
+
+\end_inset
+
+The same averaging can be applied to pressure but we will assume that pressure
+ is uniform across partitions.
+ The time-scale for equilibration of pressure across partitions will be
+ related to the speed of sound so uniform pressure across partitions is
+ probably a good approximation.
+ This is also the approximation made when using conditional averaging for
+ representing multi-phase flows 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg."
+key "GBB+07"
+
+\end_inset
+
+.
+ Applying this averaging to the rotating compressible Euler equations and
+ assuming uniform pressure between partitions leads to the conditionally
+ averaged Euler equations in advective form:
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\mathbf{u}_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i} & = & -2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
+ & + & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\mathbf{u}_{j}-\mathbf{u}_{i})-\mathbf{D}_{ij}\right)\\
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont-1}\\
+\frac{\partial\theta_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\theta_{i} & = & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\theta_{j}-\theta_{i})-H_{ij}\right)\label{eq:condThetaAdv}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $\pi=(p/p_{0})^{\kappa}$
+\end_inset
+
+ is the Exner pressure, 
+\begin_inset Formula $p$
+\end_inset
+
+ is the pressure, 
+\begin_inset Formula $p_{0}$
+\end_inset
+
+ is a reference pressure, 
+\begin_inset Formula $\kappa=R/c_{p}$
+\end_inset
+
+, 
+\begin_inset Formula $R$
+\end_inset
+
+ is the gas constant of dry air, 
+\begin_inset Formula $c_{p}$
+\end_inset
+
+ is the heat capacity of dry air at constant pressure, 
+\begin_inset Formula $\boldsymbol{\Omega}$
+\end_inset
+
+ is the rotation rate of the domain, 
+\begin_inset Formula $\mathbf{g}$
+\end_inset
+
+ is the acceleration due to gravity, 
+\begin_inset Formula $\sigma_{i}\rho_{i}S_{ij}$
+\end_inset
+
+ is the transfer rate of mass from partition 
+\begin_inset Formula $i$
+\end_inset
+
+ to partition 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{D}_{ij}$
+\end_inset
+
+ is the drag exerted from partition 
+\begin_inset Formula $i$
+\end_inset
+
+ onto partition 
+\begin_inset Formula $j$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{ij}$
+\end_inset
+
+ is the heat transfer from partitions 
+\begin_inset Formula $i$
+\end_inset
+
+ to 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ When mass is transferred, it takes its properties with it which is why
+ 
+\begin_inset Formula $S_{ij}$
+\end_inset
+
+ appears in all equations.
+ We then also assume the equation of state for dry air both globally and
+ for each partition:
+\begin_inset Formula 
+\begin{equation}
+p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\rho\theta=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
 Transfers and Exchanges between Partitions
 \end_layout
 
+\begin_layout Standard
+These conditionally averaged equations can only become useful for representing
+ sub-grid scale convection when transfer terms 
+\begin_inset Formula $S_{ij}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{D}_{ij}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{ij}$
+\end_inset
+
+ are formulated.
+ 
+\begin_inset Formula $S_{ij}$
+\end_inset
+
+ is particularly important for moving mass in and out of the partition associate
+d with convection and will inevitably be associated with sub-grid scale
+ variability of buoyancy and other properties related to convection.
+ In this paper we do not propose new closures for how mass may move from
+ the stable to the convectively active partition (such as cloud base mass
+ flux closures).
+ Instead we will use transfer terms formulated in terms of differential
+ operators that transfer resolved flow into the convectively active partition
+ and back again.
+ The purpose of this is to test the stability, boundedness and conservation
+ properties of the numerical methods rather than proposing a useful parameterisa
+tion of convection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Plain Layout
+In this paper we are not seeking to define convection or formulate useful
+ transfer terms for convection parameterisation using conditional averaging.
+ Rather we are using plausible transfer terms and developing numerical methods
+ that are stable, bounded and maintain some conservation properties.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Diffusion of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Firstly, a diffusive mass transfer term is created to smooth out steep changes
+ in 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+.
+ This term can control numerical oscillations but also plays a similar role
+ to convective entrainment which mixes convectively active and stable air.
+ The form used is ensures that total mass is not diffused and that the transfer
+ from 
+\begin_inset Formula $i$
+\end_inset
+
+ to 
+\begin_inset Formula $j$
+\end_inset
+
+ is always positive:
+\begin_inset Formula 
+\begin{equation}
+\sigma_{i}\rho_{i}S_{ij}=\frac{K_{\sigma}}{2}\max\left(\nabla^{2}\left(\sigma_{j}\rho_{j}-\sigma_{i}\rho_{i}\right),\ 0\right)\label{eq:diffusionTransfer}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $K_{\sigma}$
+\end_inset
+
+ is a diffusion coefficient which can be chosen so to obey stability constraints
+ if the mass transfer term is treated explicitly in equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont-1"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Transfers based on buoyancy perturbations
+\end_layout
+
+\begin_layout Standard
+Air will rise if buoyancy perturbations make it lighter than the air above
+ or lighter than the surroundings.
+ We want to formulate transfer terms as part of PDEs so we do not want to
+ introduce tests comparing the buoyancy of grid boxes with surrounding grid
+ boxes.
+ Instead we can use the laplacian of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ to inform us of positive and negative perturbations.
+ There will be a positive perturbation if 
+\begin_inset Formula $\nabla^{2}\theta<0$
+\end_inset
+
+ and vice versa.
+ These transfer terms can therefore be added to the transfer terms associated
+ with diffusion between the partitions (eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:diffusionTransfer"
+
+\end_inset
+
+)):
+\begin_inset Formula 
+\begin{eqnarray}
+S_{01} & = & \begin{cases}
+-K_{\theta}\frac{\nabla^{2}\theta_{0}}{\theta_{0}} & \ \text{when}\ \nabla^{2}\theta_{0}<0\\
+0 & \ \text{otherwise}
+\end{cases}\label{eq:thetaTransfer01}\\
+S_{10} & = & \begin{cases}
+K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\theta_{1}>0\\
+0 & \ \text{otherwise}
+\end{cases}\label{eq:thetaTransfer10}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $K_{\theta}$
+\end_inset
+
+ is a diffusivity.
+\end_layout
+
+\begin_layout Subsubsection
+Transfers Based on Horizontal Divergence and Vertical Velocity
+\end_layout
+
+\begin_layout Standard
+We also test a transfer term that moves fluid from partitions zero to one
+ when partition zero is converging in the horizontal and rising and vice
+ versa:
+\begin_inset Formula 
+\begin{eqnarray}
+\sigma_{0}\rho_{0}S_{01} & = & \begin{cases}
+-\nabla_{h}\cdot(\sigma_{0}\rho_{0}\mathbf{u}_{0}) & \ \text{if}\ \nabla_{h}\cdot(\sigma_{0}\rho_{0}\mathbf{u}_{0})<0\ \text{and}\ \mathbf{u}_{0}\cdot\mathbf{g}<0\\
+0 & \ \text{otherwise}
+\end{cases}\label{eq:divTransfer01}\\
+\sigma_{1}\rho_{1}S_{10} & = & \begin{cases}
+\nabla_{h}\cdot(\sigma_{1}\rho_{1}\mathbf{u}_{1}) & \ \text{if}\ \nabla_{h}\cdot(\sigma_{1}\rho_{1}\mathbf{u}_{1})>0\ \text{and}\ \mathbf{u}_{1}\cdot\mathbf{g}>0\\
+0 & \ \text{otherwise}
+\end{cases}.\label{eq:divTransfer10}
+\end{eqnarray}
+
+\end_inset
+
+As with the transfer terms associated with buoyancy, these transfer terms
+ can be added to the transfer terms associated with diffusion and then limited
+ to preserve boundedness.
+\end_layout
+
 \begin_layout Section
 Semi-Implicit Numerical Solution Technique
+\end_layout
+
+\begin_layout Standard
+The equations are discretised and solved using the OpenFOAM library (
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://openfoam.org
+\end_layout
+
+\end_inset
+
+) and the full implementation is part of the AtmosFOAM repository (
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/AtmosFOAM/
+\end_layout
+
+\end_inset
+
+).
+ The spatial discretisation uses entirely standard OpenFOAM operators.
+ 
+\end_layout
+
+\begin_layout Subsection
+Spatial Discretisation
+\end_layout
+
+\begin_layout Standard
+The spatial discretisation uses a finite-volume C-grid for an arbitrary
+ mesh, similar to that described by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WS14"
+
+\end_inset
+
+ with 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ , 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi$
+\end_inset
+
+ defined as volumetric mean quantities (or at cell centres) and normal component
+s of velocity defined on cell faces.
+ All the meshes used are orthogonal and the focus of this paper is not spatial
+ discretisation therefore for simplicity the discretisation is described
+ for orthogonal meshes.
+ The spatial discretisation of each of the terms of the conditionally averaged
+ Euler equations are described in turn.
+\end_layout
+
+\begin_layout Subsubsection
+Reconstruction of velocity fields at cell centres and faces from face normals
+\end_layout
+
+\begin_layout Standard
+The prognostic velocity variable is the volume flux across each face:
+\begin_inset Formula 
+\begin{equation}
+U_{i}=\mathbf{u}_{fi}\cdot\mathbf{S}_{f}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{u}_{f}$
+\end_inset
+
+ is the full velocity at the face and 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+ is the face area vector.
+ The face velocity is interpolated from the cell centre velocity using linear
+ interpolation:
+\begin_inset Formula 
+\begin{equation}
+\mathbf{u}_{fi}=\lambda\mathbf{u}_{ci}+(1-\lambda)\mathbf{u}_{Ni}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{u}_{ci}$
+\end_inset
+
+ is the cell centre velocity of the cell that owns face 
+\begin_inset Formula $f$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{Ni}$
+\end_inset
+
+ is the cell centre velocity of the cell on the other side of face 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ The face area vector, 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+ is normal to the face, has the area of the face and points from the owner
+ cell to the neighbour cell.
+ The cell centre velocity is reconstructed from surrounding values of 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ using the standard OpenFOAM 
+\family typewriter
+fvc::reconstruct
+\family default
+:
+\begin_inset Formula 
+\begin{equation}
+\mathbf{u}_{ci}=\left(\sum_{f\in c}\mathbf{\hat{S}}_{f}\mathbf{S}_{f}^{T}\right)^{-1}\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}
+\end{equation}
+
+\end_inset
+
+where the hat denotes the unit vector and the notation 
+\begin_inset Formula $f\in c$
+\end_inset
+
+ means all the faces, 
+\begin_inset Formula $f$
+\end_inset
+
+ of cell 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $\sum_{f\in c}\mathbf{\hat{S}}_{f}\mathbf{S}_{f}^{T}$
+\end_inset
+
+ is a tensor defined on each cell that depends only on the mesh and its
+ inverse is multiplied be the vector 
+\begin_inset Formula $\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}$
+\end_inset
+
+ for each cell.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Non-Linear Advection
+\end_layout
+
+\begin_layout Standard
+The conditionally averaged Euler equations are solved in advective form
+ so that they are defined where 
+\begin_inset Formula $\sigma_{i}=0$
+\end_inset
+
+ and so that a bounded advection scheme can be applied to 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+.
+ The finite volume technique most naturally lends itself to solving equations
+ in flux form rather than advective form and so the non-linear advection
+ term of the momentum equation is calculated as:
+\begin_inset Formula 
+\begin{equation}
+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}=\nabla\cdot\left(\mathbf{u}_{i}^{T}\mathbf{u}_{i}\right)-\mathbf{u}_{i}\nabla\cdot\mathbf{u}_{i}.
+\end{equation}
+
+\end_inset
+
+This quantity is calculated at cell centres and then linearly interpolated
+ onto faces.
+ The calculation of 
+\begin_inset Formula $\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}$
+\end_inset
+
+ at cell centres uses Gauss's divergence theorem:
+\begin_inset Formula 
+\begin{equation}
+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}\approx\frac{1}{V}\left(\sum_{f\in c}\mathbf{u}_{ai}U_{i}-\mathbf{u}_{ci}\sum_{f\in c}U_{i}\right)\label{eq:nonLinearAdvect}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is the cell volume and 
+\begin_inset Formula $\mathbf{u}_{ai}$
+\end_inset
+
+ is the velocity interpolated from cell centres to faces using the OpenFOAM
+ linear upwind advection scheme.
+ The prognostic variable is 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ so the non-linear advection term from eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:nonLinearAdvect"
+
+\end_inset
+
+) is linearly interpolated onto faces and then the dot product is taken
+ with 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Pressure Gradient including the 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ pre-factor
+\end_layout
+
+\begin_layout Standard
+The pressure gradient term, 
+\begin_inset Formula $c_{p}\theta_{i}\nabla\pi$
+\end_inset
+
+, needs to be calculated on faces in the normal direction to the face.
+ Since we assume that we are using an orthogonal mesh this can simply be
+ calculated as the difference in pressure between the cells either side
+ of the face:
+\begin_inset Formula 
+\begin{equation}
+c_{p}\theta_{i}\nabla\pi\cdot\mathbf{S}_{f}\approx c_{p}\theta_{fi}\frac{\pi_{c}-\pi_{N}}{\delta}\ |\mathbf{S}_{f}|
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\theta_{fi}$
+\end_inset
+
+ is 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ linearly interpolated from cell centres to faces, 
+\begin_inset Formula $\pi_{c}$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi_{N}$
+\end_inset
+
+ are the values of Exner pressure in the cells either side of face 
+\begin_inset Formula $f$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta$
+\end_inset
+
+ is the distance between the cells.
+ The interpolation of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ in this term means that the discretisation uses Lorenz staggering in the
+ vertical.
+\end_layout
+
+\begin_layout Subsubsection
+Transfer Terms in the Momentum Equation
+\end_layout
+
+\begin_layout Standard
+The transfer terms on the right hand side of the momentum equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condMomAdv"
+
+\end_inset
+
+) are calculated at cell centres and so need to be linearly interpolated
+ onto faces and the dot product taken with 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+ in order to calculate the rate of change of 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Advection of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For stability, it is essential to keep 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ non-negative and so a bounded advection scheme is needed when solving eqn
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont-1"
+
+\end_inset
+
+).
+ This is why The advective form of the momentum equation is solved.
+ The flux form of the conditionally averaged momentum equation predicts
+ 
+\begin_inset Formula $\sigma_{i}\rho_{i}\mathbf{u}_{i}$
+\end_inset
+
+ which is exactly what is needed to solve the conditionally averaged continuity
+ equation for 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and so upwinding cannot be introduced.
+ The term for advection of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is discretised using Guass's divergence theorem and the van-Leer advetion
+ scheme from OpenFOAM:
+\begin_inset Formula 
+\begin{equation}
+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})\approx\frac{1}{V}\sum_{f}(\sigma_{i}\rho_{i})_{a}U_{f}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $(\sigma_{i}\rho_{i})_{a}$
+\end_inset
+
+ is interpolated from cell centres to faces using the OpenFOAM van-Leer
+ advection scheme:
+\begin_inset Formula 
+\begin{equation}
+(\sigma_{i}\rho_{i})_{a}=(\sigma_{i}\rho_{i})_{u}+\phi\left((\sigma_{i}\rho_{i})_{f}-(\sigma_{i}\rho_{i})_{u}\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $(\sigma_{i}\rho_{i})_{u}$
+\end_inset
+
+ is the value in the upwind cell, 
+\begin_inset Formula $(\sigma_{i}\rho_{i})_{f}$
+\end_inset
+
+ is the linearly interpolated value and 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is the van-Leer limiter function:
+\begin_inset Formula 
+\begin{equation}
+\phi=\frac{r+|r|}{1+|r|}\ ,\ \ r=2\frac{\left(\mathbf{x}_{d}-\mathbf{x}_{u}\right)\cdot\nabla_{u}(\sigma_{i}\rho_{i})}{(\sigma_{i}\rho_{i})_{d}-(\sigma_{i}\rho_{i})_{u}}-1
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{x}_{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{x}_{d}$
+\end_inset
+
+ are the locations of the upwind and downwind cell centres, 
+\begin_inset Formula $(\sigma_{i}\rho_{i})_{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $(\sigma_{i}\rho_{i})_{u}$
+\end_inset
+
+ are the values of 
+\begin_inset Formula $(\sigma_{i}\rho_{i})$
+\end_inset
+
+ in the upwind and downwind cells and 
+\begin_inset Formula $\nabla_{u}(\sigma_{i}\rho_{i})$
+\end_inset
+
+ is the gradient of 
+\begin_inset Formula $(\sigma_{i}\rho_{i})$
+\end_inset
+
+ calculated in the upwind cell using Gauss's divergence theorem.
+\end_layout
+
+\begin_layout Subsubsection
+Advection of 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Time Stepping Algorithm and Limiting of Source Terms
 \end_layout
 
 \begin_layout Section
@@ -280,7 +1064,8 @@ No test cases exist for numerical solutions of the conditionally filtered
  advected tracer for the partition fraction.
  This is therefore used as a first test of the numerical method.
  Tests are next formulated with different initial conditions in each partition
- in order to check that the solution maintains stability and boundedness.
+ in order to check that the solution maintains stability, boundedness and
+ some conservation properties.
 \end_layout
 
 \begin_layout Subsection
@@ -1280,19 +2065,337 @@ Transfers Between Partitions
 \begin_layout Standard
 For the conditionally averaged equations to be useful for convection, there
  must be transfer terms between the partitions based on convection.
- These have a similar function to the closure approximations used by conventiona
-l convection schemes and could take the same form.
+ These have a similar role to the closure approximations used by conventional
+ convection schemes and could take the same form.
  Alternatively they could depend on approximations of sub-grid scale variability.
  Here we test mass transfers between partitions based on buoyancy anomalies
  and based on horizontal divergence.
  We are not assuming any sub-grid scale variability so these are not representat
 ive of convection but we need to demonstrate that the numerical method is
- stable in the presence of large transfers between partitions.
- 
+ stable in the presence of large transfers between partitions and we choose
+ transfer terms that lead to having the warm rising air in partition one
+ and the stable and descending air in partition zero.
 \end_layout
 
 \begin_layout Paragraph
 Transfers based on buoyancy perturbations
+\end_layout
+
+\begin_layout Standard
+We test the numerical solution using the mass transfer terms associated
+ with buoyancy perturbations from eqns (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:thetaTransfer01"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:thetaTransfer10"
+
+\end_inset
+
+).
+ To test that warm air is transferred from partition zero to partition one,
+ we initialise the simulation with 
+\begin_inset Formula $\sigma_{0}=0$
+\end_inset
+
+ everywhere and the warm perturbation in partition zero only.
+ Whenever mass is transferred into partition one it takes its properties
+ with it so the solution should remain identical to the solution with identical
+ initial conditions in each partition.
+ The solutions for 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\theta_{0,1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{0,1}$
+\end_inset
+
+ after 1000
+\begin_inset space \thinspace{}
+\end_inset
+
+s are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+ using diffusivity 
+\begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+.
+ Diffusion between partitions of 
+\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+ is also used to maintain a smooth solution.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+ confirms that 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+ are identical in each partition and also identical to the solutions in
+ figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:identicalParts"
+
+\end_inset
+
+.
+ It also shows that fluid has been transferred to partition one where there
+ are warm anomalies.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mass transfer based on 
+\begin_inset Formula $\nabla^{2}\theta$
+\end_inset
+
+ with 
+\begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mass transfer based on 
+\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}\cdot\mathbf{g}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransferTheta/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransferDiv/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rising bubble solutions of 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\theta_{0,1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{0,1}$
+\end_inset
+
+ after 1000
+\begin_inset space \thinspace{}
+\end_inset
+
+s with mass transfers based on (a) 
+\begin_inset Formula $K_{\theta}\nabla^{2}\theta/\theta$
+\end_inset
+
+ and (b) based on 
+\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}\cdot\mathbf{g}$
+\end_inset
+
+.
+ Both use 
+\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:massTransfer"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Transfers Based on Horizontal Divergence and Vertical Velocity
+\end_layout
+
+\begin_layout Standard
+The mass transfer term associated with horizontal divergence and vertical
+ velocity from eqns (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:divTransfer01"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:divTransfer10"
+
+\end_inset
+
+) is combined with diffusion between partitions of 
+\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+.
+ The solutions for 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\theta_{0,1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{0,1}$
+\end_inset
+
+ after 1000
+\begin_inset space \thinspace{}
+\end_inset
+
+s are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+ on the right hand side.
+ Again, since partition 1 is initially empty, its initial properties do
+ not influence the final solution.
+ Instead, properties are transferred to partition 1 with mass and the two
+ partitions evolve in an identical way (once there is mass in partition
+ 1) and the solutions are the same as for the case with the two partitions
+ are initialised to be the same.
+ Using transfer based on horizontal divergence and vertical velocity, partition
+ 1 contains mass behind the convection because this is where horizontal
+ divergence has been negative and no descent has occurred so the fluid remains
+ in partition 1 (until it starts diverging and descending).
+ 
+\end_layout
+
+\begin_layout Paragraph
+Other Transfer Terms
+\end_layout
+
+\begin_layout Standard
+There are of course numerous other possibilities for transfer terms, different
+ combinations of the above terms and different diffusivities for the transfer
+ based on 
+\begin_inset Formula $\nabla^{2}\theta$
+\end_inset
+
+.
+ However conditional averaging is necessary for representing convection
+ if convection is sub-grid scale.
+ Therefore transfer terms should depend on the sub-grid variability of buoyancy
+ and other factors that drive convection.
+ These transfer terms are not developed here.
+ This work is restricted to cases where as assume no sub-grid variability
+ other than that associated with the two partitions.
+ 
 \end_layout
 
 \begin_layout Section
