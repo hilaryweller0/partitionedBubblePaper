@@ -2605,7 +2605,7 @@ K throughout the simulation and
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2642,7 +2642,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noDrag/0/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/0/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -2657,7 +2657,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noDrag/100/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/100/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -2760,7 +2760,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noDrag/200/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -2775,7 +2775,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noDrag/300/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/300/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
