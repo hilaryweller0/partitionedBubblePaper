@@ -376,6 +376,10 @@ where
 \end_inset
 
  is the heat capacity of dry air at constant pressure, 
+\begin_inset Formula $\theta=T/\pi$
+\end_inset
+
+ is the potential temperature, 
 \begin_inset Formula $\boldsymbol{\Omega}$
 \end_inset
 
@@ -554,6 +558,76 @@ reference "eq:condCont-1"
 \end_layout
 
 \begin_layout Subsubsection
+Transfers based on Divergence
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:divTransfer"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the fully compressible Euler equations, divergence is tightly controlled
+ by pressure gradients and in low Mach number flows such as atmospheric
+ dynamics, divergence is small.
+ However in the partitioned equations without drag or transfers between
+ partitions, there is nothing to control the divergence in each partition
+ because there is only one pressure gradient that acts on all partitions.
+ We will see in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+ that partition divergence can grow leading to large velocities and model
+ instability.
+ One mechanism of control could that convergence in one partition should
+ lead to a transfer of mass to the other partition and vice-verca.
+ This needs to be achieved whilst still allowing the partition to advect
+ itself.
+ This could be achieved by setting:
+\begin_inset Formula 
+\begin{eqnarray*}
+\sigma_{j}\rho_{j}S_{ji} & = & \max\left(\sigma_{i}\rho_{i}\left(\nabla\cdot\mathbf{u}_{i}-\nabla\cdot\overline{\mathbf{u}}\right),\ 0\right)\\
+\sigma_{i}\rho_{i}S_{ij} & = & \max\left(\sigma_{j}\rho_{j}\left(\nabla\cdot\mathbf{u}_{j}-\nabla\cdot\overline{\mathbf{u}}\right),\ 0\right)
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\overline{\mathbf{u}}=\sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}\bigg/\sum_{i}\sigma_{i}\rho_{i}$
+\end_inset
+
+.
+ This formulation means that 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is still advected by 
+\begin_inset Formula $\mathbf{u}_{i}$
+\end_inset
+
+ and is also changed by global divergence but not by local divergence.
+ This is equivalent to the transport equation for 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ being
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\sigma_{i}\rho_{i}\nabla\cdot(\overline{\mathbf{u}})+\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i})=0.
+\end{equation}
+
+\end_inset
+
+This transfer term is formulated to stabilise the equations rather than
+ to represent buoyant convection.
+\end_layout
+
+\begin_layout Subsubsection
 Transfers based on buoyancy perturbations
 \begin_inset CommandInset label
 LatexCommand label
@@ -613,7 +687,7 @@ where
 Transfers Based on Horizontal Divergence and Vertical Velocity
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:divergenceTransfer"
+name "sub:hdiv_w_Transfer"
 
 \end_inset
 
@@ -1492,7 +1566,7 @@ reference "sec:results"
  explicitly with operator splitting
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}S_{ji}^{\ell}-\sigma_{i}\rho_{i}S_{ij}^{\ell}\right)
+(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}S_{ji}^{\ell}-\sigma_{i}\rho_{i}S_{ij}^{\ell}\right).
 \end{equation}
 
 \end_inset
@@ -2186,7 +2260,7 @@ key "BF02"
  is simulated with the fluid divided into two partitions with identical
  initial conditions in each partition.
  No transfers or exchanges between partitions are used.
- Various initial partition fractions are used as shown in figure 
+ Two different initial partition fractions are used as shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:identicalParts"
@@ -2525,6 +2599,189 @@ clearpage}
 
 \end_layout
 
+\begin_layout Standard
+The stability of the model is demonstrated by plotting the total energy
+ and the different types of energy in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:erergy1part"
+
+\end_inset
+
+.
+ The left had side shows normalised kinetic, potential, internal and total
+ energy changes for the model with a single partition using van-Leer advection.
+ The various energies are defined in cells as:
+\begin_inset Formula 
+\begin{eqnarray*}
+\text{KE} & = & \frac{1}{2}\sum_{i}\sigma_{i}\rho_{i}|\mathbf{u}_{ci}|^{2}\\
+\text{PE} & = & -\mathbf{g}\cdot\mathbf{x}\sum_{i}\sigma_{i}\rho_{i}\\
+\text{IE} & = & c_{v}\pi\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
+E & = & \text{KE}+\text{PE}+\text{IE}
+\end{eqnarray*}
+
+\end_inset
+
+and totals are calculated by integrating over space.
+ The normalisation and calculating of changes is calculated for energy XE
+ as:
+\begin_inset Formula 
+\begin{equation}
+\widetilde{\text{\text{XE}}}=\frac{\text{\text{XE}}-\text{\text{XE}}(t=0)}{E(t=0)}.
+\end{equation}
+
+\end_inset
+
+The dashed lines in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:erergy1part"
+
+\end_inset
+
+ show negative values and the solid lines show positive values.
+ In the first part of the simulation, the single partition simulation shows
+ internal and potential energy oscillating in phase with each other, showing
+ conservative transfers between internal and potential energy.
+ Throughout the simulation the kinetic energy increases and the rising bubble
+ accelerates.
+ Throughout the simulation, the total energy decreases slightly and monotonicall
+y due to stable, dissipative nature of the model.
+ Part of this dissipation is due to the dissipative advection of velocity
+ and potential temperature.
+ A simulation is run using centred, linear differencing for advection and
+ the total energy is shown in the right hand of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:erergy1part"
+
+\end_inset
+
+.
+ This simulation looses energy less slowly and the energy loss is no longer
+ monotonic.
+ The results of this simulation are noisy but stable with overshoots and
+ undershoots of temperature.
+\end_layout
+
+\begin_layout Standard
+The total energy for the the simulations with two identical partitions and
+ different distributions of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:erergy1part"
+
+\end_inset
+
+.
+ This confirms that the presence of more than one identical partition does
+ not influence the energy conservation.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 partition, van-Leer advetion
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Total energy for various simulations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/advective/advective_vanLeer/plots/energy.eps
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy1part.eps
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Normalised changes in kinetic, potential, internal and total energy for
+ the rising bubble test case for the model with a single partition and the
+ normalised total energy change for models with one partition with different
+ advection schemes and for a model with two identical partitions.
+ Solid lines show positive changes and dashed lines show negative changes.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:erergy1part"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Different Initial Conditions in each Partition
 \end_layout
@@ -2605,7 +2862,7 @@ K throughout the simulation and
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2745,7 +3002,7 @@ Initial conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $t=300\ \text{s}$
+\begin_inset Formula $t=290\ \text{s}$
 \end_inset
 
 
@@ -2775,7 +3032,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/300/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/290/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -2846,18 +3103,18 @@ The buoyancy perturbation in partition one makes partition one rise which
  Consequently total divergence is controlled but the divergence in each
  partition can be large and hence the velocities become large.
  The advection scheme is only bounded for Courant numbers less than 0.5.
- After 300
+ Shortly before 300
 \begin_inset space \thinspace{}
 \end_inset
 
-s Courant numbers in partition one have become larger than 0.5 and oscillations
+s, Courant numbers in partition one have become larger than 0.5 and oscillations
  grow in 
 \begin_inset Formula $\sigma_{1}$
 \end_inset
 
 .
  The solution diverges at 
-\begin_inset Formula $t=390\ \text{s}$
+\begin_inset Formula $t=290\ \text{s}$
 \end_inset
 
 .
@@ -2889,7 +3146,7 @@ reference "sub:drag"
 \begin_inset Formula $r_{\min}=1\ \text{m}$
 \end_inset
 
- (the minimum to avoid division by zero) and 
+ (a minimum is needed to avoid division by zero) and 
 \begin_inset Formula $r_{\max}=2000\ \text{m}$
 \end_inset
 
@@ -2953,7 +3210,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3007,6 +3264,58 @@ Diffusion between partitions of
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/loDiffusion/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Divergence transfer between partitions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Energy Changes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/divTransfer/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_05.eps
 	width 48line%
 
 \end_inset
@@ -3080,8 +3389,8 @@ name "fig:diffuse1_dragDiffuse"
 \end_layout
 
 \begin_layout Standard
-The other technique to couple the partitions is to add diffusion to them
- so that they exchange mass as described in section 
+Another technique to couple the partitions is to add diffusion to them so
+ that they exchange mass as described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:diffuseSigma"
@@ -3113,6 +3422,97 @@ reference "fig:diffuse1_dragDiffuse"
 K.
  This diffusion stabilises the solution and the results are quite different
  from the result with drag between the partitions.
+ 
+\end_layout
+
+\begin_layout Standard
+Finally we stabilise the model using mass transfer based on divergence so
+ that when velocity converges in one partition it is transferred into the
+ other (section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:divTransfer"
+
+\end_inset
+
+).
+ The results after 1000
+\begin_inset space \thinspace{}
+\end_inset
+
+s are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:diffuse1_dragDiffuse"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The total energy changes for all of the simulations with warm air in a diffuse
+ partition 1 are shown in the bottom right of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:diffuse1_dragDiffuse"
+
+\end_inset
+
+.
+ The energy diverges for the unstable case with no transfers.
+ The simulation with the low diffusion coefficient (
+\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+) stabilises the model after around 350
+\begin_inset space \thinspace{}
+\end_inset
+
+s but this looks unreliable as energy increases before this point.
+ A larger diffusion coefficient, (
+\begin_inset Formula $K_{\sigma}=800\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+) stabilises the model more effectively.
+ (The stability limit is 
+\begin_inset Formula $K_{\sigma}\Delta t/\Delta x^{2}<\frac{1}{2}$
+\end_inset
+
+ so for 
+\begin_inset Formula $\Delta t=2\text{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta x=100\text{m}$
+\end_inset
+
+ the stability limit is 
+\begin_inset Formula $K_{\sigma}=2500\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+.) The simulation is also stabilised by using drag between the partitions.
+ The low drag coefficient of 
+\begin_inset Formula $C_{D}=1$
+\end_inset
+
+, 
+\begin_inset Formula $r_{\min}=1\ \text{m}$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{\max}=2000\ \text{m}$
+\end_inset
+
+ leads more rapid energy loss than any of the other effective stabilisation
+ methods.
+ The high diffusion coefficient (
+\begin_inset Formula $C_{D}=10^{6}$
+\end_inset
+
+) is used to check the stability of the implicit treatment of drag.
+ The divergence transfer also stabilises the model and is free from parameters.
  
 \end_layout
 
