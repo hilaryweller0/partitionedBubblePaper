@@ -558,76 +558,6 @@ reference "eq:condCont-1"
 \end_layout
 
 \begin_layout Subsubsection
-Transfers based on Divergence
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:divTransfer"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In the fully compressible Euler equations, divergence is tightly controlled
- by pressure gradients and in low Mach number flows such as atmospheric
- dynamics, divergence is small.
- However in the partitioned equations without drag or transfers between
- partitions, there is nothing to control the divergence in each partition
- because there is only one pressure gradient that acts on all partitions.
- We will see in section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:results"
-
-\end_inset
-
- that partition divergence can grow leading to large velocities and model
- instability.
- One mechanism of control could that convergence in one partition should
- lead to a transfer of mass to the other partition and vice-verca.
- This needs to be achieved whilst still allowing the partition to advect
- itself.
- This could be achieved by setting:
-\begin_inset Formula 
-\begin{eqnarray*}
-\sigma_{j}\rho_{j}S_{ji} & = & \max\left(\sigma_{i}\rho_{i}\left(\nabla\cdot\mathbf{u}_{i}-\nabla\cdot\overline{\mathbf{u}}\right),\ 0\right)\\
-\sigma_{i}\rho_{i}S_{ij} & = & \max\left(\sigma_{j}\rho_{j}\left(\nabla\cdot\mathbf{u}_{j}-\nabla\cdot\overline{\mathbf{u}}\right),\ 0\right)
-\end{eqnarray*}
-
-\end_inset
-
-where 
-\begin_inset Formula $\overline{\mathbf{u}}=\sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}\bigg/\sum_{i}\sigma_{i}\rho_{i}$
-\end_inset
-
-.
- This formulation means that 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- is still advected by 
-\begin_inset Formula $\mathbf{u}_{i}$
-\end_inset
-
- and is also changed by global divergence but not by local divergence.
- This is equivalent to the transport equation for 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- being
-\begin_inset Formula 
-\begin{equation}
-\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\sigma_{i}\rho_{i}\nabla\cdot(\overline{\mathbf{u}})+\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i})=0.
-\end{equation}
-
-\end_inset
-
-This transfer term is formulated to stabilise the equations rather than
- to represent buoyant convection.
-\end_layout
-
-\begin_layout Subsubsection
 Transfers based on buoyancy perturbations
 \begin_inset CommandInset label
 LatexCommand label
@@ -3210,7 +3140,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="3" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3275,42 +3205,7 @@ Diffusion between partitions of
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Divergence transfer between partitions
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Energy Changes
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/divTransfer/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3320,6 +3215,15 @@ Energy Changes
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -3426,32 +3330,6 @@ K.
 \end_layout
 
 \begin_layout Standard
-Finally we stabilise the model using mass transfer based on divergence so
- that when velocity converges in one partition it is transferred into the
- other (section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:divTransfer"
-
-\end_inset
-
-).
- The results after 1000
-\begin_inset space \thinspace{}
-\end_inset
-
-s are shown in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:diffuse1_dragDiffuse"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
 The total energy changes for all of the simulations with warm air in a diffuse
  partition 1 are shown in the bottom right of figure 
 \begin_inset CommandInset ref
@@ -3512,7 +3390,6 @@ s but this looks unreliable as energy increases before this point.
 \end_inset
 
 ) is used to check the stability of the implicit treatment of drag.
- The divergence transfer also stabilises the model and is free from parameters.
  
 \end_layout
 
@@ -3526,8 +3403,8 @@ For the conditionally averaged equations to be useful for convection, there
  These have a similar role to the closure approximations used by conventional
  convection schemes and could take the same form.
  Alternatively they could depend on approximations of sub-grid scale variability.
- Here we test mass transfers between partitions based on buoyancy anomalies
- and based on horizontal divergence.
+ Here we test mass transfers between partitions based on buoyancy anomalies,
+ based on horizontal divergence and based on partition divergence.
  We are not assuming any sub-grid scale variability so these are not representat
 ive of convection but we need to demonstrate that the numerical method is
  stable in the presence of large transfers between partitions and we choose
@@ -3613,8 +3490,8 @@ reference "fig:massTransfer"
 \begin_inset Formula $\mathbf{u}$
 \end_inset
 
- are identical in each partition and also identical to the solutions in
- figure 
+ are similar in each partition and also similar to the solutions in figure
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:identicalParts"
@@ -3631,11 +3508,11 @@ reference "fig:identicalParts"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
+<lyxtabular version="3" rows="3" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3701,6 +3578,32 @@ Mass transfer based on
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_transfers.eps
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -3824,9 +3727,9 @@ reference "fig:massTransfer"
  Again, since partition 1 is initially empty, its initial properties do
  not influence the final solution.
  Instead, properties are transferred to partition 1 with mass and the two
- partitions evolve in an identical way (once there is mass in partition
- 1) and the solutions are the same as for the case with the two partitions
- are initialised to be the same.
+ partitions evolve in the same way (once there is mass in partition 1) and
+ the solutions are the same as for the case with the two partitions are
+ initialised to be the same.
  Using transfer based on horizontal divergence and vertical velocity, partition
  1 contains mass behind the convection because this is where horizontal
  divergence has been negative and no descent has occurred so the fluid remains
