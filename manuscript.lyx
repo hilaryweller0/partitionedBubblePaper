@@ -558,6 +558,85 @@ reference "eq:condCont-1"
 \end_layout
 
 \begin_layout Subsubsection
+Transfers based on Divergence
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:divTransfer"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the fully compressible Euler equations, divergence is tightly controlled
+ by pressure gradients and in low Mach number flows such as atmospheric
+ dynamics, divergence is small.
+ However in the partitioned equations without drag or transfers between
+ partitions, there is nothing to control the divergence in each partition
+ because there is only one pressure gradient that acts on all partitions.
+ We will see in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+ that partition divergence can grow leading to large velocities and model
+ instability.
+ One mechanism to control the partition divergence would be to transfer
+ converging fluid to the other partition and vice-verca.
+ The transfer terms need to be found so that, in the absence of mean divergence,
+ no new extrema in 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ are generated.
+ This can be achieved by setting:
+\begin_inset Formula 
+\begin{eqnarray}
+\sigma_{i}\rho_{i}S_{ij} & = & \frac{1}{2}\max\left(\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}-\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i},\ 0\right).
+\end{eqnarray}
+
+\end_inset
+
+This formulation means that 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is still advected by 
+\begin_inset Formula $\mathbf{u}_{i}$
+\end_inset
+
+ and is also changed by global divergence but not by local divergence.
+ This is equivalent to the transport equation for 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ being
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \frac{1}{2}\left(\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i}-\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}\right)\\
+\implies\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i}) & = & -\frac{1}{2}\overline{\rho}\nabla\cdot\overline{\mathbf{u}}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $\overline{\rho}\nabla\cdot\overline{\mathbf{u}}=\sum_{i}\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i}$
+\end_inset
+
+, satisfying the criteria that, in the absence of global divergence, advection
+ of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is bounded.
+ This transfer term is formulated to stabilise the equations rather than
+ to represent buoyant convection.
+\end_layout
+
+\begin_layout Subsubsection
 Transfers based on buoyancy perturbations
 \begin_inset CommandInset label
 LatexCommand label
@@ -3512,7 +3591,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="2">
+<lyxtabular version="3" rows="5" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3558,7 +3637,7 @@ Mass transfer based on
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransferTheta/1000/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferTheta/1000/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -3573,7 +3652,59 @@ Mass transfer based on
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransferDiv/1000/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDiv/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Also with partition divergence transfer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Also with partition divergence transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferThetaDiv/1000/sigmaTheta.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDivDiv/1000/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
