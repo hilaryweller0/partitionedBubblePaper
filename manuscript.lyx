@@ -608,7 +608,7 @@ reference "sec:results"
  This can be achieved by setting:
 \begin_inset Formula 
 \begin{eqnarray}
-\sigma_{i}\rho_{i}S_{ij} & = & \frac{1}{2}\max\left(\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}-\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i},\ 0\right).
+\sigma_{i}\rho_{i}S_{ij} & = & \frac{1}{2}\max\left(\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}-\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i},\ 0\right).\label{eq:divTransfer}
 \end{eqnarray}
 
 \end_inset
@@ -629,8 +629,8 @@ This formulation means that
  being
 \begin_inset Formula 
 \begin{eqnarray}
-\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \frac{1}{2}\left(\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i}-\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}\right)\\
-\implies\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i}) & = & -\frac{1}{2}\overline{\rho}\nabla\cdot\overline{\mathbf{u}}
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \frac{1}{2}\left(\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i}-\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}\right)\\
+\implies\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i}) & = & -\frac{1}{2}\overline{\rho}\nabla\cdot\overline{\mathbf{u}}\label{eq:contWithDivTransfer}
 \end{eqnarray}
 
 \end_inset
@@ -649,8 +649,71 @@ where
  to represent buoyant convection.
 \end_layout
 
+\begin_layout Standard
+We cannot simply solve eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:contWithDivTransfer"
+
+\end_inset
+
+) when using transfers based on partition divergence because we also need
+ to calculate the mass transfer term (eqn 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:divTransfer"
+
+\end_inset
+
+) explicitly as it is needed for solving the 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{i}$
+\end_inset
+
+ equations.
+ Instead, the term 
+\begin_inset Formula $\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}$
+\end_inset
+
+ of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:divTransfer"
+
+\end_inset
+
+) is calculated as:
+\begin_inset Formula 
+\begin{equation}
+\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}=\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})-\mathbf{u}_{i}\cdot\nabla(\sigma_{i}\rho_{i})
+\end{equation}
+
+\end_inset
+
+to ensure exact numerical cancelling of the 
+\begin_inset Formula $\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})$
+\end_inset
+
+ term on either side of the 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont-1"
+
+\end_inset
+
+).
+ 
+\end_layout
+
 \begin_layout Subsubsection
-Transfers based on buoyancy perturbations
+Transfers based on buoyancy perturbations and Vertical Velocity
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:buoyancyTransfer"
@@ -683,15 +746,17 @@ reference "eq:diffusionTransfer"
 
 \end_inset
 
-)):
+)).
+ We also want to restrict the transfer so that it only passes from stable
+ to buoyant if it is rising and vice-versa to avoid overly frequent transfers:
 \begin_inset Formula 
 \begin{eqnarray}
 S_{01} & = & \begin{cases}
--K_{\theta}\frac{\nabla^{2}\theta_{0}}{\theta_{0}} & \ \text{when}\ \nabla^{2}\theta_{0}<0\\
+-K_{\theta}\frac{\nabla^{2}\theta_{0}}{\theta_{0}} & \ \text{when}\ \nabla^{2}\theta_{0}<0\ \text{and}\ \mathbf{u}_{0}\cdot\mathbf{g}<0\\
 0 & \ \text{otherwise}
 \end{cases}\label{eq:thetaTransfer01}\\
 S_{10} & = & \begin{cases}
-K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\theta_{1}>0\\
+K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\theta_{1}>0\ \text{and}\ \mathbf{u}_{1}\cdot\mathbf{g}>0\\
 0 & \ \text{otherwise}
 \end{cases}\label{eq:thetaTransfer10}
 \end{eqnarray}
@@ -2888,7 +2953,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2906,10 +2971,10 @@ Initial conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $t=100\ \text{s}$
+\begin_inset Formula $t=200\ \text{s}$
 \end_inset
 
-
+ (zoomed)
 \end_layout
 
 \end_inset
@@ -2936,7 +3001,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/100/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaThetaZoom.pdf
 	width 48line%
 
 \end_inset
@@ -3001,64 +3066,6 @@ Initial conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=200\ \text{s}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=290\ \text{s}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/290/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
 
 \end_layout
 
@@ -3232,7 +3239,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3241,8 +3248,16 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-with drag 
-\begin_inset Formula $t=1000\ \text{s}$
+With drag, 
+\begin_inset Formula $C_{D}=1$
+\end_inset
+
+, 
+\begin_inset Formula $r_{\min}=1\ \text{m}$
+\end_inset
+
+, 
+\begin_inset Formula $r_{\max}=2000\ \text{m}$
 \end_inset
 
 
@@ -3297,12 +3312,32 @@ Diffusion between partitions of
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+With divergence transfer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_05.eps
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/divTransfer/1000/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -3312,10 +3347,16 @@ Diffusion between partitions of
 
 \end_inset
 </cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_05.eps
+	width 48line%
+
+\end_inset
+
 
 \end_layout
 
@@ -3333,7 +3374,11 @@ Diffusion between partitions of
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Results of simulations with a buoyant perturbation in partition 1.
+Results at 
+\begin_inset Formula $t=1000\ \text{s}$
+\end_inset
+
+ of simulations with a buoyant perturbation in partition 1.
  
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -3422,6 +3467,34 @@ K.
 \end_layout
 
 \begin_layout Standard
+Including mass transfer between the partitions in order to avoid divergence
+ confined to a partition (described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:divTransfer"
+
+\end_inset
+
+) also stabilises the solution (bottom left of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:diffuse1_dragDiffuse"
+
+\end_inset
+
+).
+ Partition divergence is removed and so 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ remains bounded and the solution is stable.
+ Temperature and momentum are transferred to the other partition but they
+ remain different in each partition.
+ This stabilisation technique is free from parameters.
+ 
+\end_layout
+
+\begin_layout Standard
 The total energy changes for all of the simulations with warm air in a diffuse
  partition 1 are shown in the bottom right of figure 
 \begin_inset CommandInset ref
@@ -3482,6 +3555,8 @@ s but this looks unreliable as energy increases before this point.
 \end_inset
 
 ) is used to check the stability of the implicit treatment of drag.
+ The simulation stabilised by mass transfer based on divergence looses energy
+ monotonically, most slowly than most of the other stabilisations.
  
 \end_layout
 
@@ -3600,7 +3675,7 @@ reference "fig:identicalParts"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
