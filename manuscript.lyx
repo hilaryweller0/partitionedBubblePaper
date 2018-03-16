@@ -251,6 +251,19 @@ onecolumn
 Introduction
 \end_layout
 
+\begin_layout Standard
+The representation of sub-grid scale convection is arguably the weakest
+ aspect of weather and climate prediction models 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg."
+key "LCD+08,SLF+10,SAB+13,HPB+14"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
 The Conditionally Averaged Euler Equations
 \end_layout
