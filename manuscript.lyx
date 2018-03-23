@@ -257,11 +257,171 @@ The representation of sub-grid scale convection is arguably the weakest
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg."
-key "LCD+08,SLF+10,SAB+13,HPB+14"
+key "SLF+10,SAB+13,HPB+14"
+
+\end_inset
+
+ and leads to poor predictions of weather and climate in the extratropics
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "LCD+08"
+
+\end_inset
+
+ and the tropics 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "Chapter 8,"
+key "ipcc41"
 
 \end_inset
 
 .
+ The problem gets worse in the grey zone of convection, where convection
+ is partially resolved and so the assumptions made by most convection schemes
+ are particularly bad 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "GG05"
+
+\end_inset
+
+.
+ Two specific assumptions are identified which we aim to avoid:
+\end_layout
+
+\begin_layout Enumerate
+Net mass flux by convection; traditional mass flux (and other) convection
+ schemes assume that convection does not transport net mass in the vertical
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "GR90"
+
+\end_inset
+
+.
+ Instead mass is mixed within each column.
+\end_layout
+
+\begin_layout Enumerate
+Non-equilibrium dynamics; traditional convection schemes ignore effects
+ due to changes in time of the properties of convection 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "KF90"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The conditional averaging (or filtering) process for convection was described
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWW+1x"
+
+\end_inset
+
+ and involves multiplying each equation of motion by an indicator function
+ and averaging over a volume (or applying another filter).
+ This leads to equations which are similar to those of a mass flux convection
+ scheme but without the approximation of zero net mass flux by convection.
+ The conditionally averaged equations also have transfer terms to transfer
+ mass, momentum, heat and moisture between the partitions.
+ These terms have a similar role to the closures for cloud base mass flux
+ and convective entrainment and detrainment.
+ Similar equations have been used for simulating multi-phase flows in engineerin
+g 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "GBB+07"
+
+\end_inset
+
+.
+ For atmospheric modelling, no parameterisations exist for the transfer
+ terms that would enable the conditionally averaged equations to represent
+ convection and no numerical method exists to solve these equations.
+\end_layout
+
+\begin_layout Standard
+There have been schemes which account for aspects non-equilibrium dynamics
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+before "eg. "
+key "GG05,YP12,Par14"
+
+\end_inset
+
+ but fewer that allow net mass flux due to convection, exceptions being
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "GG05,KGB07,AW13"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KGB07,KB08"
+
+\end_inset
+
+ extend a mass flux convection scheme to transport mass in the vertical
+ by creating a source term of the continuity equation due to sub-grid scale
+ convection.
+ Their approach is not as general or consistent as that proposed by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWW+1x"
+
+\end_inset
+
+ and it is also not clear if their numerical technique will be stable for
+ moderate time-steps.
+ Other attempts to allow net mass flux by convection 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg."
+key "GG05,AW13"
+
+\end_inset
+
+ have relied on statistical approximations to define the area fraction associate
+d with convection rather than on prognostic equations, as laid out by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWW+1x"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+This paper presents a stable numerical method for solving the conditionally
+ averaged equations and proposes transfer terms that transfer resolved convectio
+n into the buoyant partition and stable air back into the stable partition.
+ These transfer terms are not designed to be used to represent sub-grid
+ scale convection as this would require more information about sub-grid
+ scale variability.
+ Instead they are designed to be large source terms that will act to challenge
+ the stability of the numerical method.
+ 
 \end_layout
 
 \begin_layout Section
@@ -270,12 +430,14 @@ The Conditionally Averaged Euler Equations
 
 \begin_layout Standard
 Traditional mass flux convection schemes solve simplified equations of motion
- for buoyant plumes with different temperature, vertical velocity and moisture
- properties inside the plume in comparison to the environment.
- This is therefore a form of conditional averaging.
+ for buoyant plumes with temperature, vertical velocity and moisture properties
+ inside convective plumes which differ from the environmental values.
+ This is therefore a form of conditional averaging with variables averaged
+ within and outside plumes.
  However we can take the process further and avoid some of the crude assumptions
- made by mass flux schemes.
- The conditional averageing (or filtering) process for convection was described
+ made by mass flux schemes such as vanishing convective area fraction and
+ no net mass flux due to convection.
+ The conditional averaging (or filtering) process for convection was described
  by 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -316,23 +478,23 @@ where the overbar implies the application of the filter (or volume average).
  Density, potential temperature and velocity can then be defined for each
  condition:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \rho_{i} & = & \overline{I_{i}\rho}\\
 \theta_{i} & = & \overline{I_{i}\theta_{i}}\\
 \mathbf{u}_{i} & = & \overline{I_{i}\mathbf{u}}
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
 and averages can be found over all partitions, using the overbar in a slightly
  different way:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 1 & = & \sum_{i}\sigma_{i}\\
 \overline{\rho} & = & \sum_{i}\sigma_{i}\rho_{i}\\
 \overline{\theta} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
 \overline{\mathbf{u}_{i}} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}.
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -353,13 +515,13 @@ key "GBB+07"
 .
  Applying this averaging to the rotating compressible Euler equations and
  assuming uniform pressure between partitions leads to the conditionally
- averaged Euler equations in advective form:
+ averaged Euler equations in flux form:
 \begin_inset Formula 
 \begin{eqnarray}
-\frac{\partial\mathbf{u}_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i} & = & -2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
- & + & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\mathbf{u}_{j}-\mathbf{u}_{i})-\mathbf{D}_{ij}\right)\\
-\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont-1}\\
-\frac{\partial\theta_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\theta_{i} & = & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\theta_{j}-\theta_{i})-H_{ij}\right)\label{eq:condThetaAdv}
+\frac{\partial\sigma_{i}\rho_{i}\mathbf{u}_{i}}{\partial t}+\nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}\right) & = & -2\sigma_{i}\rho_{i}\boldsymbol{\Omega}\times\mathbf{u}_{i}-\sigma_{i}\rho_{i}c_{p}\theta_{i}\nabla\pi+\sigma_{i}\rho_{i}\mathbf{g}\label{eq:condMom}\\
+ & + & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\mathbf{u}_{j}S_{ji}-\sigma_{i}\rho_{i}\mathbf{u}_{i}S_{ij}-\sigma_{i}\sigma_{j}\mathbf{d}_{ij}\right)\nonumber \\
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont}\\
+\frac{\partial\sigma_{i}\rho_{i}\theta_{i}}{\partial t}+\nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}\right) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\theta_{j}S_{ji}-\sigma_{i}\rho_{i}\theta_{i}S_{ij}-\sigma_{i}\rho_{i}H_{ij}\right)\label{eq:condTheta}
 \end{eqnarray}
 
 \end_inset
@@ -449,6 +611,22 @@ where
 \begin{equation}
 p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\rho\theta=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
 \end{equation}
+
+\end_inset
+
+These equations can be expressed in advective form which makes the numerical
+ solution more stable when any of the 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ approach zero.
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\mathbf{u}_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i} & = & -2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
+ & + & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\mathbf{u}_{j}-\mathbf{u}_{i})-\mathbf{D}_{ij}\right)\\
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont-1}\\
+\frac{\partial\theta_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\theta_{i} & = & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\theta_{j}-\theta_{i})-H_{ij}\right)\label{eq:condThetaAdv}
+\end{eqnarray}
 
 \end_inset
 
@@ -608,12 +786,21 @@ reference "sec:results"
  This can be achieved by setting:
 \begin_inset Formula 
 \begin{eqnarray}
-\sigma_{i}\rho_{i}S_{ij} & = & \frac{1}{2}\max\left(\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}-\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i},\ 0\right).\label{eq:divTransfer}
+\sigma_{i}\rho_{i}S_{ij} & = & \frac{1}{2}\max\left(\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}-\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i},\ 0\right)\label{eq:divTransfer}
 \end{eqnarray}
 
 \end_inset
 
-This formulation means that 
+assuming two partitions labelled 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ This formulation means that 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
@@ -768,6 +955,7 @@ where
 \end_inset
 
  is a diffusivity.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -783,8 +971,9 @@ name "sub:hdiv_w_Transfer"
 
 \begin_layout Standard
 We also test a transfer term that moves fluid from partitions zero to one
- when partition zero is converging in the horizontal and rising and vice
- versa:
+ when partition zero is converging in the horizontal and rising and that
+ moves fluid from partition one to partition zero when partition one is
+ diverging in the horizontal and falling:
 \begin_inset Formula 
 \begin{eqnarray}
 \sigma_{0}\rho_{0}S_{01} & = & \begin{cases}
@@ -967,7 +1156,7 @@ where
  interpolation:
 \begin_inset Formula 
 \begin{equation}
-\mathbf{u}_{fi}=\lambda\mathbf{u}_{ci}+(1-\lambda)\mathbf{u}_{Ni}
+\mathbf{u}_{fi}=\lambda\mathbf{u}_{ci}+(1-\lambda)\mathbf{u}_{Ni}\label{eq:linearInterpu}
 \end{equation}
 
 \end_inset
@@ -992,7 +1181,7 @@ where
 \begin_inset Formula $\lambda$
 \end_inset
 
- is teh linear interpolation weight.
+ is the linear interpolation weight.
  The face area vector, 
 \begin_inset Formula $\mathbf{S}_{f}$
 \end_inset
@@ -1033,7 +1222,7 @@ where the hat denotes the unit vector and the notation
 \end_inset
 
  is a tensor defined on each cell that depends only on the mesh and its
- inverse is multiplied be the vector 
+ inverse multiplies the vector 
 \begin_inset Formula $\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}$
 \end_inset
 
@@ -1206,63 +1395,97 @@ name "sub:vanLeerContinuity"
 \end_layout
 
 \begin_layout Standard
-For stability, it is essential to keep 
+The mass transfer terms that appear in the momentum and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condMomAdv"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condThetaAdv"
+
+\end_inset
+
+) involve division by 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
- non-negative and so a bounded advection scheme is needed when solving eqn
- (
+ so for stability, 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ should remain positive.
+ Therefore 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ should be advected using a monotonic scheme.
+ However for energy conservation and for consistency between the continuity
+ and pressure equation (which uses the continuity equation, see section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Helmholtz"
+
+\end_inset
+
+), 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+ should be advected using centred differencing.
+ The advetion term of eqn 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:condCont-1"
 
 \end_inset
 
-).
- The flux form of the conditionally averaged momentum equation predicts
- 
-\begin_inset Formula $\sigma_{i}\rho_{i}\mathbf{u}_{i}$
-\end_inset
-
- which is exactly what is needed to solve the conditionally averaged continuity
- equation for 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- and so it is not clear how to introduce upwinding when using the flux form
- momentum equation.
- The term for advection of 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- is discretised using Guass's divergence theorem and the van-Leer advetion
- scheme from OpenFOAM:
+ is therefore discretised using Gauss's divergence theorem as:
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})\approx\frac{1}{V}\sum_{f}(\sigma_{i}\rho_{i})_{a}U_{f}
+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})\approx\frac{1}{V}\sum_{f\in c}(\sigma_{i})_{a}(\rho_{i})_{f}U_{f}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $(\sigma_{i}\rho_{i})_{a}$
+\begin_inset Formula $\rho_{if}=\lambda\rho_{ic}+(1-\lambda)\rho_{iN}$
+\end_inset
+
+ using the same interpolation weights and notation as for eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linearInterpu"
+
+\end_inset
+
+) and where 
+\begin_inset Formula $(\sigma_{i})_{a}$
 \end_inset
 
  is interpolated from cell centres to faces using the OpenFOAM van-Leer
  advection scheme:
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})_{a}=(\sigma_{i}\rho_{i})_{u}+\phi\left((\sigma_{i}\rho_{i})_{f}-(\sigma_{i}\rho_{i})_{u}\right)
+(\sigma_{i})_{a}=(\sigma_{i})_{u}+\phi\left((\sigma_{i})_{f}-(\sigma_{i})_{u}\right)
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $(\sigma_{i}\rho_{i})_{u}$
+\begin_inset Formula $(\sigma_{i})_{u}$
 \end_inset
 
  is the value in the upwind cell, 
-\begin_inset Formula $(\sigma_{i}\rho_{i})_{f}$
+\begin_inset Formula $(\sigma_{i})_{f}$
 \end_inset
 
  is the linearly interpolated value and 
@@ -1272,7 +1495,7 @@ where
  is the van-Leer limiter function:
 \begin_inset Formula 
 \begin{equation}
-\phi=\frac{r+|r|}{1+|r|}\ ,\ \ r=2\frac{\left(\mathbf{x}_{d}-\mathbf{x}_{u}\right)\cdot\nabla_{u}(\sigma_{i}\rho_{i})}{(\sigma_{i}\rho_{i})_{d}-(\sigma_{i}\rho_{i})_{u}}-1
+\phi=\frac{r+|r|}{1+|r|}\ ,\ \ r=2\frac{\left(\mathbf{x}_{d}-\mathbf{x}_{u}\right)\cdot\nabla_{u}\sigma_{i}}{(\sigma_{i})_{d}-(\sigma_{i})_{u}}-1
 \end{equation}
 
 \end_inset
@@ -1286,26 +1509,33 @@ where
 \end_inset
 
  are the locations of the upwind and downwind cell centres, 
-\begin_inset Formula $(\sigma_{i}\rho_{i})_{d}$
+\begin_inset Formula $(\sigma_{i})_{d}$
 \end_inset
 
  and 
-\begin_inset Formula $(\sigma_{i}\rho_{i})_{u}$
+\begin_inset Formula $(\sigma_{i})_{u}$
 \end_inset
 
  are the values of 
-\begin_inset Formula $(\sigma_{i}\rho_{i})$
+\begin_inset Formula $(\sigma_{i})_{d}$
 \end_inset
 
  in the upwind and downwind cells and 
-\begin_inset Formula $\nabla_{u}(\sigma_{i}\rho_{i})$
+\begin_inset Formula $\nabla_{u}\sigma_{i}$
 \end_inset
 
  is the gradient of 
-\begin_inset Formula $(\sigma_{i}\rho_{i})$
+\begin_inset Formula $\sigma_{i}$
 \end_inset
 
  calculated in the upwind cell using Gauss's divergence theorem.
+ This discretisation is only monotonic when 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+ is sufficiently smooth in the direction of flow which is usually achieved
+ in low Mach number flows.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1343,7 +1573,7 @@ where
 
  is interpolated from cell centres to faces using the OpenFOAM van-Leer
  advection scheme as for 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+\begin_inset Formula $\sigma_{i}$
 \end_inset
 
 .
@@ -1355,9 +1585,19 @@ Time Stepping Algorithm
 
 \begin_layout Standard
 The conditionally averaged Euler equations are solved using Crank-Nicholson
- time-stepping with deferred correction of explicitly solved variables and
- with an outer loop so that all equations are solved twice with explicit
- variables updated for the second iteration.
+ time-stepping with no off-centering and with deferred correction of explicitly
+ solved variables.
+ An inner loop solves the pressure equation twice with explicitly represented
+ terms of the momentum equation (advection and Coriolis) updated each iteration.
+ An outer loop additionally solves the continuity equations for each 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and the 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ equations explicitly.
  All transfer terms are solved using operator split either explicit or implicit
  first-order time-stepping.
  
@@ -1423,33 +1663,26 @@ Transport equations are solved for
 
  are read in at initialisation.
  To avoid inconsistencies growing, 
-\begin_inset Formula $\rho_{i}$
-\end_inset
-
- is re-calculated from 
-\begin_inset Formula $\theta_{i}$
-\end_inset
-
- and 
 \begin_inset Formula $\pi$
 \end_inset
 
- at the end of every time-step from the equation of state (
+ is recalculated from 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ at the end of every time-step using the equation of state (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:condState"
 
 \end_inset
 
-) and then 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- is recalculated using the updated 
-\begin_inset Formula $\rho_{i}$
-\end_inset
-
-.
+).
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1766,10 +1999,10 @@ reference "eq:thetaAdvectDt"
 
  this can be re-arranged to give:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \theta_{0}^{\ell\ell} & = & \frac{1}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\left(\left(1+\Delta t\ T_{01}\right)\theta_{0}^{\ell}+\Delta t\ T_{10}\theta_{1}^{\ell}\right)\\
 \theta_{1}^{\ell\ell} & = & \frac{\theta_{1}^{\ell}+\Delta t\ T_{01}\theta_{0}^{\ell\ell}}{1+\Delta T_{01}}
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -2016,7 +2249,7 @@ reference "eq:usePsi"
  is used to calculate the divergence term:
 \begin_inset Formula 
 \begin{equation}
-\frac{\Psi^{\ell}\pi^{n+1}-\Psi^{n}\pi^{n}}{\Delta t}++\frac{\alpha}{V}\sum_{f\in c}\left\{ \sum_{i}(\sigma_{i}\rho_{i})_{f}^{\ell}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})_{f}^{\ell}\right)\nabla_{S}\pi^{n+1}\right\} +\frac{1-\alpha}{V}\sum_{f\in c}F^{n}=0\label{eq:Helmholtz}
+\frac{\Psi^{\ell}\pi^{n+1}-\Psi^{n}\pi^{n}}{\Delta t}++\frac{\alpha}{V}\sum_{f\in c}\left\{ \sum_{i}(\sigma_{i}\rho_{i})_{f}^{\ell}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})_{f}^{\ell}\right)\nabla_{S}\pi^{n+1}\right\} +\frac{1-\alpha}{V}\sum_{f\in c}F^{n}=0
 \end{equation}
 
 \end_inset
@@ -2114,10 +2347,10 @@ reference "sub:solveTheta"
 
  can be calculated using:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 U_{0}^{\ell\ell} & = & \frac{1}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\left(\left(1+\Delta t\ T_{01}\right)U_{0}^{\ell}+\Delta t\ T_{10}U_{1}^{\ell}\right)\\
 U_{1}^{\ell\ell} & = & \frac{U_{1}^{\ell}+\Delta t\ T_{01}U_{0}^{\ell\ell}}{1+\Delta T_{01}}
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -2362,7 +2595,7 @@ reference "fig:identicalParts"
 
  distributions are
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \sigma & = & \begin{cases}
 1 & \ \text{if}\ \biggl|\mathbf{x}-\left(\begin{array}{c}
 0\\
@@ -2377,7 +2610,7 @@ reference "fig:identicalParts"
 \end{array}\right)\text{km}\biggr|<2\ \text{km}\\
 0 & \ \text{otherwise}.
 \end{cases}
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -2700,12 +2933,12 @@ reference "fig:erergy1part"
  energy changes for the model with a single partition using van-Leer advection.
  The various energies are defined in cells as:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \text{KE} & = & \frac{1}{2}\sum_{i}\sigma_{i}\rho_{i}|\mathbf{u}_{ci}|^{2}\\
 \text{PE} & = & -\mathbf{g}\cdot\mathbf{x}\sum_{i}\sigma_{i}\rho_{i}\\
 \text{IE} & = & c_{v}\pi\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
 E & = & \text{KE}+\text{PE}+\text{IE}
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -2898,7 +3131,7 @@ In order to simulate two fluids with different properties occupying the
  in a circle with warm air only in partition 1 and initially stationary
  flow in each partition:
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \sigma_{1} & = & \begin{cases}
 \frac{1}{2} & \ \text{if}\ \biggl|\mathbf{x}-\left(\begin{array}{c}
 0\\
@@ -2908,7 +3141,7 @@ In order to simulate two fluids with different properties occupying the
 \end{cases},\ \sigma_{0}=1-\sigma_{1}\\
 \theta_{0} & = & 300\ \text{K}\\
 \theta_{1} & = & 300\ \text{K}\ +\theta^{\prime}.
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
