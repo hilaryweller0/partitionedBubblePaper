@@ -20,6 +20,8 @@
 T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 %\usepackage{moreverb}
+
+\usepackage{flushend}
 \end_preamble
 \options times
 \use_default_options false
@@ -295,8 +297,8 @@ key "GG05"
 
 \begin_layout Enumerate
 Net mass flux by convection; traditional mass flux (and other) convection
- schemes assume that convection does not transport net mass in the vertical
- 
+ schemes assume that convection does not create a net transport of mass
+ in the vertical 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg. "
@@ -327,7 +329,7 @@ The conditional averaging (or filtering) process for convection was described
  by 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "TWW+1x"
+key "TWV+18"
 
 \end_inset
 
@@ -386,7 +388,7 @@ key "KGB07,KB08"
  Their approach is not as general or consistent as that proposed by 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "TWW+1x"
+key "TWV+18"
 
 \end_inset
 
@@ -404,11 +406,43 @@ key "GG05,AW13"
 d with convection rather than on prognostic equations, as laid out by 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "TWW+1x"
+key "TWV+18"
 
 \end_inset
 
 .
+ 
+\end_layout
+
+\begin_layout Standard
+Conditional averaging has been used in other fields for decades; 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Dopa77"
+
+\end_inset
+
+ described how it could be used for representing intermittent turbulent
+ flows but it has more commonly been used to represent multiphase flow 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "LB91,GBB+07"
+
+\end_inset
+
+ with separate partitions for different phases which share a single pressure.
+ In order to maintain sufficient coupling between phases, drag and other
+ relaxation transfers are used.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "HK84"
+
+\end_inset
+
+ show that in fact the multiphase equations with a single pressure are ill
+ posed and a better approach to regularise them is to use multiple pressures.
  
 \end_layout
 
@@ -421,6 +455,11 @@ n into the buoyant partition and stable air back into the stable partition.
  scale variability.
  Instead they are designed to be large source terms that will act to challenge
  the stability of the numerical method.
+ We use three techniques to regularise the multifluid equations; the first
+ is with drag between partitions, the second is with diffusion between the
+ partitions and the third is more novel and targets specifically the equal
+ and opposite divergence that can grow in the partitions and hence cannot
+ be controlled by pressure gradients.
  
 \end_layout
 
@@ -430,10 +469,9 @@ The Conditionally Averaged Euler Equations
 
 \begin_layout Standard
 Traditional mass flux convection schemes solve simplified equations of motion
- for buoyant plumes with temperature, vertical velocity and moisture properties
- inside convective plumes which differ from the environmental values.
+ with temperature, vertical velocity and moisture inside convective plumes.
  This is therefore a form of conditional averaging with variables averaged
- within and outside plumes.
+ inside and outside plumes.
  However we can take the process further and avoid some of the crude assumptions
  made by mass flux schemes such as vanishing convective area fraction and
  no net mass flux due to convection.
@@ -441,7 +479,7 @@ Traditional mass flux convection schemes solve simplified equations of motion
  by 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "TWW+1x"
+key "TWV+18"
 
 \end_inset
 
@@ -480,7 +518,7 @@ where the overbar implies the application of the filter (or volume average).
 \begin_inset Formula 
 \begin{eqnarray}
 \rho_{i} & = & \overline{I_{i}\rho}\\
-\theta_{i} & = & \overline{I_{i}\theta_{i}}\\
+\theta_{i} & = & \overline{I_{i}\theta}\\
 \mathbf{u}_{i} & = & \overline{I_{i}\mathbf{u}}
 \end{eqnarray}
 
@@ -502,7 +540,7 @@ The same averaging can be applied to pressure but we will assume that pressure
  is uniform across partitions.
  The time-scale for equilibration of pressure across partitions will be
  related to the speed of sound so uniform pressure across partitions is
- probably a good approximation and also makes numerical solution practical.
+ may be a good approximation and also makes numerical solution practical.
  This is also the approximation made when using conditional averaging for
  representing multi-phase flows 
 \begin_inset CommandInset citation
@@ -513,9 +551,29 @@ key "GBB+07"
 \end_inset
 
 .
- Applying this averaging to the rotating compressible Euler equations and
- assuming uniform pressure between partitions leads to the conditionally
- averaged Euler equations in flux form:
+ A single pressure for compressible multiphase flow is know to lead to an
+ ill posed problem 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "HK84"
+
+\end_inset
+
+ but the equations can be regularised with some kind of coupling between
+ partitions which will be discussed in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:transfers"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Applying conditional averaging to the rotating compressible Euler equations
+ in flux form and assuming uniform pressure between partitions leads to
+ the conditionally averaged Euler equations:
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\partial\sigma_{i}\rho_{i}\mathbf{u}_{i}}{\partial t}+\nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}\right) & = & -2\sigma_{i}\rho_{i}\boldsymbol{\Omega}\times\mathbf{u}_{i}-\sigma_{i}\rho_{i}c_{p}\theta_{i}\nabla\pi+\sigma_{i}\rho_{i}\mathbf{g}\label{eq:condMom}\\
@@ -609,17 +667,25 @@ where
  for each partition:
 \begin_inset Formula 
 \begin{equation}
-p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\rho\theta=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
+p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\overline{\rho\theta}=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
 \end{equation}
 
 \end_inset
 
-These equations can be expressed in advective form which makes the numerical
- solution more stable when any of the 
+These equations can be expressed in advective form so that the primitive
+ variables 
+\begin_inset Formula $\mathbf{u}_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ are well defined as 
 \begin_inset Formula $\sigma_{i}$
 \end_inset
 
- approach zero.
+ approaches zero:
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\partial\mathbf{u}_{i}}{\partial t}+\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i} & = & -2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
@@ -635,10 +701,17 @@ These equations can be expressed in advective form which makes the numerical
 
 \begin_layout Subsection
 Transfers and Exchanges between Partitions
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:transfers"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-These conditionally averaged equations can only become useful for representing
+The conditionally averaged equations can only become useful for representing
  sub-grid scale convection when transfer terms 
 \begin_inset Formula $S_{ij}$
 \end_inset
@@ -676,19 +749,9 @@ tion of convection.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Plain Layout
-In this paper we are not seeking to define convection or formulate useful
- transfer terms for convection parameterisation using conditional averaging.
- Rather we are using plausible transfer terms and developing numerical methods
- that are stable, bounded and maintain some conservation properties.
-\end_layout
-
-\end_inset
-
-
+We also use the transfer terms to couple the partitions, regularising the
+ ill posed equations.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -713,8 +776,12 @@ Firstly, a diffusive mass transfer term is created to smooth out steep changes
 \end_inset
 
 .
- This term can control numerical oscillations but also plays a similar role
- to convective entrainment which mixes convectively active and stable air.
+ This term can control numerical oscillations in 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ and mixes the partitions but also plays a similar role to convective entrainmen
+t which mixes convectively active and stable air.
  The form used ensures that total mass is not diffused and that the transfer
  from 
 \begin_inset Formula $i$
@@ -766,6 +833,16 @@ In the fully compressible Euler equations, divergence is tightly controlled
  However in the partitioned equations without drag or transfers between
  partitions, there is nothing to control the divergence in each partition
  because there is only one pressure gradient that acts on all partitions.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TV1x"
+
+\end_inset
+
+ found the normal modes of the conditionally averaged equations and noted
+ the divergent modes in each partition that are not accompanied by any pressure
+ anomalies.
  We will see in section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -834,6 +911,30 @@ where
  is bounded.
  This transfer term is formulated to stabilise the equations rather than
  to represent buoyant convection.
+ Solving eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:contWithDivTransfer"
+
+\end_inset
+
+) for 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ rather than eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont-1"
+
+\end_inset
+
+) means that, in the absence of mean divergence, 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is materially conserved.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -911,7 +1012,9 @@ name "sub:buoyancyTransfer"
 \end_layout
 
 \begin_layout Standard
-Air will rise if buoyancy perturbations make it lighter than the air above
+This transfer is formulated to mimic buoyant convection rather than to regularis
+e the equations.
+ Air will rise if buoyancy perturbations make it lighter than the air above
  or lighter than the surroundings.
  We want to formulate transfer terms as part of PDEs rather than introducing
  criteria comparing the buoyancy of grid boxes with surrounding grid boxes.
@@ -970,10 +1073,12 @@ name "sub:hdiv_w_Transfer"
 \end_layout
 
 \begin_layout Standard
-We also test a transfer term that moves fluid from partitions zero to one
- when partition zero is converging in the horizontal and rising and that
- moves fluid from partition one to partition zero when partition one is
- diverging in the horizontal and falling:
+This transfer is also formulated to mimic convection rather than to regularise
+ the equations.
+ The transfer term moves fluid from partitions zero to one when partition
+ zero is converging in the horizontal and rising and that moves fluid from
+ partition one to partition zero when partition one is diverging in the
+ horizontal and falling:
 \begin_inset Formula 
 \begin{eqnarray}
 \sigma_{0}\rho_{0}S_{01} & = & \begin{cases}
@@ -988,8 +1093,8 @@ We also test a transfer term that moves fluid from partitions zero to one
 
 \end_inset
 
-As with the transfer terms associated with buoyancy, these transfer terms
- can be added to the transfer terms associated with diffusion and then limited
+As with the transfer term associated with buoyancy, this transfer term can
+ be added to the transfer terms associated with diffusion and then limited
  to preserve boundedness.
 \end_layout
 
@@ -1005,7 +1110,10 @@ name "sub:drag"
 \end_layout
 
 \begin_layout Standard
-The drag between partitions is based on a model for drag on rising bubbles
+Drag between partitions is likely to be a large term in any parameterisation
+ but also has a strong stabilising effect, removing equal and opposite divergenc
+e between the partitions.
+ The drag between partitions is based on a model for drag on rising bubbles
  described by 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1377,6 +1485,9 @@ reference "eq:condMomAdv"
 \end_inset
 
 .
+ This is not done using conservative interpolation so momentum will be destroyed
+ when mass is transferred.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1718,10 +1829,10 @@ reference "sub:vanLeerContinuity"
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
- is first advected using
+ is advected using
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{n}-\Delta t\ \nabla\cdot\left(\left[(1-\alpha)\mathbf{u}_{i}^{n}+\alpha\mathbf{u}_{i}^{\ell}\right](\sigma_{i}\rho_{i})^{n}\right)
+(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{n}-\Delta t\ \nabla\cdot\left(\left[(1-\alpha)\rho_{i}^{n}\mathbf{u}_{i}^{n}+\alpha\rho_{u}^{\ell}\mathbf{u}_{i}^{\ell}\right]\sigma_{i}^{n}\right)
 \end{equation}
 
 \end_inset
@@ -1779,13 +1890,13 @@ where
 
 \begin_layout Standard
 The updated value of 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+\begin_inset Formula $\sigma_{i}^{\ell}$
 \end_inset
 
  is not used in the divergence because the advection scheme is designed
  to use only the old value; it is most accurate and bounded when using the
- old value of 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+ old value,
+\begin_inset Formula $\sigma_{i}^{n}$
 \end_inset
 
 .
@@ -1925,7 +2036,11 @@ After the continuity equation, the
 
 .
  The mass transfer terms are applied implicitly because they can be very
- large.
+ large due to division by 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+.
  The advection of 
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -2013,6 +2128,62 @@ where we have used the shorthand
 .
 \end_layout
 
+\begin_layout Standard
+This numerical treatment of the mass transfer terms in the 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ equations ensures boundedness of 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ (
+\begin_inset Formula $\theta_{i}^{\ell\ell}$
+\end_inset
+
+ will remain between 
+\begin_inset Formula $\theta_{i}^{\ell}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{j}^{\ell}$
+\end_inset
+
+) but this scheme does not conserve internal energy.
+ Internal energy conservation would be straightforward if we were updating
+ mass weighted 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ from eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condTheta"
+
+\end_inset
+
+):
+\begin_inset Formula 
+\begin{equation}
+\sigma_{i}\rho_{i}\theta_{i}^{\ell\ell}=\sigma_{i}\rho_{i}\theta_{i}^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}\theta_{j}S_{ji}-\sigma_{i}\rho_{i}\theta_{i}S_{ij}\right)
+\end{equation}
+
+\end_inset
+
+but then boundedness of 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ would be more difficult to achieve due to the division by by 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+.
+ For stability, we are opting for the bounded discretisation rather than
+ energy conserving.
+ 
+\end_layout
+
 \begin_layout Subsubsection
 Diagnosing 
 \begin_inset Formula $\sigma_{i}$
@@ -2042,8 +2213,11 @@ After the updates of prognostic variables
 \end_inset
 
  can be updated.
- This is almost entirely a diagnostic as it is not used in isolation from
  
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ is not used in isolation from 
 \begin_inset Formula $\rho_{i}$
 \end_inset
 
@@ -2070,8 +2244,8 @@ reference "eq:condState"
 \begin_inset Formula $\rho_{i}$
 \end_inset
 
- may be needed in closure assumptions, such as the approximation of the
- drag (below).
+ may be needed independently in closure assumptions, such as the approximation
+ of the drag (below).
  Firstly, each 
 \begin_inset Formula $\rho_{i}$
 \end_inset
@@ -2168,8 +2342,8 @@ reference "eq:pressureGrad"
  is the explicitly calculated part of the volume flux:
 \begin_inset Formula 
 \begin{eqnarray}
-U_{i}^{\prime} & =U_{i}^{n} & -(1-\alpha)\Delta t\left(\left[\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right]\cdot\mathbf{S}_{f}+c_{p}\theta_{fi}\nabla_{S}\pi\right)^{n}\\
- &  & -\alpha\Delta t\left(\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right)^{\ell}\cdot\mathbf{S}_{f}+\Delta t\mathbf{g}\cdot\mathbf{S}_{f}.
+U_{i}^{\prime} & =U_{i}^{n} & -(1-\alpha)\Delta t\left(\left[\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right]\cdot\mathbf{S}_{f}+c_{p}\theta_{fi}\nabla_{S}\pi\right)^{n}\label{eq:Uprime}\\
+ &  & -\alpha\Delta t\left(\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right)^{\ell}\cdot\mathbf{S}_{f}+\Delta t\mathbf{g}\cdot\mathbf{S}_{f}.\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -2189,7 +2363,7 @@ reference "eq:volFluxFromMom"
  mass flux:
 \begin_inset Formula 
 \begin{equation}
-F^{n+1}=\sum_{i}(\sigma_{i}\rho_{i})_{f}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})_{f}\right)\nabla_{S}\pi^{n+1}.\label{eq:fluxFromMom}
+F^{n+1}=\sum_{i}(\sigma_{i}\rho_{i})_{f}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\overline{\rho\theta}\right)_{f}\nabla_{S}\pi^{n+1}.\label{eq:fluxFromMom}
 \end{equation}
 
 \end_inset
@@ -2226,7 +2400,7 @@ where
  is the compressibility from the equation of state:
 \begin_inset Formula 
 \begin{equation}
-\Psi=\left(\sum_{i}\sigma_{i}\rho_{i}\right)^{\frac{2\kappa-1}{\kappa-1}}\left(\frac{R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}}{p_{0}\sum_{i}\sigma_{i}\rho_{i}}\right)^{\frac{\kappa}{\kappa-1}}.\label{eq:Psi}
+\Psi=\overline{\rho}^{\frac{2\kappa-1}{\kappa-1}}\left(\frac{R\overline{\theta}}{p_{0}}\right)^{\frac{\kappa}{\kappa-1}}.\label{eq:Psi}
 \end{equation}
 
 \end_inset
@@ -2249,7 +2423,7 @@ reference "eq:usePsi"
  is used to calculate the divergence term:
 \begin_inset Formula 
 \begin{equation}
-\frac{\Psi^{\ell}\pi^{n+1}-\Psi^{n}\pi^{n}}{\Delta t}++\frac{\alpha}{V}\sum_{f\in c}\left\{ \sum_{i}(\sigma_{i}\rho_{i})_{f}^{\ell}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})_{f}^{\ell}\right)\nabla_{S}\pi^{n+1}\right\} +\frac{1-\alpha}{V}\sum_{f\in c}F^{n}=0
+\frac{\Psi^{\ell}\pi^{n+1}-\Psi^{n}\pi^{n}}{\Delta t}+\frac{\alpha}{V}\sum_{f\in c}\left\{ \overline{\rho}_{f}^{\ell}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\overline{\rho\theta}_{f}^{\ell}\right)\nabla_{S}\pi^{n+1}\right\} +\frac{1-\alpha}{V}\sum_{f\in c}F^{n}=0\label{eq:Helmholtz}
 \end{equation}
 
 \end_inset
@@ -2279,12 +2453,6 @@ reference "eq:volFluxFromMom"
 \end_inset
 
 ).
- Note that 
-\begin_inset Formula $\Psi^{n}$
-\end_inset
-
- needs to be recalculated at the beginning of the time-step using updated
- variables.
  
 \end_layout
 
@@ -2348,8 +2516,8 @@ reference "sub:solveTheta"
  can be calculated using:
 \begin_inset Formula 
 \begin{eqnarray}
-U_{0}^{\ell\ell} & = & \frac{1}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\left(\left(1+\Delta t\ T_{01}\right)U_{0}^{\ell}+\Delta t\ T_{10}U_{1}^{\ell}\right)\\
-U_{1}^{\ell\ell} & = & \frac{U_{1}^{\ell}+\Delta t\ T_{01}U_{0}^{\ell\ell}}{1+\Delta T_{01}}
+U_{0}^{\ell\ell} & = & \frac{1}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\left(\left(1+\Delta t\ T_{01}\right)U_{0}^{\ell}+\Delta t\ T_{10}U_{1}^{\ell}\right)\label{eq:Utransfer0}\\
+U_{1}^{\ell\ell} & = & \frac{U_{1}^{\ell}+\Delta t\ T_{01}U_{0}^{\ell\ell}}{1+\Delta T_{01}}\label{eq:Utransfer1}
 \end{eqnarray}
 
 \end_inset
@@ -2363,19 +2531,25 @@ where for
 \end_inset
 
 .
+ as witht eh numerical method for applying the mass transfer terms to the
+ 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ equations, this technique ensures that the 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ remain bounded but momentum is not conserved.
+ 
 \end_layout
 
 \begin_layout Subsubsection
 Overview of the Solution Algorithm
 \end_layout
 
-\begin_layout Standard
-All equations are solved twice with explicit variables updated for the second
- iteration in this order:
-\end_layout
-
 \begin_layout Enumerate
-These equations are solved twice
+An outer loop is executed twice consisting of:
 \end_layout
 
 \begin_deeper
@@ -2399,7 +2573,7 @@ Solve for
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- as described in section t
+ as described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:solveTheta"
@@ -2425,38 +2599,128 @@ reference "sub:diagnoseSigma"
 \end_layout
 
 \begin_layout Enumerate
-Solve the momentum and continuity equations as described in section 
+An inner loop is executed twice consisting of the calculations described
+ in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Helmholtz"
 
 \end_inset
 
-.
+:
 \end_layout
 
-\end_deeper
+\begin_deeper
 \begin_layout Enumerate
-Recalculate 
-\begin_inset Formula $\rho_{i}$
+Update each 
+\begin_inset Formula $U_{i}^{\prime}$
 \end_inset
 
-, 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+ using eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Uprime"
+
 \end_inset
 
- and 
+) which consists of all of the terms of the momentum equation excluding
+ the pressure gradient term and excluding transfer terms.
+\end_layout
+
+\begin_layout Enumerate
+Calculate the compressibility, 
 \begin_inset Formula $\Psi$
 \end_inset
 
- as described in section 
+, from eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Psi"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+Construct and solve the Helmholtz eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Helmholtz"
+
+\end_inset
+
+) for 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Back substitute, adding the pressure gradient term to 
+\begin_inset Formula $U_{i}^{\prime}$
+\end_inset
+
+ to get 
+\begin_inset Formula $U_{i}^{\ell}$
+\end_inset
+
+ using eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:volFluxFromMom"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+Add the transfer terms to 
+\begin_inset Formula $U_{i}^{\ell}$
+\end_inset
+
+ to get 
+\begin_inset Formula $U_{i}^{n+1}$
+\end_inset
+
+ using eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Utransfer0"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Utransfer1"
+
+\end_inset
+
+).
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Update 
+\begin_inset Formula $\Psi$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi$
+\end_inset
+
+ at the end of each time-step (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:consistency"
 
 \end_inset
 
- for consistency.
+).
 \end_layout
 
 \begin_layout Section
@@ -2487,6 +2751,11 @@ key "BF02"
  Tests are next formulated with different initial conditions in each partition
  in order to check that the solution maintains stability, boundedness and
  some conservation properties.
+ Finally, tests are created with partition one initially empty and mass
+ is transferred in.
+ The solution should evolve exactly as the single partition case because
+ the initial conditions in partition one, with no mass, should be irrelevant.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2519,7 +2788,7 @@ K.
  A warm perturbation: 
 \begin_inset Formula 
 \begin{equation}
-\theta^{\prime}=2\cos^{2}\frac{\pi L}{2}\ \text{K}\label{eq:thetaPerturb}
+\theta^{\prime}=2\cos^{2}\frac{\pi L}{2}\label{eq:thetaPerturb}
 \end{equation}
 
 \end_inset
@@ -2580,7 +2849,8 @@ key "BF02"
  is simulated with the fluid divided into two partitions with identical
  initial conditions in each partition.
  No transfers or exchanges between partitions are used.
- Two different initial partition fractions are used as shown in figure 
+ Two different initial partition fractions are used as shown at the top
+ of figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:identicalParts"
@@ -2596,14 +2866,14 @@ reference "fig:identicalParts"
  distributions are
 \begin_inset Formula 
 \begin{eqnarray}
-\sigma & = & \begin{cases}
+\text{symmetric:}\ \sigma & = & \begin{cases}
 1 & \ \text{if}\ \biggl|\mathbf{x}-\left(\begin{array}{c}
 0\\
 2
 \end{array}\right)\text{km}\biggr|<2\ \text{km}\\
 0 & \ \text{otherwise},
 \end{cases}\\
-\sigma & = & \begin{cases}
+\text{asymmetric:}\ \sigma & = & \begin{cases}
 1 & \ \text{if}\ \biggl|\mathbf{x}-\left(\begin{array}{c}
 2\\
 5
@@ -2622,7 +2892,7 @@ The distributions of
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- and the velocity in each partition are shown in figure 
+ and the velocity in each partition are shown at the bottom of figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:identicalParts"
@@ -2648,7 +2918,8 @@ s.
 \end_inset
 
  field does not influence the evolution of the velocity or potential temperature
- in each partition.
+ in each partition, as expected.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2865,16 +3136,16 @@ s (results identical in each partition)
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Initial partition fraction (
-\begin_inset Formula $\sigma$
+Initial partition fraction and 
+\begin_inset Formula $\theta_{i}$
 \end_inset
 
-) for simulations with identical properties in each partition and properties
- after 1000
+ (top) for simulations with identical properties in each partition and propertie
+s after 1000
 \begin_inset space \thinspace{}
 \end_inset
 
-s.
+s (bottom).
  The vectors and contours for 
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -2963,14 +3234,14 @@ reference "fig:erergy1part"
  In the first part of the simulation, the single partition simulation shows
  internal and potential energy oscillating in phase with each other, showing
  conservative transfers between internal and potential energy.
- Throughout the simulation the kinetic energy increases and the rising bubble
+ Throughout the simulation the kinetic energy increases as the rising bubble
  accelerates.
  Throughout the simulation, the total energy decreases slightly and monotonicall
 y due to stable, dissipative nature of the model.
  Part of this dissipation is due to the dissipative advection of velocity
  and potential temperature.
- A simulation is run using centred, linear differencing for advection and
- the total energy is shown in the right hand of figure 
+ A simulation is also run using centred, linear differencing for advection
+ and the total energy is shown in the right hand of figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:erergy1part"
@@ -2985,8 +3256,8 @@ reference "fig:erergy1part"
 \end_layout
 
 \begin_layout Standard
-The total energy for the the simulations with two identical partitions and
- different distributions of 
+The total energy for the the simulations with two identical partitions with
+ symmetric and asymmetric distributions of 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -3081,7 +3352,8 @@ Total energy for various simulations
 Normalised changes in kinetic, potential, internal and total energy for
  the rising bubble test case for the model with a single partition and the
  normalised total energy change for models with one partition with different
- advection schemes and for a model with two identical partitions.
+ advection schemes and for a model with two identical partitions and no
+ mass transfer.
  Solid lines show positive changes and dashed lines show negative changes.
 \begin_inset CommandInset label
 LatexCommand label
@@ -3145,7 +3417,7 @@ In order to simulate two fluids with different properties occupying the
 
 \end_inset
 
-Initially we assume no mass flux and no drag between partitions.
+We assume no mass flux and no drag between partitions.
  The initial conditions for 
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -3170,12 +3442,7 @@ reference "fig:diffuse1_noDrag"
 \begin_inset space \thinspace{}
 \end_inset
 
-K throughout the simulation and 
-\begin_inset Formula $\sigma_{0}=1-\sigma_{0}$
-\end_inset
-
- throughout.
- 
+K throughout the simulation.
 \end_layout
 
 \begin_layout Standard
@@ -3317,7 +3584,7 @@ Initial conditions
 
 \begin_layout Plain Layout
 Initial conditions and results of a simulation with a buoyant perturbation
- in partition 1.
+ in partition 1 and no mass transfer.
  
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -3369,7 +3636,7 @@ The buoyancy perturbation in partition one makes partition one rise which
 \begin_inset space \thinspace{}
 \end_inset
 
-s, Courant numbers in partition one have become larger than 0.5 and oscillations
+s, Courant numbers in partition one become larger than 0.5 and oscillations
  grow in 
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -3391,12 +3658,12 @@ s, Courant numbers in partition one have become larger than 0.5 and oscillations
  which implies that there will be a large surface area between the two partition
 s and so they are likely to exchange mass and momentum.
  We therefore consider coupling the two partitions using mass exchanges
- and drag between the partitions.
+ or drag between the partitions.
  
 \end_layout
 
 \begin_layout Standard
-We will first add drag between the partitions but no mass transfer.
+We first add drag between the partitions but no mass transfer.
  The drag takes the form described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3422,23 +3689,7 @@ reference "sub:drag"
 \end_inset
 
  is vanishing which allows some variation of velocity between partitions.
- 
-\begin_inset Formula $\sigma_{1}$
-\end_inset
-
-, 
-\begin_inset Formula $\theta_{1}$
-\end_inset
-
-, 
-\begin_inset Formula $\mathbf{u}_{0}$
-\end_inset
-
- and 
-\begin_inset Formula $\mathbf{u}_{1}$
-\end_inset
-
- at 
+ The results at 
 \begin_inset Formula $t=1000\ \text{s}$
 \end_inset
 
@@ -3641,7 +3892,14 @@ K,
 \begin_inset Formula $\sigma=\frac{1}{2}$
 \end_inset
 
- in circle near the ground.
+ in circle near the ground (as in fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:diffuse1_noDrag"
+
+\end_inset
+
+).
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3663,8 +3921,8 @@ name "fig:diffuse1_dragDiffuse"
 \end_layout
 
 \begin_layout Standard
-Another technique to couple the partitions is to add diffusion to them so
- that they exchange mass as described in section 
+Next the partitions are coupled by adding diffusion as described in section
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:diffuseSigma"
@@ -3673,12 +3931,11 @@ reference "sub:diffuseSigma"
 
 .
  This is similar to convective detrainment.
- The results of a simulation with diffusion between the partitions with
- a coefficient 
+ The results using a diffusion coefficient of 
 \begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
 
- is shown in figure 
+ are shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:diffuse1_dragDiffuse"
@@ -3694,14 +3951,14 @@ reference "fig:diffuse1_dragDiffuse"
 \end_inset
 
 K.
- This diffusion stabilises the solution and the results are quite different
- from the result with drag between the partitions.
+ The diffusion stabilises the solution and the results are different from
+ the result with drag between the partitions.
  
 \end_layout
 
 \begin_layout Standard
-Including mass transfer between the partitions in order to avoid divergence
- confined to a partition (described in section 
+Including mass transfer between the partitions in order to avoid partition
+ divergence (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:divTransfer"
@@ -3783,18 +4040,20 @@ s but this looks unreliable as energy increases before this point.
 
  leads more rapid energy loss than any of the other effective stabilisation
  methods.
- The high diffusion coefficient (
+ A high drag coefficient (
 \begin_inset Formula $C_{D}=10^{6}$
 \end_inset
 
-) is used to check the stability of the implicit treatment of drag.
+) is also used to check the stability of the implicit treatment of drag.
  The simulation stabilised by mass transfer based on divergence looses energy
- monotonically, most slowly than most of the other stabilisations.
+ monotonically, more slowly than the other stabilisations.
+ Note that the numerical treatment of the mass transfers always destoys
+ energy conservation.
  
 \end_layout
 
 \begin_layout Subsection
-Transfers Between Partitions
+Transfers Between Partitions to mimic convection parameterisation
 \end_layout
 
 \begin_layout Standard
@@ -3803,13 +4062,13 @@ For the conditionally averaged equations to be useful for convection, there
  These have a similar role to the closure approximations used by conventional
  convection schemes and could take the same form.
  Alternatively they could depend on approximations of sub-grid scale variability.
- Here we test mass transfers between partitions based on buoyancy anomalies,
- based on horizontal divergence and based on partition divergence.
+ Here we test mass transfers between partitions based on buoyancy anomalies
+ and based on horizontal divergence.
  We are not assuming any sub-grid scale variability so these are not representat
 ive of convection but we need to demonstrate that the numerical method is
  stable in the presence of large transfers between partitions and we choose
- transfer terms that lead to having the warm rising air in partition one
- and the stable and descending air in partition zero.
+ transfer terms that lead to warm rising air in partition one and the stable
+ and descending air in partition zero.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3905,10 +4164,32 @@ reference "fig:identicalParts"
 \end_layout
 
 \begin_layout Standard
+The bottom left of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+ shows the solution using mass transfer associated with buoyancy perturbations
+ combined with divergence transfer but without any diffusion between partitions.
+ The velocity and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ results are identical but the 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ field has sharper gradients as there is no diffusion between the partitions.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4089,11 +4370,11 @@ Rising bubble solutions of
 \begin_inset space \thinspace{}
 \end_inset
 
-s with mass transfers based on (a) 
+s with mass transfers based on 
 \begin_inset Formula $K_{\theta}\nabla^{2}\theta/\theta$
 \end_inset
 
- and (b) based on 
+ and based on 
 \begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
 \end_inset
 
@@ -4102,11 +4383,15 @@ s with mass transfers based on (a)
 \end_inset
 
 .
- Both use 
+ The top simulations use 
 \begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
 
-.
+ and the bottom simulations use 
+\begin_inset Formula $K_{\sigma}=0$
+\end_inset
+
+ and divergence transfer to stabilise.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -4125,6 +4410,36 @@ name "fig:massTransfer"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The changes in energy for both solutions with mass transfer based on buoyancy
+ perturbations are shown at the bottom of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+.
+ These simulations have a rapid drop of energy at the beginning of the simulatio
+n when the warm air is transferred from partition zero to partition one.
+ The numerical treatment of transfer terms, using materially conserved variables
+ rather than mass weighted variables means that conservation of internal
+ energy when transferring mass is not straightforward.
+ The energy conservation shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+ improves with as the time-step shrinks.
+ However the advantage of the current formulation is that the 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+s are bounded.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4168,47 +4483,50 @@ reference "eq:divTransfer10"
 \begin_inset space \thinspace{}
 \end_inset
 
-s are shown in figure 
+s are shown on the top right of figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:massTransfer"
 
 \end_inset
 
- on the right hand side.
+.
  Again, since partition 1 is initially empty, its initial properties do
  not influence the final solution.
  Instead, properties are transferred to partition 1 with mass and the two
  partitions evolve in the same way (once there is mass in partition 1) and
- the solutions are the same as for the case with the two partitions are
- initialised to be the same.
+ the solutions are the same as for the case with the two partitions initialised
+ to be the same.
  Using transfer based on horizontal divergence and vertical velocity, partition
  1 contains mass behind the convection because this is where horizontal
- divergence has been negative and no descent has occurred so the fluid remains
- in partition 1 (until it starts diverging and descending).
- 
-\end_layout
+ divergence is negative.
+ Divergence transfer can be used to stabilise the solution instead of diffusion
+ (bottom right of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
 
-\begin_layout Subsubsection
-Other Transfer Terms
+\end_inset
+
+).
+ This makes little difference to the solution.
+ 
 \end_layout
 
 \begin_layout Standard
-There are of course numerous other possibilities for transfer terms, different
- combinations of the above terms and different diffusivities for the transfer
- based on 
-\begin_inset Formula $\nabla^{2}\theta$
+Using mass transfer based on horizontal divergence, the drop in energy is
+ more gradual than when using mass transfer based on 
+\begin_inset Formula $\theta$
 \end_inset
 
-.
- However conditional averaging is necessary for representing convection
- if convection is sub-grid scale.
- Therefore transfer terms should depend on the sub-grid variability of buoyancy
- and other factors that drive convection.
- These transfer terms are not developed here.
- This work is restricted to cases where as assume no sub-grid variability
- other than that associated with the two partitions.
- 
+ perturbations (bottom of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:massTransfer"
+
+\end_inset
+
+) because the non-energy conserving mass transfer is more gradual.
 \end_layout
 
 \begin_layout Section
