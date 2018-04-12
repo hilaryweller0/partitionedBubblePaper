@@ -378,7 +378,7 @@ key "TWV+18"
 \end_inset
 
  and involves multiplying each equation of motion by an indicator function
- and averaging over a volume (or applying another filter).
+ and averaging over a volume (or applying a different filter).
  This leads to equations which are similar to those of a mass flux convection
  scheme but without the approximation of zero net mass flux by convection.
  The conditionally averaged equations also have transfer terms to transfer
@@ -476,18 +476,25 @@ key "LB91,GBB+07"
 \end_inset
 
  with separate fluids for different phases which share a single pressure.
- In order to maintain sufficient coupling between phases, drag and other
- relaxation transfers are used.
- 
+ The conditionally averaged Euler equations with a single pressure and without
+ transfers between the fluids are in fact ill-posed 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "SW84"
+
+\end_inset
+
+ and are usually regularlised by includeing coupling between phases such
+ as drag and other relaxation transfers.
+ Alternatively, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "HK84"
 
 \end_inset
 
- show that in fact the multiphase equations with a single pressure are ill
- posed and a better approach to regularise them is to use multiple pressures.
- 
+ regularised these equations using multiple pressures for problems with
+ surface tension.
 \end_layout
 
 \begin_layout Standard
@@ -502,8 +509,8 @@ n into the buoyant fluid and stable air back into the stable fluid.
  We use three techniques to regularise the multifluid equations; the first
  is with drag between fluids, the second is with diffusion between the fluids
  and the third is more novel and targets specifically the equal and opposite
- divergence that can grow in the fluids and hence cannot be controlled by
- pressure gradients.
+ divergence that can grow in the individual fluids and hence cannot be controlle
+d by pressure gradients.
  
 \end_layout
 
@@ -558,7 +565,7 @@ key "TWV+18"
 
 where the overbar implies the application of the filter (or volume average).
  Density, potential temperature and velocity can then be defined for each
- condition:
+ fluid:
 \begin_inset Formula 
 \begin{eqnarray}
 \rho_{i} & = & \overline{I_{i}\rho}\\
@@ -583,8 +590,8 @@ and averages can be found over all fluids, using the overbar in a slightly
 The same averaging can be applied to pressure but we will assume that pressure
  is uniform across fluids.
  The time-scale for equilibration of pressure across fluids will be related
- to the speed of sound so uniform pressure across fluids is may be a good
- approximation and also makes numerical solution practical.
+ to the speed of sound so uniform pressure across fluids may be a good approxima
+tion and also makes numerical solution practical.
  This is also the approximation made when using conditional averaging for
  representing multi-phase flows 
 \begin_inset CommandInset citation
@@ -596,10 +603,10 @@ key "GBB+07"
 
 .
  A single pressure for compressible multiphase flow is know to lead to an
- ill posed problem 
+ ill-posed problem 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "HK84"
+key "SW84"
 
 \end_inset
 
@@ -775,9 +782,9 @@ The conditionally averaged equations can only become useful for representing
 \begin_inset Formula $S_{ij}$
 \end_inset
 
- is particularly important for moving mass in and out of the fluid associated
- with convection and will inevitably be associated with sub-grid scale variabili
-ty of buoyancy and other properties related to convection.
+ is particularly important for moving mass in and out of the fluid related
+ to convection and will inevitably be associated with sub-grid scale variability
+ of buoyancy and other properties related to convection.
  In this paper we do not propose new closures for how mass moves from the
  stable to the convectively active fluid (such as cloud base mass flux closures).
  Instead we will use transfer terms formulated in terms of differential
@@ -794,8 +801,8 @@ tion of convection.
 \end_layout
 
 \begin_layout Standard
-We also use the transfer terms to couple the fluids, regularising the ill
- posed equations.
+We also use the transfer terms to couple the fluids, regularising the ill-posed
+ equations.
  
 \end_layout
 
@@ -1948,7 +1955,7 @@ The updated value of
 
  is not used in the divergence because the advection scheme is designed
  to use only the old value; it is most accurate and bounded when using the
- old value,
+ old value, 
 \begin_inset Formula $\sigma_{i}^{n}$
 \end_inset
 
@@ -4090,8 +4097,8 @@ s but this looks unreliable as energy increases before this point.
 ) is also used to check the stability of the implicit treatment of drag.
  The simulation stabilised by mass transfer based on divergence looses energy
  monotonically, more slowly than the other stabilisations.
- Note that the numerical treatment of the mass transfers always destoys
- energy conservation.
+ Note that the numerical treatment of the mass transfers destroys energy
+ conservation.
  
 \end_layout
 
@@ -4185,11 +4192,11 @@ reference "fig:massTransfer"
 \end_inset
 
  confirms that 
-\begin_inset Formula $\theta$
+\begin_inset Formula $\theta_{i}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{u}$
+\begin_inset Formula $\mathbf{u}_{i}$
 \end_inset
 
  are similar in each fluid and also similar to the solutions in figure 
@@ -4568,7 +4575,7 @@ reference "fig:massTransfer"
 
 \end_inset
 
-) because the non-energy conserving mass transfer is more gradual.
+) because mass transfer is more gradual.
 \end_layout
 
 \begin_layout Section
@@ -4587,7 +4594,7 @@ A stable numerical method is presented for solving the conditionally averaged
 \end_layout
 
 \begin_layout Enumerate
-The conditionally averaged equations with a single pressure are ill posed
+The conditionally averaged equations with a single pressure are ill-posed
  so transfer terms are formulated to ensure that the different fluids remain
  sufficiently coupled together.
 \end_layout
@@ -4596,9 +4603,8 @@ The conditionally averaged equations with a single pressure are ill posed
 Mass transfer terms are proposed so that well resolved convection is transferred
  to the buoyant fluid and stable or sinking air is transferred to the stable
  fluid.
- These are based on buoyancy anomalies (measured by the horizontal Laplacian
- of 
-\begin_inset Formula $\theta_{0}$
+ These are based on buoyancy anomalies (measured by the Laplacian of 
+\begin_inset Formula $\theta$
 \end_inset
 
 ) and based on horizontal divergence.
