@@ -401,7 +401,7 @@ key "GBB+07"
 \end_layout
 
 \begin_layout Standard
-There have been schemes which account for aspects non-equilibrium dynamics
+There have been schemes which account for aspects of non-equilibrium dynamics
  
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -558,31 +558,34 @@ key "TWV+18"
  is defined to be
 \begin_inset Formula 
 \begin{equation}
-\sigma_{i}=\bar{I_{i}}
+\sigma_{i}=\widetilde{I_{i}}
 \end{equation}
 
 \end_inset
 
-where the overbar implies the application of the filter (or volume average).
+where the 
+\begin_inset Formula $\widetilde{\ }$
+\end_inset
+
+ implies the application of the filter (or volume average).
  Density, potential temperature and velocity can then be defined for each
  fluid:
 \begin_inset Formula 
 \begin{eqnarray}
-\rho_{i} & = & \overline{I_{i}\rho}\\
-\theta_{i} & = & \overline{I_{i}\theta}\\
-\mathbf{u}_{i} & = & \overline{I_{i}\mathbf{u}}
+\sigma_{i}\rho_{i} & = & \widetilde{I_{i}\rho}\\
+\sigma_{i}\rho_{i}\theta_{i} & = & \widetilde{I_{i}\rho\theta}\\
+\sigma_{i}\rho_{i}\mathbf{u}_{i} & = & \widetilde{I_{i}\rho\mathbf{u}}
 \end{eqnarray}
 
 \end_inset
 
-and averages can be found over all fluids, using the overbar in a slightly
- different way:
+and averages can be found over all fluids, denoted by overbar:
 \begin_inset Formula 
 \begin{eqnarray}
 1 & = & \sum_{i}\sigma_{i}\\
 \overline{\rho} & = & \sum_{i}\sigma_{i}\rho_{i}\\
-\overline{\theta} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
-\overline{\mathbf{u}_{i}} & = & \frac{1}{\overline{\rho}}\sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}.
+\overline{\rho\theta} & = & \sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
+\overline{\rho\mathbf{u}_{i}} & = & \sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}.
 \end{eqnarray}
 
 \end_inset
@@ -602,8 +605,8 @@ key "GBB+07"
 \end_inset
 
 .
- A single pressure for compressible multiphase flow is know to lead to an
- ill-posed problem 
+ A single pressure for compressible multiphase flown is know to lead to
+ an ill-posed problem 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "SW84"
@@ -710,7 +713,7 @@ where
 \end_inset
 
 .
- When mass is transferred, it takes its properties with it which is why
+ When mass is transferred, its properties are taken with it which is why
  
 \begin_inset Formula $S_{ij}$
 \end_inset
@@ -734,11 +737,11 @@ These equations can be expressed in advective form so that the primitive
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- are well defined as 
+ are well defined when 
 \begin_inset Formula $\sigma_{i}$
 \end_inset
 
- approaches zero:
+ is zero:
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\partial\mathbf{u}_{i}}{\partial t} & + & \mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}=-2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
@@ -929,20 +932,19 @@ assuming two fluids labelled
 \end_inset
 
 .
- This formulation means that 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+ The coefficient of 
+\begin_inset Formula $\frac{1}{2}$
 \end_inset
 
- is still advected by 
-\begin_inset Formula $\mathbf{u}_{i}$
+ is chosen so that when eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:divTransfer"
+
 \end_inset
 
- and is also changed by global divergence but not by local divergence.
- This is equivalent to the transport equation for 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
- being
+) is re-arranged, the left hand side is in advective form and the right
+ hand side consists of divergence averaged over all fluids:
 \begin_inset Formula 
 \begin{equation}
 \frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})=\frac{1}{2}\left(\sigma_{i}\rho_{i}\nabla\cdot\mathbf{u}_{i}-\sigma_{j}\rho_{j}\nabla\cdot\mathbf{u}_{j}\right)\label{eq:contWithDivTransfer}
@@ -1938,7 +1940,7 @@ where
 
  (they share the same computer memory).
  At the end of the time-step, values 
-\begin_inset Formula $\ell\ell$
+\begin_inset Formula $\ell$
 \end_inset
 
  are used as the values for time-level 
@@ -3655,7 +3657,7 @@ K,
 \begin_inset Formula $\mathbf{u}_{1}$
 \end_inset
 
- by blue vectors.
+ by red vectors.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3761,7 +3763,7 @@ reference "fig:diffuse1_dragDiffuse"
 
 K throughout.
  The drag has stabilised the solution and the two fluid velocities (in black
- and blue) are not identical.
+ and red) are not identical.
  
 \end_layout
 
@@ -3937,7 +3939,7 @@ K,
 \begin_inset Formula $\mathbf{u}_{1}$
 \end_inset
 
- by blue vectors.
+ by red vectors.
  Initially 
 \begin_inset Formula $\sigma=\frac{1}{2}$
 \end_inset
@@ -4255,6 +4257,10 @@ Mass transfer based on
 \begin_inset Formula $\nabla^{2}\theta$
 \end_inset
 
+ and 
+\begin_inset Formula $w$
+\end_inset
+
  with 
 \begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
@@ -4273,7 +4279,11 @@ Mass transfer based on
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{u}\cdot\mathbf{g}$
+\begin_inset Formula $w$
+\end_inset
+
+ with 
+\begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
 
 
@@ -4319,7 +4329,11 @@ Mass transfer based on
 \begin_inset Text
 
 \begin_layout Plain Layout
-Also with  divergence transfer
+With  divergence transfer and 
+\begin_inset Formula $K_{\theta}=0$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -4328,7 +4342,11 @@ Also with  divergence transfer
 \begin_inset Text
 
 \begin_layout Plain Layout
-Also with divergence transfer
+With  divergence transfer and 
+\begin_inset Formula $K_{\theta}=0$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -4575,7 +4593,7 @@ reference "fig:massTransfer"
 
 \end_inset
 
-) because mass transfer is more gradual.
+) because mass transfer too is more gradual.
 \end_layout
 
 \begin_layout Section
