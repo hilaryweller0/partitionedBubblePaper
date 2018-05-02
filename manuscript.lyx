@@ -590,6 +590,25 @@ and averages can be found over all fluids, denoted by overbar:
 
 \end_inset
 
+Non-linear conditionally averaged terms can be expressed as the products
+ of conditionally averaged terms but this is not equal to the conditional
+ average of the non-linear terms.
+ The difference is expressed as a sub-filter scale flux which can be parameteris
+ed:
+\begin_inset Formula 
+\begin{eqnarray}
+\widetilde{I_{i}\rho\mathbf{u}\theta} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}+\mathbf{F}_{\text{SF}}^{\theta_{i}}\\
+\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}+\mathsf{F}_{\text{SF}}^{\mathbf{u}_{i}}.
+\end{eqnarray}
+
+\end_inset
+
+The sub-filter scale fluxes are typically due to turbulent motions within
+ each fluid and will be ignored in this paper.
+ 
+\end_layout
+
+\begin_layout Standard
 The same averaging can be applied to pressure but we will assume that pressure
  is uniform across fluids.
  The time-scale for equilibration of pressure across fluids will be related
@@ -626,8 +645,8 @@ reference "sub:transfers"
 
 \begin_layout Standard
 Applying conditional averaging to the rotating compressible Euler equations
- in flux form and assuming uniform pressure between fluids leads to the
- conditionally averaged Euler equations:
+ in flux form, assuming uniform pressure between fluids and ignoring sub-fiter
+ scale fluxes leads to the conditionally averaged Euler equations:
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\partial\sigma_{i}\rho_{i}\mathbf{u}_{i}}{\partial t} & + & \nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}\right)=-2\sigma_{i}\rho_{i}\boldsymbol{\Omega}\times\mathbf{u}_{i}\label{eq:condMom}\\
