@@ -1116,17 +1116,15 @@ reference "eq:diffusionTransfer"
 
 \end_inset
 
-)).
- We also want to restrict the transfer so that it only passes from stable
- to buoyant if it is rising and vice-versa to avoid overly frequent transfers:
+)):
 \begin_inset Formula 
 \begin{eqnarray}
 S_{01} & = & \begin{cases}
--K_{\theta}\frac{\nabla^{2}\theta_{0}}{\theta_{0}} & \ \text{when}\ \nabla^{2}\theta_{0}<0\ \text{and}\ \mathbf{u}_{0}\cdot\mathbf{g}<0\\
+-K_{\theta}\frac{\nabla^{2}\theta_{0}}{\theta_{0}} & \ \text{when}\ \nabla^{2}\theta_{0}<0\\
 0 & \ \text{otherwise}
 \end{cases}\label{eq:thetaTransfer01}\\
 S_{10} & = & \begin{cases}
-K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\theta_{1}>0\ \text{and}\ \mathbf{u}_{1}\cdot\mathbf{g}>0\\
+K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\theta_{1}>0\\
 0 & \ \text{otherwise}
 \end{cases}\label{eq:thetaTransfer10}
 \end{eqnarray}
@@ -2078,7 +2076,7 @@ reference "sec:results"
  explicitly with operator splitting
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}S_{ji}^{\ell}-\sigma_{i}\rho_{i}S_{ij}^{\ell}\right).
+(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)^{\ell}.
 \end{equation}
 
 \end_inset
@@ -2198,24 +2196,32 @@ reference "eq:thetaAdvectDt"
 \begin_inset Formula 
 \begin{eqnarray}
 \theta_{0}^{\ell\ell} & = & \frac{\left(1+\Delta t\ T_{01}\right)\theta_{0}^{\ell}+\Delta t\ T_{10}\theta_{1}^{\ell}}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\\
-\theta_{1}^{\ell\ell} & = & \frac{\theta_{1}^{\ell}+\Delta t\ T_{01}\theta_{0}^{\ell\ell}}{1+\Delta T_{01}}
+\theta_{1}^{\ell\ell} & = & \frac{\theta_{1}^{\ell}+\Delta t\ T_{01}\theta_{0}^{\ell\ell}}{1+\Delta t\ T_{01}}
 \end{eqnarray}
 
 \end_inset
 
 where we have used the shorthand 
-\begin_inset Formula $T_{ij}=\frac{\sigma_{i}\rho_{i}}{\sigma_{j}\rho_{j}}S_{ij}$
+\begin_inset Formula $T_{ij}=\frac{(\sigma_{i}\rho_{i})^{\ell}}{(\sigma_{j}\rho_{j})^{\ell}}S_{ij}$
 \end_inset
 
 .
-\end_layout
+ For conservation of internal energy, it is necessary that the values of
+ 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
 
-\begin_layout Standard
-This numerical treatment of the mass transfer terms in the 
+ from after advection but before the mass transfer are used in the calculation
+ of 
+\begin_inset Formula $T_{ij}$
+\end_inset
+
+.
+ This numerical treatment of the mass transfer terms in the 
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- equations ensures boundedness of 
+ equations also ensures boundedness of 
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
@@ -2231,39 +2237,7 @@ This numerical treatment of the mass transfer terms in the
 \begin_inset Formula $\theta_{j}^{\ell}$
 \end_inset
 
-) but this scheme does not conserve internal energy.
- Internal energy conservation would be straightforward if we were updating
- mass weighted 
-\begin_inset Formula $\theta_{i}$
-\end_inset
-
- from eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:condTheta"
-
-\end_inset
-
-):
-\begin_inset Formula 
-\begin{equation}
-\sigma_{i}\rho_{i}\theta_{i}^{\ell\ell}=\sigma_{i}\rho_{i}\theta_{i}^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}\theta_{j}S_{ji}-\sigma_{i}\rho_{i}\theta_{i}S_{ij}\right)
-\end{equation}
-
-\end_inset
-
-but then boundedness of 
-\begin_inset Formula $\theta_{i}$
-\end_inset
-
- would be more difficult to achieve due to the division by by 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
-\end_inset
-
-.
- For stability, we are opting for the bounded discretisation rather than
- energy conserving.
- 
+).
 \end_layout
 
 \begin_layout Subsubsection
@@ -2627,8 +2601,15 @@ as with the numerical method for applying the mass transfer terms to the
 \begin_inset Formula $U_{i}$
 \end_inset
 
- remain bounded but momentum is not conserved.
- 
+ remain bounded and the use of the values of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ from before mass transfer in the calculation of 
+\begin_inset Formula $T_{ij}$
+\end_inset
+
+ gives momentum conservation on transfer.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3304,11 +3285,10 @@ reference "fig:erergy1part"
  show negative values and the solid lines show positive values.
  In the first part of the simulation, the single fluid simulation shows
  internal and potential energy oscillating in phase with each other, showing
- conservative transfers between internal and potential energy.
+ nearly conservative transfers between internal and potential energy.
  Throughout the simulation the kinetic energy increases as the rising bubble
- accelerates.
- Throughout the simulation, the total energy decreases slightly and monotonicall
-y due to stable, dissipative nature of the model.
+ accelerates while the total energy decreases monotonically due to stable,
+ dissipative nature of the model.
  Part of this dissipation is due to the dissipative advection of velocity
  and potential temperature.
  A simulation is also run using centred, linear differencing for advection
@@ -3327,6 +3307,47 @@ reference "fig:erergy1part"
 \end_layout
 
 \begin_layout Standard
+The accuracy of the energy conservation in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:erergy1part"
+
+\end_inset
+
+ appears to be good partly because the energy changes are divided by a large
+ number -- the total initial energy, including unavailable energy.
+ The initial potential energy, which is mostly unavailable, is 31444
+\begin_inset space \space{}
+\end_inset
+
+Joules and the initial internal energy is 141446
+\begin_inset space \space{}
+\end_inset
+
+Joules, making the total initial energy 172891
+\begin_inset space \space{}
+\end_inset
+
+Joules.
+ A fairer accuracy estimate might be to normalise with the available potential
+ energy.
+ This has not been calculated.
+ Instead we could compare with the energy of the initial warm bubble.
+ The warm bubble contains 24.5
+\begin_inset space \space{}
+\end_inset
+
+Joules of additional internal energy in comparison to the stably stratified
+ state.
+ If we were to normalise the energy changes with this value then they would
+ be 7057 times bigger, making a normalised change of 
+\begin_inset Formula $10^{-5}$
+\end_inset
+
+ close to a change of 0.1.
+\end_layout
+
+\begin_layout Standard
 The total energy for the the simulations with two identical fluids with
  symmetric and asymmetric distributions of 
 \begin_inset Formula $\sigma$
@@ -3342,6 +3363,8 @@ reference "fig:erergy1part"
 .
  This confirms that the presence of more than one identical fluid does not
  influence the energy conservation.
+ In fact the solutions with two identical fluids are identical to the solution
+ with one fluid to within machine precision.
  
 \end_layout
 
@@ -3452,16 +3475,14 @@ Different Initial Conditions in each Fluid
 Once each fluid can have different properties, the behaviour of the solutions
  changes and it can be more difficult to find stable solutions.
  The total solution is close to divergence free because compressibility
- is small in this low Mach number case.
+ is small in this low Mach number regime.
  However with only one pressure to control the divergence in two fluids,
  the divergence in each fluid can be large.
  We will therefore initialise the equation to force different velocities
  and hence divergence in each fluid.
- 
-\end_layout
-
-\begin_layout Subsubsection
-Warm air in a diffuse fluid 1
+ We do not have an analytic solution for this case but we seek stable solutions
+ and we test energy conservation since energy is conserved in the continuous
+ equations in the absence of transfers between the fluids.
 \end_layout
 
 \begin_layout Standard
@@ -3513,7 +3534,7 @@ reference "fig:diffuse1_noDrag"
 \begin_inset space \thinspace{}
 \end_inset
 
-K throughout the simulation.
+K throughout the simulation, as expected.
 \end_layout
 
 \begin_layout Standard
@@ -3524,8 +3545,10 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="4" columns="4">
 <features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -3542,10 +3565,34 @@ Initial conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $t=100\ \text{s}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 \begin_inset Formula $t=200\ \text{s}$
 \end_inset
 
- (zoomed)
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=290\ \text{s}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3557,8 +3604,25 @@ Initial conditions
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/0/sigmaTheta.pdf
-	width 48line%
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/0/sigmaThetaZoom.pdf
+	lyxscale 50
+	width 24line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/100/sigmaThetaZoom.pdf
+	lyxscale 50
+	width 24line%
 
 \end_inset
 
@@ -3573,7 +3637,24 @@ Initial conditions
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaThetaZoom.pdf
-	width 48line%
+	lyxscale 50
+	width 24line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/290/sigmaThetaZoom.pdf
+	lyxscale 50
+	width 24line%
 
 \end_inset
 
@@ -3598,6 +3679,24 @@ Initial conditions
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -3642,6 +3741,24 @@ Initial conditions
 
 \end_inset
 </cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 </lyxtabular>
 
@@ -3654,8 +3771,8 @@ Initial conditions
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Initial conditions and results of a simulation with a buoyant perturbation
- in fluid 1 and no mass transfer.
+Zoomed in initial conditions and results of a simulation with a buoyant
+ perturbation in fluid 1 and no mass transfer.
  
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -4066,6 +4183,10 @@ reference "fig:diffuse1_dragDiffuse"
 
 .
  The energy diverges for the unstable case with no transfers.
+ The other simulations are stabilised either by mass transfers or my momentum
+ transfer (drag).
+ Both of these destroy kinetic energy and so we expect to see the energy
+ decrease monotonically for the stabilised simulations.
  The simulation with the low diffusion coefficient (
 \begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
@@ -4118,8 +4239,6 @@ s but this looks unreliable as energy increases before this point.
 ) is also used to check the stability of the implicit treatment of drag.
  The simulation stabilised by mass transfer based on divergence looses energy
  monotonically, more slowly than the other stabilisations.
- Note that the numerical treatment of the mass transfers destroys energy
- conservation.
  
 \end_layout
 
@@ -4140,6 +4259,13 @@ ive of convection but we need to demonstrate that the numerical method is
  stable in the presence of large transfers between fluids and we choose
  transfer terms that lead to warm rising air in fluid one and the stable
  and descending air in fluid zero.
+ We examine stability, energy conservation and comparison with the single
+ fluid case.
+ These simulations start with no fluid one (all the mass initially in fluid
+ zero).
+ Whenever mass is transferred into fluid one it takes its properties with
+ it so the solution should be identical to the single fluid case and energy
+ should be conserved.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4169,9 +4295,6 @@ e the simulation with
 \end_inset
 
  everywhere and the warm perturbation in fluid zero only.
- Whenever mass is transferred into fluid one it takes its properties with
- it so the solution should remain identical to the solution with identical
- initial conditions in each fluid.
  The solutions for 
 \begin_inset Formula $\sigma_{1}$
 \end_inset
