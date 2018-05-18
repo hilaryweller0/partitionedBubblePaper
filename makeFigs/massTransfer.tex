@@ -1,0 +1,48 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular}{cc}
+Mass transfer based on $\nabla^{2}\theta$ with $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$ & Mass transfer based on $\nabla_{h}\cdot\mathbf{u}$ and $w$ \tabularnewline
+Stabilised using diffusion with $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$ & Stabilised using diffusion with $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$\tabularnewline
+$\ell_{2}=3.0\times10^{-10}$ at $t=1000$ s & $\ell_{2}=9.5\times10^{-7}$ at $t=1000$ s\tabularnewline
+\includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferTheta/1000/sigmaTheta} & \includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDiv/1000/sigmaTheta}\tabularnewline
+Mass transfer based on $\nabla^{2}\theta$ with $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$ & Mass transfer based on $\nabla_{h}\cdot\mathbf{u}$ and $w$ \tabularnewline
+Stabilised using divergence & Stabilised using divergence\tabularnewline
+$\ell_{2}=1.7\times10^{-8}$ at $t=1000$ s & $\ell_{2}=1.1\times10^{-5}$ at $t=1000$ s\tabularnewline
+\includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferThetaDiv/1000/sigmaTheta} & \includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDivDiv/1000/sigmaTheta}\tabularnewline
+\end{tabular}
+\end{document}

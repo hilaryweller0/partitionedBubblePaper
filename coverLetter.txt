@@ -1,0 +1,17 @@
+I confirm that:
+
+All listed authors qualify as authors and have approved the submitted version.
+
+All of the work is original and is not under consideration by any other journal.
+
+There is no reproduction of any previously published material.
+
+This paper provides the following new contributions to the field:
+
+There has been recent interest in using conditional averaging (or filtering) for representing sub-grid scale convection. This would enable net mass flux by sub-grid scale convection. This paper presents a number of advances relevant for using conditional averaging to represent sub-grid scale convection:
+● A stable numerical method for solving the conditionally averaged equations in the atmospheric modelling context is presented. 
+● Numerical solutions are presented for a variety of warm rising bubbles. 
+● When solving the conditionally averaged equations, transfer terms between buoyant and stable fluids are equivalent to convective entrainment, detrainment and convective mass flux. Some novel forms of transfer terms are presented.
+● A novel technique for stabilising the conditionally averaged equations is given. 
+
+I have used the old qjrms4.cls for formatting the document. I downloaded and tried to use the OverLeaf template but I couldn't find a copy of wiley-article.cls to download. 

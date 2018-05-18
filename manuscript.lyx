@@ -142,6 +142,19 @@ runningheads{H.
 
 \begin_layout Plain Layout
 
+%
+\backslash
+abbrevs{EDMF, Eddy Diffusivity Mass Flux; TVD, Totoal Variation Diminishing;
+ KE, Kinetic Energy; PE, Potential Energy; IE, Internal Energy; RMS; Root
+ Mean Square; } 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 
 \backslash
 address{
@@ -169,9 +182,31 @@ corraddr{E-mail: <h.weller@reading.ac.uk>}
 
 
 \backslash
-begin{abstract}
+runningheads{H.
+ Weller and W.
+ McIntyre}{Conditional Averaging for Convection}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
 \backslash
-normalfont
+maketitle
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{abstract}
 \end_layout
 
 \begin_layout Plain Layout
@@ -235,58 +270,20 @@ The formulation of transfer terms in order to represent sub-grid convection
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+keywords{Convection, atmpspheric, modelling, parameterisation, grey zone}
+\end_layout
+
+\begin_layout Plain Layout
+
 
 \backslash
 end{abstract}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-keywords{
-\end_layout
-
-\begin_layout Plain Layout
-
-Convection
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-maketitle
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-tableofcontents
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-listoftodos
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-onecolumn
 \end_layout
 
 \end_inset
@@ -3072,203 +3069,9 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Initial 
-\begin_inset Formula $\sigma$
-\end_inset
-
- (shaded) and initial 
-\begin_inset Formula $\theta_{i}$
-\end_inset
-
- (contoured every 0.2
-\begin_inset space \thinspace{}
-\end_inset
-
-K)
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/0/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble2/0/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\sigma$
-\end_inset
-
- scale 
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant.sigma.eps
-	width 75line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\theta$
-\end_inset
-
- scale 
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant.theta.eps
-	width 75line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\sigma$
-\end_inset
-
- , 
-\begin_inset Formula $\theta_{i}$
-\end_inset
-
- and 
-\begin_inset Formula $\mathbf{u}_{i}$
-\end_inset
-
- after 1000
-\begin_inset space \thinspace{}
-\end_inset
-
-s (results identical in each fluid)
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble2/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename figures/identicalParts.pdf
+	width 100line%
 
 \end_inset
 
@@ -3323,7 +3126,7 @@ The stability of the model is demonstrated by plotting the total energy
  and the different types of energy in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -3354,7 +3157,7 @@ and totals are calculated by integrating over space.
 The dashed lines in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -3371,7 +3174,7 @@ reference "fig:erergy1part"
  and the total energy is shown in the right hand of figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -3386,7 +3189,7 @@ reference "fig:erergy1part"
 The accuracy of the energy conservation in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -3432,7 +3235,7 @@ The total energy for the the simulations with two identical fluids with
  are shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -3451,64 +3254,9 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1 fluid, van-Leer advetion
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Total energy for various simulations
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/advective/advective_vanLeer/plots/energy.eps
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy1part.eps
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename figures/energy1part.pdf
+	width 100line%
 
 \end_inset
 
@@ -3526,7 +3274,7 @@ d total energy change for models with one fluid with different advection
  Solid lines show positive changes and dashed lines show negative changes.
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:erergy1part"
+name "fig:energy1part"
 
 \end_inset
 
@@ -3624,223 +3372,9 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="4">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Initial conditions
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=100\ \text{s}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=200\ \text{s}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=290\ \text{s}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/0/sigmaThetaZoom.pdf
-	lyxscale 50
-	width 24line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/100/sigmaThetaZoom.pdf
-	lyxscale 50
-	width 24line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaThetaZoom.pdf
-	lyxscale 50
-	width 24line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/290/sigmaThetaZoom.pdf
-	lyxscale 50
-	width 24line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\sigma$
-\end_inset
-
- scale 
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant.sigma.eps
-	width 75line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\theta$
-\end_inset
-
- scale 
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant.theta.eps
-	width 75line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename figures/diffuse1_noDrag.pdf
+	width 100line%
 
 \end_inset
 
@@ -3987,135 +3521,12 @@ K throughout.
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-With drag, 
-\begin_inset Formula $C_{D}=1$
-\end_inset
-
-, 
-\begin_inset Formula $r_{\min}=1\ \text{m}$
-\end_inset
-
-, 
-\begin_inset Formula $r_{\max}=2000\ \text{m}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Diffusion between fluids of 
-\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/loDrag/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/loDiffusion/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-With divergence transfer
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/divTransfer/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_05.eps
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename figures/diffuse1_dragDiffuse.pdf
+	width 100line%
 
 \end_inset
 
@@ -4168,6 +3579,19 @@ reference "fig:diffuse1_noDrag"
 \end_inset
 
 ).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -4514,264 +3938,9 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Mass transfer based on 
-\begin_inset Formula $\nabla^{2}\theta$
-\end_inset
-
- with 
-\begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Mass transfer based on 
-\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
-\end_inset
-
- and 
-\begin_inset Formula $w$
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using diffusion with 
-\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using diffusion with 
-\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=3.0\times10^{-10}$
-\end_inset
-
- at 
-\begin_inset Formula $t=1000$
-\end_inset
-
- s
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=9.5\times10^{-7}$
-\end_inset
-
- at 
-\begin_inset Formula $t=1000$
-\end_inset
-
- s
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferTheta/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDiv/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Mass transfer based on 
-\begin_inset Formula $\nabla^{2}\theta$
-\end_inset
-
- with 
-\begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Mass transfer based on 
-\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
-\end_inset
-
- and 
-\begin_inset Formula $w$
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using divergence
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using divergence
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=1.7\times10^{-8}$
-\end_inset
-
- at 
-\begin_inset Formula $t=1000$
-\end_inset
-
- s
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=1.1\times10^{-5}$
-\end_inset
-
- at 
-\begin_inset Formula $t=1000$
-\end_inset
-
- s
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferThetaDiv/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDivDiv/1000/sigmaTheta.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename figures/massTransfer.pdf
+	width 100line%
 
 \end_inset
 
@@ -4871,7 +4040,7 @@ reference "fig:massTransferEnergy"
  The energy loss is very similar to the single fluid case (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -4889,7 +4058,7 @@ status collapsed
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/plots/energy_transfers.eps
+	filename figures/massTransferEnergy.pdf
 	width 100line%
 
 \end_inset
@@ -4997,7 +4166,7 @@ Using mass transfer based on horizontal divergence, the drop in energy is
  again very similar to the single fluid case (comparing figures 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:erergy1part"
+reference "fig:energy1part"
 
 \end_inset
 
@@ -5114,6 +4283,17 @@ The formulation of transfer terms in order to represent sub-grid convection
  is the subject of future work.
  These transfer terms should depend on sub-grid variability of the primitive
  variables in each fluid.
+\end_layout
+
+\begin_layout Section*
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+Many thanks to Peter Clark, John Thuburn and Chris Holloway for valuable
+ discussions and proof reading.
+ Thanks to the NERC/Met Office Paracon project.
+ We acknowledge funding from the RevCon Paracon project NE/N013743/1.
 \end_layout
 
 \begin_layout Standard
