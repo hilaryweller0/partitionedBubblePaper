@@ -1,0 +1,1749 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+Responses to 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+Review_QJ_18_0129.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Summary: 
+\end_layout
+
+\begin_layout Standard
+This paper describes the solution method for the conditionally averaged
+ Euler 
+\end_layout
+
+\begin_layout Standard
+equations, which are potentially useful for improving the representation
+ of sub-grid 
+\end_layout
+
+\begin_layout Standard
+scale convection in weather and climate models.
+ It presents a semi-implicit algorithm 
+\end_layout
+
+\begin_layout Standard
+and several formulations of plume-environment transfer terms that are necessary
+ for 
+\end_layout
+
+\begin_layout Standard
+obtaining stable numerical solutions, and the methods are then verified
+ with a buoyant 
+\end_layout
+
+\begin_layout Standard
+bubble test case.
+ 
+\end_layout
+
+\begin_layout Standard
+I think this paper is important, because such equations involve numerical
+ 
+\end_layout
+
+\begin_layout Standard
+instabilities unseen in the conventional Euler equations, and developing
+ a stable 
+\end_layout
+
+\begin_layout Standard
+algorithm for these equations is a major progress that will allow for implementi
+ng them 
+\end_layout
+
+\begin_layout Standard
+in the future generation of models.
+ 
+\end_layout
+
+\begin_layout Standard
+Although I am generally satisfied with the approach and the results of this
+ work, I 
+\end_layout
+
+\begin_layout Standard
+feel that the presentation needs to be improved.
+ My main concerns are that the physical 
+\end_layout
+
+\begin_layout Standard
+distinction between the two types (numerical versus physical) of plume–environme
+nt 
+\end_layout
+
+\begin_layout Standard
+transfer terms is not very clearly explained, and that the description of
+ the algorithm is 
+\end_layout
+
+\begin_layout Standard
+too detailed and blurs the essential ingredients that guarantee the numerical
+ stability.
+ 
+\end_layout
+
+\begin_layout Standard
+Clarifying these issues would make this paper much more comprehensible.
+ 
+\end_layout
+
+\begin_layout Standard
+My detailed suggestions and specific comments are as follows.
+ 
+\end_layout
+
+\begin_layout Standard
+General Comments: 
+\end_layout
+
+\begin_layout Standard
+1.
+ The physical basis of the five transfer terms and their categorization
+ should be 
+\end_layout
+
+\begin_layout Standard
+more physically and systematically explained.
+ 
+\end_layout
+
+\begin_layout Standard
+Two types of plume–environment transfer terms are proposed in the paper.
+ The 
+\end_layout
+
+\begin_layout Standard
+first type is described as regularization terms (or regulators) that improve
+ the 
+\end_layout
+
+\begin_layout Standard
+numerical stability, which include mass diffusion, divergence subject to
+ conserved 
+\end_layout
+
+\begin_layout Standard
+mass fraction, and momentum drag.
+ The second type is described as to ‘mimic 
+\end_layout
+
+\begin_layout Standard
+convection’ and includes the conversions associated with buoyancy or vertical
+ 
+\end_layout
+
+\begin_layout Standard
+motion and horizontal divergence.
+ 
+\end_layout
+
+\begin_layout Standard
+I have several concerns about this separation.
+ 
+\end_layout
+
+\begin_layout Standard
+First, the three regulators are all related to previously known mechanisms
+ of 
+\end_layout
+
+\begin_layout Standard
+convection: the mass diffusion and the divergence regulators are related
+ to the 
+\end_layout
+
+\begin_layout Standard
+turbulent and dynamical entrainment (and detrainment) respectively [de Rooy
+ et al.
+ 
+\end_layout
+
+\begin_layout Standard
+2013], and the momentum drag regulator is related to the pressure perturbation
+ [de 
+\end_layout
+
+\begin_layout Standard
+Roode et al.
+ 2012].
+ Although I accept that the main point of this paper is to test the 
+\end_layout
+
+\begin_layout Standard
+numerical stability of the algorithm, I do feel it is helpful to include
+ more discussions 
+\end_layout
+
+\begin_layout Standard
+on the physical basis of these regulators, and on the consistency between
+ these 
+\end_layout
+
+\begin_layout Standard
+regulators and the entrainment (and detrainment) formulations in the previous
+ mass 
+\end_layout
+
+\begin_layout Standard
+flux schemes.
+ 
+\end_layout
+
+\begin_layout Standard
+Second, the convection terms and the regulators may not be mutually exclusive.
+ 
+\end_layout
+
+\begin_layout Standard
+Both convection terms are related to the dynamical entrainment (and detrainment)
+ 
+\end_layout
+
+\begin_layout Standard
+1 processes, and there may be double-counting issues with the divergence
+ regulator, 
+\end_layout
+
+\begin_layout Standard
+especially the ‘transfer based on horizontal divergence and vertical velocity’
+ term.
+ 
+\end_layout
+
+\begin_layout Standard
+Third, it is somewhat unclear if all five terms can be used at the same
+ time (which 
+\end_layout
+
+\begin_layout Standard
+seems physical because they represent different processes), or only one
+ from each 
+\end_layout
+
+\begin_layout Standard
+type may be used (which is the set-up of the test cases).
+ 
+\end_layout
+
+\begin_layout Standard
+2.
+ The third section is too technical, and the essential ingredients for the
+ 
+\end_layout
+
+\begin_layout Standard
+numerical stability are somewhat unclear.
+ 
+\end_layout
+
+\begin_layout Standard
+I feel that the third section is too detailed about one specific implementation
+ of the 
+\end_layout
+
+\begin_layout Standard
+algorithm in one specific model.
+ This makes it more similar to a model 
+\end_layout
+
+\begin_layout Standard
+documentation that is helpful to its potential users, but it is not sufficiently
+ clear 
+\end_layout
+
+\begin_layout Standard
+about the scientific basis of why this algorithm is stable.
+ For better readability, I 
+\end_layout
+
+\begin_layout Standard
+would suggest that the detailed implementation (e.g., the discretized equations
+ and 
+\end_layout
+
+\begin_layout Standard
+the model subroutine invoked) might be put into an appendix, whereas the
+ following 
+\end_layout
+
+\begin_layout Standard
+essential points on the basis of numerical stability should be more clearly
+ listed and 
+\end_layout
+
+\begin_layout Standard
+addressed.
+ 
+\end_layout
+
+\begin_layout Standard
+a.
+ What are the key ingredients that guarantee the numerical stability? Is
+ the use 
+\end_layout
+
+\begin_layout Standard
+of TVD advection scheme, implicit mass transfer, the simultaneous solution
+ of 
+\end_layout
+
+\begin_layout Standard
+momentum and continuous equations, and some kind of regulator 
+\end_layout
+
+\begin_layout Standard
+sufficient/necessary for the numerical stability in this model, or are other
+ 
+\end_layout
+
+\begin_layout Standard
+numerical limiters also involved? Why does solving the both equations 
+\end_layout
+
+\begin_layout Standard
+simultaneously instead of the original momentum equation provide better
+ 
+\end_layout
+
+\begin_layout Standard
+numerical stability? 
+\end_layout
+
+\begin_layout Standard
+b.
+ Is the use of first-order advection scheme (upwind and van Leer) and Crank-
+\end_layout
+
+\begin_layout Standard
+Nicolson time-stepping essential for numerical stability? Or is it possible
+ to 
+\end_layout
+
+\begin_layout Standard
+generalize the algorithm to use higher order advection and time-stepping
+ 
+\end_layout
+
+\begin_layout Standard
+schemes? 
+\end_layout
+
+\begin_layout Standard
+c.
+ Is the order of solution (continuity -> temperature -> momentum) necessary
+ for 
+\end_layout
+
+\begin_layout Standard
+the numerical stability? And why does solving the inner loop (for momentum)
+ 
+\end_layout
+
+\begin_layout Standard
+twice within each outer loop (i.e., four times per entire loop) help improve
+ the 
+\end_layout
+
+\begin_layout Standard
+stability? 
+\end_layout
+
+\begin_layout Standard
+d.
+ Which of the above are sufficient for small-timestep stability (at small
+ Courant 
+\end_layout
+
+\begin_layout Standard
+number)? Which are required for large-timestep stability (at large Courant
+ 
+\end_layout
+
+\begin_layout Standard
+number)? 
+\end_layout
+
+\begin_layout Standard
+Additionally, it would also be helpful to clarify which terms in which equations
+ 
+\end_layout
+
+\begin_layout Standard
+(with equation numbers) are being discretized at the beginning of each subsectio
+n.
+ 
+\end_layout
+
+\begin_layout Standard
+Also, the superscripts ‘l’ and ‘ll’ are very confusing throughout this section.
+ 
+\end_layout
+
+\begin_layout Standard
+Frequently, the ‘ll’ value in the previous equation reappears as ‘l’ value
+ in the next 
+\end_layout
+
+\begin_layout Standard
+equation.
+ I think it would help to use superscripts like (1), (2), (3), etc.
+ for 
+\end_layout
+
+\begin_layout Standard
+uniqueness of the values involved.
+ And the discussion in lines 370–374 should be 
+\end_layout
+
+\begin_layout Standard
+moved to the main text since it applies throughout the subsection 3.2.
+ 
+\end_layout
+
+\begin_layout Standard
+Specific Comments: 
+\end_layout
+
+\begin_layout Standard
+Page 1: 
+\end_layout
+
+\begin_layout Standard
+In the main text, the word ‘conditionally’ (Line 1) is misspelled, and a
+ 
+\end_layout
+
+\begin_layout Standard
+word ‘of’ is missing (Line 5).
+ Additionally, the description that 
+\end_layout
+
+\begin_layout Standard
+‘transfers between the partitions mimic buoyant convection’ does not 
+\end_layout
+
+\begin_layout Standard
+seem to agree with the figure, which instead represents a test case 
+\end_layout
+
+\begin_layout Standard
+without the transfer terms of buoyancy convection.
+ 
+\end_layout
+
+\begin_layout Standard
+2 Abstract, L5: 
+\end_layout
+
+\begin_layout Standard
+I would suggest ordering the equations as continuity, temperature, and 
+\end_layout
+
+\begin_layout Standard
+momentum throughout the paper (as is consistent to equations 2–4 
+\end_layout
+
+\begin_layout Standard
+and 6–8).
+ 
+\end_layout
+
+\begin_layout Standard
+Abstract, L12: Colon ‘:’ should be use in place of semi-colon ‘;’.
+ Also, reorder the 
+\end_layout
+
+\begin_layout Standard
+transfer terms according to the results section (drag, diffusion, and 
+\end_layout
+
+\begin_layout Standard
+divergence).
+ 
+\end_layout
+
+\begin_layout Standard
+Abstract, L13: I suggest putting ‘the most novel’ in bracket to make the
+ sentence look 
+\end_layout
+
+\begin_layout Standard
+cleaner.
+ 
+\end_layout
+
+\begin_layout Standard
+Abstract, L14: The phrase ‘convection parameterization’ is unclear.
+ What specific 
+\end_layout
+
+\begin_layout Standard
+features or processes in the convection parameterization is involved? 
+\end_layout
+
+\begin_layout Standard
+Abstract, L15: The word ‘limited’ may be ambiguous.
+ 
+\end_layout
+
+\begin_layout Standard
+Abstract, L20: By ‘conservation’, does this specifically mean the energy
+ conservation, 
+\end_layout
+
+\begin_layout Standard
+since this is the only conservation analyzed in detail? 
+\end_layout
+
+\begin_layout Standard
+Line 79: 
+\end_layout
+
+\begin_layout Standard
+Don’t these transfer terms help to regularize the system and improve 
+\end_layout
+
+\begin_layout Standard
+the stability of the numerical method, rather than to ‘challenge’ its 
+\end_layout
+
+\begin_layout Standard
+stability? 
+\end_layout
+
+\begin_layout Standard
+Lines 80–85: Why can’t the divergence be controlled by pressure gradients?
+ Is it 
+\end_layout
+
+\begin_layout Standard
+because of the assumption of uniform pressure among the partitions? 
+\end_layout
+
+\begin_layout Standard
+Also, the two additional transfer terms that mimic buoyancy 
+\end_layout
+
+\begin_layout Standard
+convection should also be mentioned here.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 100: 
+\end_layout
+
+\begin_layout Standard
+The word ‘condition’ is vague.
+ Does it refer to the mean physical 
+\end_layout
+
+\begin_layout Standard
+variables? 
+\end_layout
+
+\begin_layout Standard
+Line 105: 
+\end_layout
+
+\begin_layout Standard
+I suggest rephrasing this line as follows for better clarity: ‘and averages
+ 
+\end_layout
+
+\begin_layout Standard
+over all fluids (denoted by overbar) are:’.
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 106–108: This sentence is confusing.
+ By ‘non-linear’, does it specifically mean the 
+\end_layout
+
+\begin_layout Standard
+cross-product terms? Is the following approach similar to Reynold or 
+\end_layout
+
+\begin_layout Standard
+Favre averaging? 
+\end_layout
+
+\begin_layout Standard
+Line 110: 
+\end_layout
+
+\begin_layout Standard
+Neglecting the sub-filter term is a very strong assumption that requires
+ 
+\end_layout
+
+\begin_layout Standard
+further justification either here or in the section of conclusion and 
+\end_layout
+
+\begin_layout Standard
+future work.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 114: 
+\end_layout
+
+\begin_layout Standard
+I suggest changing ‘will be’ to ‘is’.
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 113–116: I think there are two limits of pressure homogenization.
+ At high 
+\end_layout
+
+\begin_layout Standard
+resolution (such as the test cases), the pressure can be effectively 
+\end_layout
+
+\begin_layout Standard
+homogenized by sound waves between different partitions since they 
+\end_layout
+
+\begin_layout Standard
+are almost collocated.
+ However, at rougher resolution (such as for 
+\end_layout
+
+\begin_layout Standard
+climate and weather models), the convective plume and environment 
+\end_layout
+
+\begin_layout Standard
+may be spatially separated, and the sub-grid-scale pressure gradient 
+\end_layout
+
+\begin_layout Standard
+will manifest as non-uniform pressure among the different partitions.
+ 
+\end_layout
+
+\begin_layout Standard
+In that case, the sound wave no longer homogenizes pressure – 
+\end_layout
+
+\begin_layout Standard
+pressure differences can still occur when sound waves are filtered, 
+\end_layout
+
+\begin_layout Standard
+such as in Boussinesq or anelastic approximations.
+ I think some 
+\end_layout
+
+\begin_layout Standard
+discussion this potential limitation is necessary.
+ 
+\end_layout
+
+\begin_layout Standard
+Eqn 11–13: 
+\end_layout
+
+\begin_layout Standard
+I suggest reordering the equations consistently with equations 2–4 and 
+\end_layout
+
+\begin_layout Standard
+6–8 (continuity, temperature, momentum).
+ Also, it should be clarified 
+\end_layout
+
+\begin_layout Standard
+that these are dry adiabatic equations.
+ 
+\end_layout
+
+\begin_layout Standard
+3 Line 136: 
+\end_layout
+
+\begin_layout Standard
+Eqn 16: 
+\end_layout
+
+\begin_layout Standard
+Eqn 15 and 17: 
+\end_layout
+
+\begin_layout Standard
+Section 2.1: 
+\end_layout
+
+\begin_layout Standard
+How is d ij related to D ij ? 
+\end_layout
+
+\begin_layout Standard
+This equation simply repeats equation (12) and may be omitted.
+ 
+\end_layout
+
+\begin_layout Standard
+Switch the order (temperature, then momentum).
+ 
+\end_layout
+
+\begin_layout Standard
+The subsections should be reordered according to the abstract and the 
+\end_layout
+
+\begin_layout Standard
+introduction (drag, diffusion, and divergence), and separate out the 
+\end_layout
+
+\begin_layout Standard
+sub-subsections 2.1.3 and 2.1.4 into another subsection, since they are 
+\end_layout
+
+\begin_layout Standard
+terms like buoyancy-convection and are different from the other three 
+\end_layout
+
+\begin_layout Standard
+terms.
+ 
+\end_layout
+
+\begin_layout Standard
+Also, it would be clearer to state at the beginning of this section that
+ the 
+\end_layout
+
+\begin_layout Standard
+following discussions apply to two fluids specifically (with index 0 for
+ 
+\end_layout
+
+\begin_layout Standard
+environment and 1 for updraft plume, or general indices i and j).
+ 
+\end_layout
+
+\begin_layout Standard
+Line 170: 
+\end_layout
+
+\begin_layout Standard
+Does ‘steep change’ mean steep spatial difference/gradient? 
+\end_layout
+
+\begin_layout Standard
+Line 194: 
+\end_layout
+
+\begin_layout Standard
+It may be worth clarifying that coefficient 1/2 is only applicable for two
+ 
+\end_layout
+
+\begin_layout Standard
+fluids.
+ For N fluids the coefficient should be 1/N.
+ 
+\end_layout
+
+\begin_layout Standard
+Eqn 20: 
+\end_layout
+
+\begin_layout Standard
+This also only applies for two fluids (otherwise, a summation over j is
+ 
+\end_layout
+
+\begin_layout Standard
+necessary).
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 203–204: The material conservation of σ i ρ i is a very strong constraint.
+ If density 
+\end_layout
+
+\begin_layout Standard
+does not vary significantly, this constraint implies that the plume area
+ 
+\end_layout
+
+\begin_layout Standard
+fraction is almost unchanged following its movement.
+ This is quite 
+\end_layout
+
+\begin_layout Standard
+different from some conventional mass flux schemes in which the 
+\end_layout
+
+\begin_layout Standard
+plume fraction decreases as it accelerates, and vice versa.
+ This feature 
+\end_layout
+
+\begin_layout Standard
+is clearly seen in the test case results (figure 4), in which the plume
+ 
+\end_layout
+
+\begin_layout Standard
+fraction looks quite different with the divergence regulator compared 
+\end_layout
+
+\begin_layout Standard
+to the other regulators: it seems to never exceed its initial value of 0.5
+ 
+\end_layout
+
+\begin_layout Standard
+and it does not produce a higher fraction at the top.
+ 
+\end_layout
+
+\begin_layout Standard
+I think this regulator does its work to stabilize the model in the test
+ 
+\end_layout
+
+\begin_layout Standard
+cases, but I am somewhat concerned about its possible effect on the 
+\end_layout
+
+\begin_layout Standard
+simulated convection and cloud fraction (especially the anvil) when it 
+\end_layout
+
+\begin_layout Standard
+is applied to a weather or climate model.
+ I think it is worth pointing out 
+\end_layout
+
+\begin_layout Standard
+this feature either here or in the result section, and discuss if there
+ are 
+\end_layout
+
+\begin_layout Standard
+possible ways to relax this strong constraint (e.g., scaling down the 
+\end_layout
+
+\begin_layout Standard
+mass transfer term).
+ 
+\end_layout
+
+\begin_layout Standard
+Additionally, equation (21) implies that the mass sink due to mean 
+\end_layout
+
+\begin_layout Standard
+divergence is equally partitioned into the two fluids.
+ Why should it be 
+\end_layout
+
+\begin_layout Standard
+so? Shouldn’t the mean divergence be partitioned more into the fluid 
+\end_layout
+
+\begin_layout Standard
+with a larger fraction? Especially, the mean divergence seems to cause 
+\end_layout
+
+\begin_layout Standard
+a mass source/sink even where σ 1 =0 (the advection term is zero, so the
+ 
+\end_layout
+
+\begin_layout Standard
+tendency term should equal the mean divergence term).
+ Is this physical, 
+\end_layout
+
+\begin_layout Standard
+and is there an additional constraint to prevent this? 
+\end_layout
+
+\begin_layout Standard
+Eqn 22: 
+\end_layout
+
+\begin_layout Standard
+The indices don’t agree (j on the left side, but i on the right side).
+ 
+\end_layout
+
+\begin_layout Standard
+Line 246: 
+\end_layout
+
+\begin_layout Standard
+Referring to r c as cloud radius is inaccurate.
+ I think it suffices to just 
+\end_layout
+
+\begin_layout Standard
+write r c here, since it is already described in the lines above.
+ 
+\end_layout
+
+\begin_layout Standard
+Eqn 28: 
+\end_layout
+
+\begin_layout Standard
+Just write σ 0 σ 1 instead of the multiplication form, since the above 
+\end_layout
+
+\begin_layout Standard
+discussion is specific for two fluids.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 276: 
+\end_layout
+
+\begin_layout Standard
+It would be clearer to state the basic features of the reconstruction 
+\end_layout
+
+\begin_layout Standard
+algorithm.
+ Is it still a linear interpolation, but just involving more faces? 
+\end_layout
+
+\begin_layout Standard
+4 Is it first or second order accurate? What specific form does it take
+ in 
+\end_layout
+
+\begin_layout Standard
+the case of orthogonal mesh? 
+\end_layout
+
+\begin_layout Standard
+Line 292: 
+\end_layout
+
+\begin_layout Standard
+The advecting and advected velocities are computed with different 
+\end_layout
+
+\begin_layout Standard
+interpolation methods: one is simple linear and the other is upwind.
+ 
+\end_layout
+
+\begin_layout Standard
+Does this affect the momentum and energy conservation in the model? 
+\end_layout
+
+\begin_layout Standard
+It would also be helpful to provide some references on why this 
+\end_layout
+
+\begin_layout Standard
+treatment is necessary for preventing numerical instability.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 297: 
+\end_layout
+
+\begin_layout Standard
+Does ‘bounded’ mean boundedness or monotonicity (cf.
+ line 322)? 
+\end_layout
+
+\begin_layout Standard
+Eqn 34: 
+\end_layout
+
+\begin_layout Standard
+Define the ∇ s operator.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 314: 
+\end_layout
+
+\begin_layout Standard
+The sentence seems incomplete.
+ I suggest changing it to ‘...
+ linearly 
+\end_layout
+
+\begin_layout Standard
+interpolated onto faces, and their dot products with S f are taken’.
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 321–322: Advection in which equation? Equation (12)? 
+\end_layout
+
+\begin_layout Standard
+Lines 348–349: Is there any reference for the ‘off-centering’ and ‘deferred
+ correction’ 
+\end_layout
+
+\begin_layout Standard
+method for the Crank-Nicolson time-stepping? And is the Crank-
+\end_layout
+
+\begin_layout Standard
+Nicolson time-stepping actually semi-implicit (i.e., the first solution 
+\end_layout
+
+\begin_layout Standard
+does an explicit Euler method, and its results are treated as the next-
+\end_layout
+
+\begin_layout Standard
+step value for the Crank-Nicolson method in the second solution)? 
+\end_layout
+
+\begin_layout Standard
+Line 349: 
+\end_layout
+
+\begin_layout Standard
+The ‘pressure equation’ has not been defined.
+ Is it the combined form 
+\end_layout
+
+\begin_layout Standard
+of momentum and continuity equations? 
+\end_layout
+
+\begin_layout Standard
+Line 356: 
+\end_layout
+
+\begin_layout Standard
+It is somewhat confusing that the Exner pressure π is diagnostic (i.e., 
+\end_layout
+
+\begin_layout Standard
+no transport equation) in the original form of equations (11-14).
+ It is 
+\end_layout
+
+\begin_layout Standard
+only in the transformed equation (53) that π becomes prognostic.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 359: 
+\end_layout
+
+\begin_layout Standard
+Why not directly initialize the three variables U i , σ i ρ i and θ i ?
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 376–377: Why should a combination of old σ and updated ρ be more accurate?
+ 
+\end_layout
+
+\begin_layout Standard
+Since the main prognostic variable is σρ, I would intuitively think that
+ 
+\end_layout
+
+\begin_layout Standard
+the values for both σ and ρ from the same step should be used for 
+\end_layout
+
+\begin_layout Standard
+consistency.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 380: 
+\end_layout
+
+\begin_layout Standard
+This does not agree with the set-up of the test cases, in which only one
+ 
+\end_layout
+
+\begin_layout Standard
+or two among the five terms are enabled concurrently (see also the 
+\end_layout
+
+\begin_layout Standard
+third point of my major comment #1).
+ 
+\end_layout
+
+\begin_layout Standard
+Line 387: 
+\end_layout
+
+\begin_layout Standard
+It should be ‘equation 38’ instead of ‘section 38’.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 398: 
+\end_layout
+
+\begin_layout Standard
+What ‘numerical treatment’ does this refer to? Does it refer to the 
+\end_layout
+
+\begin_layout Standard
+implicit equations (44) and (45), or does it refer the use of σ i ρ i from
+ 
+\end_layout
+
+\begin_layout Standard
+after advection? 
+\end_layout
+
+\begin_layout Standard
+Eqn 53: 
+\end_layout
+
+\begin_layout Standard
+The index i only appears once.
+ Should that term be the summation over 
+\end_layout
+
+\begin_layout Standard
+all i instead? 
+\end_layout
+
+\begin_layout Standard
+Eqn 57: 
+\end_layout
+
+\begin_layout Standard
+T ij has already been defined in a different form (line 395), so I would
+ 
+\end_layout
+
+\begin_layout Standard
+suggest using another notation to avoid confusion.
+ 
+\end_layout
+
+\begin_layout Standard
+Section 3.2.6: The order of the variable update is unclear.
+ Is each procedure (a) to (c) 
+\end_layout
+
+\begin_layout Standard
+done for all points before moving to the next procedure? Or are the 
+\end_layout
+
+\begin_layout Standard
+procedures (a) (b) (c) done on each point first, before they are looped
+ 
+\end_layout
+
+\begin_layout Standard
+spatially through all points? Also, from lines 372–373 it is not very 
+\end_layout
+
+\begin_layout Standard
+clear if the updated values ‘ll’ are used immediately for updating the 
+\end_layout
+
+\begin_layout Standard
+variables at other spatial points during the same procedure, or are they
+ 
+\end_layout
+
+\begin_layout Standard
+only used for the next procedures.
+ 
+\end_layout
+
+\begin_layout Standard
+5 Line 498: 
+\end_layout
+
+\begin_layout Standard
+Line 528: 
+\end_layout
+
+\begin_layout Standard
+It would be better to clarify the initial bound as 300–302 K.
+ 
+\end_layout
+
+\begin_layout Standard
+What does ‘dissipative advection’ refer to? Does it mean the van Leer 
+\end_layout
+
+\begin_layout Standard
+scheme? 
+\end_layout
+
+\begin_layout Standard
+Line 556: 
+\end_layout
+
+\begin_layout Standard
+A word ‘and’ seems missing between ‘change’ and ‘stable’.
+ 
+\end_layout
+
+\begin_layout Standard
+Lines 579–580: It would be helpful to clarify that this numerical instability
+ is caused by 
+\end_layout
+
+\begin_layout Standard
+the ill-posedness of the system (and thus the oscillation is physical, and
+ 
+\end_layout
+
+\begin_layout Standard
+using adaptive timestep or implicit advection will not eliminate the 
+\end_layout
+
+\begin_layout Standard
+oscillation), and that the following discussion (lines 582–586) are the
+ 
+\end_layout
+
+\begin_layout Standard
+actual mechanisms in the real world that would prevent such 
+\end_layout
+
+\begin_layout Standard
+oscillation.
+ It may be helpful to cite Stewart and Wendroff [1984] again, 
+\end_layout
+
+\begin_layout Standard
+since they did mention that ‘with the inclusion of any nonzero 
+\end_layout
+
+\begin_layout Standard
+viscosity...
+ the basic model becomes well-posed’.
+ 
+\end_layout
+
+\begin_layout Standard
+Figure 3: 
+\end_layout
+
+\begin_layout Standard
+It is worth pointing out that only 1/4 of the entire domain is plotted in
+ 
+\end_layout
+
+\begin_layout Standard
+these figures.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 597: 
+\end_layout
+
+\begin_layout Standard
+The ‘diffusion’ should be better clarified as ‘diffusive mass transfer’.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 633: 
+\end_layout
+
+\begin_layout Standard
+The differences between the σ i patterns for the three regulators should
+ 
+\end_layout
+
+\begin_layout Standard
+also be discussed (see my comments for lines 203–204).
+ 
+\end_layout
+
+\begin_layout Standard
+Line 652: 
+\end_layout
+
+\begin_layout Standard
+To make it clearer, it should be stated that the mass transfer is just 
+\end_layout
+
+\begin_layout Standard
+nominal and does not cause any contrast in the physical properties 
+\end_layout
+
+\begin_layout Standard
+between the two fluids at any location.
+ Or just move the discussion in 
+\end_layout
+
+\begin_layout Standard
+lines 673–676 here to make this point.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 660: 
+\end_layout
+
+\begin_layout Standard
+How is K θ selected, and why is it so much larger than the mass 
+\end_layout
+
+\begin_layout Standard
+diffusivity? How sensitive is the model to this parameter, and is there
+ a 
+\end_layout
+
+\begin_layout Standard
+scaling argument for its choice? 
+\end_layout
+
+\begin_layout Standard
+Lines 680, 701: Can these RMS differences be seen from figure 6? If so,
+ references to 
+\end_layout
+
+\begin_layout Standard
+figure 6 should be added.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 726: 
+\end_layout
+
+\begin_layout Standard
+The word ‘close’ is somewhat ambiguous.
+ Close in what sense? 
+\end_layout
+
+\begin_layout Standard
+Line 727: 
+\end_layout
+
+\begin_layout Standard
+It should be made clear that these additional convection-related mass 
+\end_layout
+
+\begin_layout Standard
+transfer terms in point #2 are distinctive from the transfer terms in 
+\end_layout
+
+\begin_layout Standard
+point #1.
+ Also, it should be pointed out that the following discussion 
+\end_layout
+
+\begin_layout Standard
+(lines 732–739) only addresses point #1, and the terms in point #2 are 
+\end_layout
+
+\begin_layout Standard
+not summarized.
+ 
+\end_layout
+
+\begin_layout Standard
+Line 751: 
+\end_layout
+
+\begin_layout Standard
+How large? Although the Crank-Nicolson scheme should be 
+\end_layout
+
+\begin_layout Standard
+unconditionally stable, it is mentioned in lines 336–338 that ‘this 
+\end_layout
+
+\begin_layout Standard
+discretization is only monotonic...
+ in low Mach number flows’, and in 
+\end_layout
+
+\begin_layout Standard
+line 577 that ‘the advection scheme is only bounded for Courant 
+\end_layout
+
+\begin_layout Standard
+numbers less than 0.5’.
+ Do these restrictions induce an upper bound for 
+\end_layout
+
+\begin_layout Standard
+the Courant number? 
+\end_layout
+
+\begin_layout Standard
+Lines 755–758: This discussion should be included in section 3 (see major
+ comment 
+\end_layout
+
+\begin_layout Standard
+#2a).
+ 
+\end_layout
+
+\begin_layout Section*
+Responses to 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+Weller_review.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The authors describe a computational algorithm for solving conditionally
+ averaged Euler
+\end_layout
+
+\begin_layout Standard
+equations.
+ These equations may form the basis for a subgrid-scale convection
+\end_layout
+
+\begin_layout Standard
+parameterization that overcomes some limitations of many more traditional
+ schemes as
+\end_layout
+
+\begin_layout Standard
+simulation resolutions enter the grey zone of model resolutions in which
+ the numerical grid
+\end_layout
+
+\begin_layout Standard
+resolves some scales of convective motions.
+ This is certainly a compelling motivation and
+\end_layout
+
+\begin_layout Standard
+any modeling approach which can address the grey zone problem is worthy
+ of attention.
+\end_layout
+
+\begin_layout Standard
+However, I struggled to align the results and discussion actually presented
+ by the authors
+\end_layout
+
+\begin_layout Standard
+with the stated motivation.
+ For this reason, I believe this work may be acceptable for
+\end_layout
+
+\begin_layout Standard
+publication after major revisions.
+ Below I will state my concerns.
+\end_layout
+
+\begin_layout Standard
+1.
+ My most outstanding concern is that, while the conditionally averaged equations
+ can
+\end_layout
+
+\begin_layout Standard
+be connected to several different types of subgrid-scale parameterizations
+ as
+\end_layout
+
+\begin_layout Standard
+discussed in Thuburn et al., 2018b, they are very far from constituting a
+ practical
+\end_layout
+
+\begin_layout Standard
+modeling approach as presented in, for example, Tan et al.
+ 2018.
+ Until this
+\end_layout
+
+\begin_layout Standard
+framework is filled in with more concrete details, it seems numerical solution
+\end_layout
+
+\begin_layout Standard
+methods must be viewed contingently.
+ Two areas particularly stand out to me:
+\end_layout
+
+\begin_layout Standard
+a.
+ How is the subgrid-scale parameterization based on the conditionally
+\end_layout
+
+\begin_layout Standard
+averaged equations linked or coupled to the resolved scale variables of
+ the
+\end_layout
+
+\begin_layout Standard
+model? This was completely opaque to me but seems relevant to the
+\end_layout
+
+\begin_layout Standard
+formulation of a solution method.
+\end_layout
+
+\begin_layout Standard
+b.
+ The three forms of transfer terms are presented in terms of their ability
+ to
+\end_layout
+
+\begin_layout Standard
+stabilize the model rather than as physically motivated closures.
+ How
+\end_layout
+
+\begin_layout Standard
+confident are the authors that physically motivated closures would provide
+\end_layout
+
+\begin_layout Standard
+sufficient stabilization? Again, this seems important if this equation set
+ is to
+\end_layout
+
+\begin_layout Standard
+be used as a parameterization.
+\end_layout
+
+\begin_layout Standard
+2.
+ It would be helpful if the authors would explain the choices they make
+ in their
+\end_layout
+
+\begin_layout Standard
+numerical methods in more detail.
+ At several points, it seems they are making what
+\end_layout
+
+\begin_layout Standard
+might not be optimal choices so as to use operators available in openFOAM
+ (e.g.
+\end_layout
+
+\begin_layout Standard
+lines 296-300).
+ As another example, why is the van Leer advection scheme chosen in
+\end_layout
+
+\begin_layout Standard
+lines 330-338? What motivates the time-stepping algorithm (lines 346-348)?
+ It
+\end_layout
+
+\begin_layout Standard
+would also be helpful If the authors described and/or used equations to
+ show what
+\end_layout
+
+\begin_layout Standard
+is meant by “no off-centering” and “deferred correction of explicitly solved
+\end_layout
+
+\begin_layout Standard
+variables.” Presentation of some sensitivity tests to (for example) different
+ choices
+\end_layout
+
+\begin_layout Standard
+of advection scheme could be clarifying for the reader.
+\end_layout
+
+\begin_layout Standard
+3.
+ Lines 752-758 describe the importance of the treatment of the momentum
+ and
+\end_layout
+
+\begin_layout Standard
+continuity equations for allowing net mass transport by convection.
+ It seems
+\end_layout
+
+\begin_layout Standard
+appropriate to elaborate on this discussion in the body of the paper, i.e.
+ in section
+\end_layout
+
+\begin_layout Standard
+3.2.5.
+\end_layout
+
+\begin_layout Standard
+4.
+ All the bubble test cases are well-resolved.
+ When these equations are used as a
+\end_layout
+
+\begin_layout Standard
+subgrid-scale parameterization, it seems likely that the flow will not be
+ fully resolved
+\end_layout
+
+\begin_layout Standard
+(Is it really a parameterization otherwise or only a more cumbersome way
+ to do a
+\end_layout
+
+\begin_layout Standard
+high resolution simulation?).
+ In this regard, it seems significant that the term
+\end_layout
+
+\begin_layout Standard
+“conditional averaging” is used here while Thurburn et al.
+ 2018b refer to“conditional filtering.” Is the numerical method still stable
+ when there is significant
+\end_layout
+
+\begin_layout Standard
+spatial filtering?
+\end_layout
+
+\begin_layout Subsection*
+Minor points:
+\end_layout
+
+\begin_layout Enumerate
+Abstract and Lines 54-55: The ``grey zone'' is an artifact of our numerical
+ models, not of the convection itself.
+\end_layout
+
+\begin_deeper
+\begin_layout Quotation
+Thank you, yes, good point.
+ Fixed.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Section 2.
+ Why not use the same notation as Thuburn et al.
+ 2018b?
+\end_layout
+
+\begin_layout Enumerate
+Line 347.
+ Crank-Nicholson 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Crank-Nicolson
+\end_layout
+
+\end_body
+\end_document

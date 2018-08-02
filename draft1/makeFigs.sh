@@ -5,9 +5,13 @@ for file in identicalParts energy1part diffuse1_noDrag diffuse1_dragDiffuse mass
     echo $file
     lyx --export pdflatex -f $file
     pdflatex $file
-    pdfcrop $file.pdf ../figures/$file.pdf
-    rm $file.pdf
-    gv ../figures/$file.pdf &
+    pdf2ps $file.pdf
+    makebb $file.ps
+    mv $file.ps $file.eps
+    pdfcrop $file.pdf $file.cropped.pdf
+    mv $file.cropped.pdf $file.pdf
+    mv $file.eps $file.pdf ../figures
+    gv ../figures/$file.eps &
 done
 
 cd ..
@@ -19,9 +23,7 @@ convert ~/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/20
 #zip figures.zip stencil.pdf solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf sbrc1.png sbrc10.png sbr_dx.pdf sbr_dt.pdf overMountains.png overMountains_dx.pdf deform_init.pdf deform.png deform_dx.pdf deform_dt.pdf
 
 cd figures
-mv sbrc1.pdf fig3.pdf
-mv sbrc10.pdf fig4.pdf
-mv overMountains.pdf fig7.pdf
-mv deform.pdf fig10.pdf
-zip figs_3_4_7_10.zip fig3.pdf fig4.pdf fig7.pdf fig10.pdf
+rm ../submission/figures.zip
+zip ../submission/figures.zip *.eps
 cd ..
+

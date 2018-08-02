@@ -1,0 +1,47 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular}{cccc}
+Initial conditions & $t=100\ \text{s}$ & $t=200\ \text{s}$ & $t=290\ \text{s}$\tabularnewline
+\includegraphics[width=0.24\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/0/sigmaThetaZoom} & \includegraphics[width=0.24\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/100/sigmaThetaZoom} & \includegraphics[width=0.24\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/200/sigmaThetaZoom} & \includegraphics[width=0.24\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/290/sigmaThetaZoom}\tabularnewline
+\multicolumn{4}{c}{$\sigma$ scale \includegraphics[width=0.75\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant\lyxdot sigma}}\tabularnewline
+\multicolumn{4}{c}{$\theta$ scale \includegraphics[width=0.75\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant\lyxdot theta}}\tabularnewline
+\end{tabular}
+\end{document}

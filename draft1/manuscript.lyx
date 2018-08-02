@@ -12,7 +12,6 @@
 %\usepackage{afterpage}
 
 \usepackage[switch]{lineno}
-\linenumbers
 
 \usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
 
@@ -104,6 +103,13 @@ status open
 
 
 \backslash
+linenumbers 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
 title{Numerical Solution of the Conditionally Averaged Equations for Representin
 g Net Mass Flux due to Convection}
 \end_layout
@@ -121,19 +127,6 @@ corrauth
  William McIntyre
 \backslash
 affil{a}}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-runningheads{H.
- Weller and W.
- McIntyre}{Conditional Averaging for Convection}
 \end_layout
 
 \begin_layout Plain Layout
@@ -185,17 +178,6 @@ corraddr{E-mail: <h.weller@reading.ac.uk>}
 runningheads{H.
  Weller and W.
  McIntyre}{Conditional Averaging for Convection}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-maketitle
 \end_layout
 
 \begin_layout Plain Layout
@@ -284,6 +266,13 @@ keywords{Convection, atmpspheric, modelling, parameterisation, grey zone}
 
 \backslash
 end{abstract}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
 \end_layout
 
 \end_inset
