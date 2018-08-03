@@ -529,7 +529,6 @@ This paper presents a stable numerical method for solving the conditionally
 \color blue
 two
 \color inherit
-\lang british
  techniques to regularise the multifluid equations; the first is with drag
  between fluids and the second is with diffusion between the fluids, 
 \color blue
@@ -1253,10 +1252,9 @@ This transfer is also formulated to mimic convection rather than to regularise
 
 \end_inset
 
-As with the transfer term associated with buoyancy, this transfer term can
- be added to the transfer terms associated with diffusion and then limited
- to preserve boundedness.
- This transfer term is related to closure based on moisture convergence.
+
+\color blue
+This transfer term is related to closure based on moisture convergence.
 \end_layout
 
 \begin_layout Section
@@ -1326,6 +1324,8 @@ name "sub:modelSpace"
 \end_layout
 
 \begin_layout Standard
+
+\color blue
 Most of the spatial discretisation is not specific to the stable solution
  of the conditionally averaged equations and is described in appendix 
 \begin_inset CommandInset ref
@@ -1335,7 +1335,9 @@ reference "appx:modelSpace"
 \end_inset
 
 .
- The spatial discretisation uses a finite-volume C-grid for an arbitrary
+ 
+\color inherit
+The spatial discretisation uses a finite-volume C-grid for an arbitrary
  mesh, similar to that described by 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1364,6 +1366,8 @@ s of velocity defined on cell faces.
 \end_layout
 
 \begin_layout Standard
+
+\color blue
 Specific to the conditionally averaged equations, it is important to use
  bounded advection of 
 \begin_inset Formula $\sigma_{i}$
@@ -1406,6 +1410,8 @@ Time Stepping Algorithm
 \end_layout
 
 \begin_layout Standard
+
+\color blue
 It is crucial to get the time-stepping right for the stable solution of
  the conditionally averaged equations.
  In this section we will distinguish between convenient modelling choices
@@ -1417,7 +1423,9 @@ It is crucial to get the time-stepping right for the stable solution of
 \begin_layout Standard
 The terms of the Euler equations involved in acoustic waves are solved using
  second-order Crank-Nicolson time-stepping.
- Other implicit schemes could be chosen and optionally gravity waves could
+ 
+\color blue
+Other implicit schemes could be chosen and optionally gravity waves could
  also be treated implicitly.
  For the stable solution of the conditionally averaged equations it is necessary
  to include updates from both the plume and environment momentum and continuity
@@ -1429,6 +1437,8 @@ The terms of the Euler equations involved in acoustic waves are solved using
 \end_layout
 
 \begin_layout Standard
+
+\color blue
 In inner loop solves the pressure equation twice with explicit terms updated
  for the second iteration.
  The inner iterations are indexed with 
@@ -1458,10 +1468,10 @@ In inner loop solves the pressure equation twice with explicit terms updated
 \end_layout
 
 \begin_layout Subsubsection
-Initialisation and Updates for Consistency
+Initialisation 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:consistency"
+name "sub:initialisation"
 
 \end_inset
 
@@ -1515,7 +1525,9 @@ Transport equations are solved for
 \begin_inset Formula $\pi$
 \end_inset
 
- are read in at initialisation and each 
+ are read in at initialisation 
+\color blue
+and each 
 \begin_inset Formula $\rho_{i}$
 \end_inset
 
@@ -1527,6 +1539,62 @@ reference "eq:condState"
 \end_inset
 
 ).
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+In order to start each time-step, 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{k=0}$
+\end_inset
+
+ is set to 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{n}$
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the label for the old time step, 
+\begin_inset Formula $\theta_{i}^{k=0}$
+\end_inset
+
+ is set to 
+\begin_inset Formula $\theta_{i}^{n}$
+\end_inset
+
+ , 
+\begin_inset Formula $\pi^{\ell=0}$
+\end_inset
+
+ is set to 
+\begin_inset Formula $\pi^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $U_{i}^{\ell=0}$
+\end_inset
+
+ to 
+\begin_inset Formula $U_{i}^{n}$
+\end_inset
+
+.
+ After the loops over 
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell$
+\end_inset
+
+, the values at time 
+\begin_inset Formula $n+1$
+\end_inset
+
+ are set the final values at the end of the iterations.
  
 \end_layout
 
@@ -1542,40 +1610,52 @@ name "sub:solveContinuity"
 \end_layout
 
 \begin_layout Standard
-The first equation to be solved is the continuity equation for each 
+
+\color blue
+The first equations to be solved in the outer loop are the continuity equations
+ for each 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
 .
- It is solved using operator splitting, first advecting 
+ They are solved using operator splitting, first advecting 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
  and then applying the transfer terms.
- Using a TVD advection scheme with a van-Leer limiter (section 
+ This is the most straightforward way to maintain positivity.
+ We have chosen 
+\color inherit
+a TVD advection scheme with a van-Leer limiter (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:vanLeerContinuity"
 
 \end_inset
 
-), 
+) 
+\color blue
+to advect 
+\color inherit
+ 
+\color blue
+
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
- is advected using
+ for iterations 
+\begin_inset Formula $k=1,2$
+\end_inset
+
+:
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{n}-\Delta t\ \nabla\cdot\left(\left[(1-\alpha)\rho_{i}^{n}\mathbf{u}_{i}^{n}+\alpha\rho_{u}^{\ell}\mathbf{u}_{i}^{\ell}\right]\sigma_{i}^{n}\right)
+(\sigma_{i}\rho_{i})^{\prime}=(\sigma_{i}\rho_{i})^{n}-\Delta t\ \nabla\cdot\left(\left[(1-\alpha)\rho_{i}^{n}\mathbf{u}_{i}^{n}+\alpha\rho_{i}^{k-1}\mathbf{u}_{i}^{\ell-1}\right]\sigma_{i}^{n}\right)\label{eq:advectSigma}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $n$
-\end_inset
-
- represents values at the old time-level, 
 \begin_inset Formula $\Delta t$
 \end_inset
 
@@ -1589,116 +1669,82 @@ where
 \end_inset
 
  is used making the time-stepping second-order accurate.
- 
-\begin_inset Formula $\ell$
-\end_inset
-
- represents the most up to date value available for time level 
-\begin_inset Formula $n+1$
-\end_inset
-
- and 
-\begin_inset Formula $\ell\ell$
-\end_inset
-
- represents the new value being calculated.
- Once value 
-\begin_inset Formula $\ell\ell$
-\end_inset
-
- is calculated, it is used for values 
-\begin_inset Formula $\ell$
-\end_inset
-
- (values at levels 
-\begin_inset Formula $\ell$
-\end_inset
-
-, 
-\begin_inset Formula $\ell\ell$
-\end_inset
-
- and 
-\begin_inset Formula $n+1$
-\end_inset
-
- share the same computer memory).
- At the end of the time-step, values 
-\begin_inset Formula $\ell$
-\end_inset
-
- are used as the values for time-level 
-\begin_inset Formula $n+1$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-The updated value of 
-\begin_inset Formula $\sigma_{i}^{\ell}$
-\end_inset
-
- is not used in the divergence because the advection scheme is designed
- to use only the old value; it is most accurate and bounded when using 
-\begin_inset Formula $\sigma_{i}^{n}$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Next the mass transfer terms are calculated using all of the most up to
- date values of all variables.
- The mass transfer terms described in equations (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:diffusionTransfer"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:thetaTransfer01"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:thetaTransfer10"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:divTransfer01"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:divTransfer10"
-
-\end_inset
-
-) are added together and limited in order to keep 
+ Values of 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
- positive.
- This is done by limiting the mass transfer:
+ for all values of 
+\begin_inset Formula $k$
+\end_inset
+
+ adn for the intermediate values, 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{\prime}$
+\end_inset
+
+ share the same memory as 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{n+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+Only 
+\begin_inset Formula $\sigma_{i}^{n}$
+\end_inset
+
+ appears on the right hand side of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:advectSigma"
+
+\end_inset
+
+), not any newer values such as 
+\begin_inset Formula $\sigma_{i}^{k-1}$
+\end_inset
+
+.
+ This is because the advection scheme assumes that the upwind values are
+ at the old time-level and it is only guaranteed bounded when using 
+\begin_inset Formula $\sigma_{i}^{n}$
+\end_inset
+
+ on the right hand side.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+Next the mass transfer terms are calculated using 
+\begin_inset Formula $\sigma_{i}^{\prime}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{u}_{i}^{\ell-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{i}^{\ell-1}$
+\end_inset
+
+ (the most up to date values) and limited to ensure that 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ remains positive:
 \begin_inset Formula 
 \begin{equation}
-\sigma_{i}\rho_{i}S_{ij}^{\ell\ell}=\min\left((\sigma_{i}\rho_{i})^{\ell}S_{ij}^{\ell},\ ((\sigma_{i}\rho_{i})^{\ell}-\sigma_{\min}\rho_{i}^{\ell})/\Delta t\right)
+\sigma_{i}\rho_{i}S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ ((\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1})/\Delta t\right)
 \end{equation}
 
 \end_inset
 
+
+\color inherit
  where 
 \begin_inset Formula $\sigma_{\min}=10^{-9}$
 \end_inset
@@ -1715,10 +1761,12 @@ reference "sec:results"
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
- explicitly with operator splitting
+ explicitly with operator splitting:
+\color blue
+
 \begin_inset Formula 
 \begin{equation}
-(\sigma_{i}\rho_{i})^{\ell\ell}=(\sigma_{i}\rho_{i})^{\ell}+\Delta t\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)^{\ell}.
+(\sigma_{i}\rho_{i})^{k}=(\sigma_{i}\rho_{i})^{\prime}+\Delta t\left((\sigma_{j}\rho_{j})^{\prime}S_{ji}^{\text{lim}}-(\sigma_{i}\rho_{i})^{\prime}S_{ij}^{\text{lim}}\right).\label{eq:transferMass}
 \end{equation}
 
 \end_inset
@@ -1750,8 +1798,7 @@ After the continuity equation, the
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- using a TVD advection scheme then applying the mass transfer terms to the
- advected 
+ then applying the mass transfer terms to the advected 
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
@@ -1762,15 +1809,16 @@ After the continuity equation, the
 \end_inset
 
 .
- The advection of 
+ Because we are using a finite volume model to solve equations in advective
+ form, the advection of 
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
  is calculated as:
 \begin_inset Formula 
 \begin{multline}
-\theta_{i}^{\ell\ell}=\theta_{i}^{n}-\Delta t\ \biggl((1-\alpha)\left[\nabla\cdot(\theta_{i}\mathbf{u}_{i})-\theta_{i}\nabla\cdot\mathbf{u}_{i}\right]^{n}\\
-+\alpha\left[\nabla\cdot(\theta_{i}\mathbf{u}_{i})-\theta_{i}\nabla\cdot\mathbf{u}_{i}\right]^{\ell}\biggr)\label{eq:thetaAdvectDt}
+\theta_{i}^{\prime}=\theta_{i}^{n}-\Delta t\ \biggl((1-\alpha)\left[\nabla\cdot(\theta_{i}\mathbf{u}_{i})-\theta_{i}\nabla\cdot\mathbf{u}_{i}\right]^{n}\\
++\alpha\left[\nabla\cdot(\theta_{i}^{k-1}\mathbf{u}_{i}^{\ell-1})-\theta_{i}^{k-1}\nabla\cdot\mathbf{u}_{i}^{\ell-1}\right]\biggr)\label{eq:thetaAdvectDt}
 \end{multline}
 
 \end_inset
@@ -1800,36 +1848,13 @@ The implicit addition of mass transfer terms is formulated to be specific
  equation as:
 \begin_inset Formula 
 \begin{equation}
-\theta_{i}^{\ell\ell}=\theta_{i}^{\ell}+\Delta t\sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\theta_{j}^{\ell\ell}-\theta_{i}^{\ell\ell})\right)\label{eq:thetaAddSource}
+\theta_{i}^{k}=\theta_{i}^{\prime}+\Delta t\sum_{j\ne i}\left(\frac{(\sigma_{j}\rho_{j})^{\prime}}{(\sigma_{i}\rho_{i})}S_{ji}^{\text{lim}}(\theta_{j}^{k}-\theta_{i}^{k})\right).\label{eq:thetaAddSource}
 \end{equation}
 
 \end_inset
 
-where 
-\begin_inset Formula $\theta_{i}^{\ell}$
-\end_inset
-
- in eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:thetaAddSource"
-
-\end_inset
-
-) is 
-\begin_inset Formula $\theta_{i}^{\ell\ell}$
-\end_inset
-
- from eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:thetaAdvectDt"
-
-\end_inset
-
-).
- Note values at level 
-\begin_inset Formula $\ell\ell$
+Note values at level 
+\begin_inset Formula $k$
 \end_inset
 
  are on the left and right hand side making this is an implicit solution.
@@ -1840,14 +1865,25 @@ reference "eq:thetaAdvectDt"
  this can be re-arranged to give:
 \begin_inset Formula 
 \begin{eqnarray}
-\theta_{0}^{\ell\ell} & = & \frac{\left(1+\Delta t\ T_{01}\right)\theta_{0}^{\ell}+\Delta t\ T_{10}\theta_{1}^{\ell}}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\\
-\theta_{1}^{\ell\ell} & = & \frac{\theta_{1}^{\ell}+\Delta t\ T_{01}\theta_{0}^{\ell\ell}}{1+\Delta t\ T_{01}}
+\theta_{0}^{k} & = & \frac{\left(1+\Delta t\ T_{01}\right)\theta_{0}^{\prime}+\Delta t\ T_{10}\theta_{1}^{\prime}}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\\
+\theta_{1}^{k} & = & \frac{\theta_{1}^{\prime}+\Delta t\ T_{01}\theta_{0}^{k}}{1+\Delta t\ T_{01}}
 \end{eqnarray}
 
 \end_inset
 
-where we have used the shorthand 
-\begin_inset Formula $T_{ij}=\frac{(\sigma_{i}\rho_{i})^{\ell}}{(\sigma_{j}\rho_{j})^{\ell}}S_{ij}$
+where 
+\begin_inset Formula $T_{ij}=\frac{(\sigma_{i}\rho_{i})^{\prime}}{(\sigma_{j}\rho_{j})^{\prime}}S_{ij}^{\text{lim}}$
+\end_inset
+
+ is calculated just before eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:transferMass"
+
+\end_inset
+
+) so as to use 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
 .
@@ -1862,6 +1898,11 @@ where we have used the shorthand
 \end_inset
 
 .
+ This ensures that 
+\begin_inset Formula $\sum_{\text{cells}}\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})^{n}=\sum_{\text{cells}}\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})^{n+1}$
+\end_inset
+
+.
  This numerical treatment of the mass transfer terms in the 
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -1871,15 +1912,15 @@ where we have used the shorthand
 \end_inset
 
  (
-\begin_inset Formula $\theta_{i}^{\ell\ell}$
+\begin_inset Formula $\theta_{i}^{k}$
 \end_inset
 
  will remain between 
-\begin_inset Formula $\theta_{i}^{\ell}$
+\begin_inset Formula $\theta_{i}^{k-1}$
 \end_inset
 
  and 
-\begin_inset Formula $\theta_{j}^{\ell}$
+\begin_inset Formula $\theta_{j}^{k-1}$
 \end_inset
 
 ).
@@ -1951,10 +1992,10 @@ reference "eq:condState"
 \begin_inset Formula $\rho_{i}$
 \end_inset
 
- is calculated from the equation of state:
+ is calculated from the equation of state using the most up to date values:
 \begin_inset Formula 
 \begin{equation}
-\rho_{i}=\frac{p_{0}\pi^{\frac{1-\kappa}{\kappa}}}{R\theta_{i}}=\frac{\overline{\rho\theta}}{\theta_{i}}.
+\rho_{i}^{k}=\frac{p_{0}\pi^{\frac{1-\kappa}{\kappa}}}{R\theta_{i}}=\frac{\overline{\rho\theta}}{\theta_{i}}.
 \end{equation}
 
 \end_inset
@@ -1966,7 +2007,7 @@ Then each
  can be calculated:
 \begin_inset Formula 
 \begin{equation}
-\sigma_{i}=\frac{(\sigma_{i}\rho_{i})}{\rho_{i}}.\label{eq:diagnoseSigma}
+\sigma_{i}^{k}=\frac{(\sigma_{i}\rho_{i})^{k}}{\rho_{i}^{k}}.\label{eq:diagnoseSigma}
 \end{equation}
 
 \end_inset
@@ -1990,8 +2031,17 @@ name "sub:Helmholtz"
 \end_layout
 
 \begin_layout Standard
-The momentum and continuity equations are solved simultaneously, creating
- a Helmholtz equation for 
+
+\color blue
+Here we describe how a standard semi-implicit algorithm is adapted to solve
+ the momentum and continuity equations from all fluids simultaneously rather
+ than just the momentum and continuity equations from the environment.
+ If gravity waves were also to be treated implicitly then the temperature
+ equation from each fluid would need to be included.
+
+\color inherit
+ The momentum and continuity equations are combined to form a Helmholtz
+ equation for 
 \begin_inset Formula $\pi$
 \end_inset
 
@@ -2009,7 +2059,17 @@ The momentum and continuity equations are solved simultaneously, creating
 \end_inset
 
  and substituting these into the continuity equation.
- The normal component of the volume flux, 
+ 
+\color blue
+This is done twice per outer loop, in an inner loop indexed by 
+\begin_inset Formula $\ell$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The normal component of the volume flux, 
 \begin_inset Formula $U_{i}$
 \end_inset
 
@@ -2020,7 +2080,7 @@ The momentum and continuity equations are solved simultaneously, creating
  using the momentum equation:
 \begin_inset Formula 
 \begin{equation}
-U_{i}^{n+1}=U_{i}^{\prime}-\alpha\Delta tc_{p}\theta_{fi}^{\ell}\nabla_{S}\pi^{n+1}\label{eq:volFluxFromMom}
+U_{i}^{\prime}=U_{i}^{\prime\prime}-\alpha\Delta tc_{p}\theta_{fi}^{\ell}\nabla_{S}\pi^{\ell}\label{eq:volFluxFromMom}
 \end{equation}
 
 \end_inset
@@ -2043,9 +2103,9 @@ reference "eq:pressureGrad"
  is the explicitly calculated part of the volume flux:
 \begin_inset Formula 
 \begin{eqnarray}
-U_{i}^{\prime} & = & U_{i}^{n}\label{eq:Uprime}\\
+U_{i}^{\prime\prime} & = & U_{i}^{n}\label{eq:Uprime}\\
  & - & (1-\alpha)\Delta t\left(\left[\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right]\cdot\mathbf{S}_{f}+c_{p}\theta_{fi}\nabla_{S}\pi\right)^{n}\nonumber \\
- & - & \alpha\Delta t\left(\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right)^{\ell}\cdot\mathbf{S}_{f}+\Delta t\mathbf{g}\cdot\mathbf{S}_{f}.\nonumber 
+ & - & \alpha\Delta t\left(\mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}+2\boldsymbol{\Omega}\times\mathbf{u}_{i}\right)^{\ell-1}\cdot\mathbf{S}_{f}+\Delta t\mathbf{g}\cdot\mathbf{S}_{f}.\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -2065,7 +2125,7 @@ reference "eq:volFluxFromMom"
  flux:
 \begin_inset Formula 
 \begin{equation}
-F^{n+1}=\sum_{i}(\sigma_{i}\rho_{i})_{f}U_{i}^{\prime}-\alpha\Delta tc_{p}\overline{\rho\theta}_{f}\nabla_{S}\pi^{n+1}.\label{eq:fluxFromMom}
+F^{\ell}=\sum_{i}(\sigma_{i}\rho_{i})_{f}^{k}U_{i}^{\prime\prime}-\alpha\Delta tc_{p}\overline{\rho\theta}_{f}^{k}\nabla_{S}\pi^{\ell}.\label{eq:fluxFromMom}
 \end{equation}
 
 \end_inset
@@ -2125,7 +2185,7 @@ reference "eq:usePsi"
  is used to calculate the divergence term:
 \begin_inset Formula 
 \begin{eqnarray}
-\frac{\Psi^{\ell}\pi^{n+1}-\Psi^{n}\pi^{n}}{\Delta t} & + & \frac{\alpha}{V}\sum_{f\in c}\left\{ \overline{\rho}_{f}^{\ell}U_{i}^{\prime}-\alpha\Delta tc_{p}\left(\overline{\rho\theta}_{f}^{\ell}\right)\nabla_{S}\pi^{n+1}\right\} \nonumber \\
+\frac{\Psi^{\ell-1}\pi^{\ell}-\Psi^{n}\pi^{n}}{\Delta t} & + & \frac{\alpha}{V}\sum_{f\in c}\left\{ \overline{\rho}_{f}^{k}U_{i}^{\prime\prime}-\alpha\Delta tc_{p}\left(\overline{\rho\theta}_{f}^{k}\right)\nabla_{S}\pi^{\ell}\right\} \nonumber \\
  & + & \frac{1-\alpha}{V}\sum_{f\in c}F^{n}=0\label{eq:Helmholtz}
 \end{eqnarray}
 
@@ -2139,12 +2199,12 @@ where
  There are no source terms to this equation because the source terms transfer
  mass between fluids and the total continuity equation is summed over fluids.
  This is a Helmholtz equation that can be solved for 
-\begin_inset Formula $\pi^{n+1}$
+\begin_inset Formula $\pi^{\ell}$
 \end_inset
 
 .
  Back substitutions are then made to calculate each 
-\begin_inset Formula $U_{i}^{n+1}$
+\begin_inset Formula $U_{i}^{\prime}$
 \end_inset
 
  using equation (
@@ -2182,13 +2242,13 @@ reference "eq:condMomAdv"
 \end_inset
 
 .
- We assume that 
-\begin_inset Formula $U_{i}^{\ell}$
+ 
+\begin_inset Formula $U_{i}^{\prime}$
 \end_inset
 
  is the volume flux predicted by the back substitution after the Helmholtz
  equation and 
-\begin_inset Formula $U_{i}^{\ell\ell}$
+\begin_inset Formula $U_{i}^{\ell}$
 \end_inset
 
  is the solution of 
@@ -2198,8 +2258,8 @@ reference "eq:condMomAdv"
  after implicit application of the source terms:
 \begin_inset Formula 
 \begin{eqnarray}
-U_{i}^{\ell\ell} & = & U_{i}^{\ell}-\Delta t\ \left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}+\sigma_{j}\frac{C_{D}\overline{\rho}}{r_{c}\rho_{i}}|\mathbf{u}_{i}-\mathbf{u}_{j}|\right)U_{i}^{\ell\ell}\nonumber \\
- & + & \Delta t\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}+\sigma_{j}\frac{C_{D}\overline{\rho}}{r_{c}\rho_{i}}|\mathbf{u}_{i}-\mathbf{u}_{j}|\right)U_{j}^{\ell\ell}
+U_{i}^{\ell} & = & U_{i}^{\prime}-\Delta t\ \left(T_{ji}+\sigma_{j}\frac{C_{D}\overline{\rho}^{k}}{r_{c}\rho_{i}^{k}}|\mathbf{u}_{i}-\mathbf{u}_{j}|^{\ell-1}\right)U_{i}^{\ell}\nonumber \\
+ & + & \Delta t\left(T_{ji}+\sigma_{j}\frac{C_{D}\overline{\rho}^{k}}{r_{c}\rho_{i}^{k}}|\mathbf{u}_{i}-\mathbf{u}_{j}|^{\ell-1}\right)U_{j}^{\ell}
 \end{eqnarray}
 
 \end_inset
@@ -2217,27 +2277,24 @@ reference "sub:solveTheta"
 \end_inset
 
  can be calculated using:
+\color blue
+
 \begin_inset Formula 
 \begin{eqnarray}
-U_{0}^{\ell\ell} & = & \frac{\left(1+\Delta t\ T_{01}\right)U_{0}^{\ell}+\Delta t\ T_{10}U_{1}^{\ell}}{1+\Delta t\ T_{10}+\Delta t\ T_{01}}\label{eq:Utransfer0}\\
-U_{1}^{\ell\ell} & = & \frac{U_{1}^{\ell}+\Delta t\ T_{01}U_{0}^{\ell\ell}}{1+\Delta T_{01}}\label{eq:Utransfer1}
+U_{0}^{\ell} & = & \frac{\left(1+\Delta t\ \mathbb{T}_{01}\right)U_{0}^{\prime}+\Delta t\ \mathbb{T}_{10}U_{1}^{\prime}}{1+\Delta t\ \mathbb{T}_{10}+\Delta t\ \mathbb{T}_{01}}\label{eq:Utransfer0}\\
+U_{1}^{\ell} & = & \frac{U_{1}^{\prime}+\Delta t\ \mathbb{T}_{01}U_{0}^{\ell}}{1+\Delta\mathbb{T}_{01}}\label{eq:Utransfer1}
 \end{eqnarray}
 
 \end_inset
 
-where for 
-\begin_inset Formula $U_{i}$
+where 
+\begin_inset Formula $\mathbb{T}_{ij}=T_{ij}+\frac{\sigma_{i}^{k}}{\rho_{j^{k}}}\frac{C_{D}\overline{\rho}^{k}}{r_{c}}|\mathbf{u}_{j}-\mathbf{u}_{i}|^{\ell-1}$
 \end_inset
 
- we use the shorthand 
-\begin_inset Formula 
-\begin{equation}
-T_{ij}=\frac{\sigma_{i}\rho_{i}}{\sigma_{j}\rho_{j}}S_{ij}+\frac{\sigma_{i}}{\rho_{j}}\frac{C_{D}\overline{\rho}}{r_{c}}|\mathbf{u}_{j}^{\ell}-\mathbf{u}_{i}^{\ell}|.
-\end{equation}
-
-\end_inset
-
-as with the numerical method for applying the mass transfer terms to the
+.
+ 
+\color inherit
+As with the numerical method for applying the mass transfer terms to the
  
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -2258,17 +2315,131 @@ as with the numerical method for applying the mass transfer terms to the
 \end_layout
 
 \begin_layout Subsubsection
+
+\color blue
+Updates for Consistency 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:consistency"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+So far, each time-step, we have updated each 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ using the continuity equations, 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ using the momentum equations, 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ using the temperature equations and and 
+\begin_inset Formula $\pi$
+\end_inset
+
+ using the Helmholz equation which is a combination of the momentum and
+ continuity equations and the equation of state.
+ This is over-specified so to avoid inconsistencies growing, 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is re-calculated from 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ at the end of every time-step using just the equation of state (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condState"
+
+\end_inset
+
+).
+ The resulting changes to 
+\begin_inset Formula $\pi$
+\end_inset
+
+ need to be small otherwise the updated 
+\begin_inset Formula $\pi$
+\end_inset
+
+ would not solve the Helmholtz equation and acoustic modes would grow.
+ Therefore 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+ must be solved with the same spatial discretisation as 
+\begin_inset Formula $\pi$
+\end_inset
+
+ which, for best energy conservation (given 2nd order numerics) is centred
+ linear differencing.
+ This is why only 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+, not 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ is solved with a bounded advection scheme as described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:solveContinuity"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Overview of the Solution Algorithm
 \end_layout
 
 \begin_layout Enumerate
-An outer loop is executed twice consisting of:
+
+\color blue
+We start by initialising all iterated variables at 
+\begin_inset Formula $k=0$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell=0$
+\end_inset
+
+ to the values at time level 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For 
+\begin_inset Formula $k=1,2$
+\end_inset
+
+:
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
 Solve for 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{k}$
 \end_inset
 
  as described in section 
@@ -2283,7 +2454,7 @@ reference "sub:solveContinuity"
 
 \begin_layout Enumerate
 Solve for 
-\begin_inset Formula $\theta_{i}$
+\begin_inset Formula $\theta_{i}^{k}$
 \end_inset
 
  as described in section 
@@ -2298,7 +2469,7 @@ reference "sub:solveTheta"
 
 \begin_layout Enumerate
 Update 
-\begin_inset Formula $\sigma_{i}$
+\begin_inset Formula $\sigma_{i}^{k}$
 \end_inset
 
  as described in section 
@@ -2312,21 +2483,19 @@ reference "sub:diagnoseSigma"
 \end_layout
 
 \begin_layout Enumerate
-An inner loop is executed twice consisting of the calculations described
- in section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Helmholtz"
 
+\color blue
+For 
+\begin_inset Formula $\ell=1,2$
 \end_inset
 
-:
+
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
 Update each 
-\begin_inset Formula $U_{i}^{\prime}$
+\begin_inset Formula $U_{i}^{\prime\prime}$
 \end_inset
 
  using eqn (
@@ -2364,7 +2533,7 @@ reference "eq:Helmholtz"
 \end_inset
 
 ) for 
-\begin_inset Formula $\pi$
+\begin_inset Formula $\pi^{\ell}$
 \end_inset
 
 .
@@ -2372,11 +2541,11 @@ reference "eq:Helmholtz"
 
 \begin_layout Enumerate
 Back substitute, adding the pressure gradient term to 
-\begin_inset Formula $U_{i}^{\prime}$
+\begin_inset Formula $U_{i}^{\prime\prime}$
 \end_inset
 
  to get 
-\begin_inset Formula $U_{i}^{\ell}$
+\begin_inset Formula $U_{i}^{\prime}$
 \end_inset
 
  using eqn (
@@ -2391,11 +2560,11 @@ reference "eq:volFluxFromMom"
 
 \begin_layout Enumerate
 Add the transfer terms to 
-\begin_inset Formula $U_{i}^{\ell}$
+\begin_inset Formula $U_{i}^{\prime}$
 \end_inset
 
  to get 
-\begin_inset Formula $U_{i}^{n+1}$
+\begin_inset Formula $U_{i}^{\ell}$
 \end_inset
 
  using eqn (
@@ -2415,6 +2584,25 @@ reference "eq:Utransfer1"
 ).
 \end_layout
 
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\mathbf{u}_{i}^{\ell}$
+\end_inset
+
+ from 
+\begin_inset Formula $U_{i}^{\ell}$
+\end_inset
+
+ using eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:recontructU"
+
+\end_inset
+
+).
+\end_layout
+
 \end_deeper
 \end_deeper
 \begin_layout Enumerate
@@ -2426,7 +2614,11 @@ Update
 \begin_inset Formula $\pi$
 \end_inset
 
- at the end of each time-step (section 
+ at the end of each time-step 
+\color blue
+from the equation of state for consistency
+\color inherit
+ (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:consistency"
@@ -3960,7 +4152,7 @@ fvc::reconstruct
 :
 \begin_inset Formula 
 \begin{equation}
-\mathbf{u}_{ci}=\left(\sum_{f\in c}\mathbf{\hat{S}}_{f}\mathbf{S}_{f}^{T}\right)^{-1}\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}
+\mathbf{u}_{ci}=\left(\sum_{f\in c}\mathbf{\hat{S}}_{f}\mathbf{S}_{f}^{T}\right)^{-1}\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}\label{eq:recontructU}
 \end{equation}
 
 \end_inset
