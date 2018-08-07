@@ -197,7 +197,9 @@ The representation of sub-grid scale convection is a weak aspect of weather
  and climate prediction models and the assumption that no net mass is transporte
 d by convection in parameterisations is increasingly unrealistic {
 \backslash
-color{blue} as models enter} the grey zone of convection.
+color{blue} as models enter} the grey zone, {
+\backslash
+color{blue} partially resolving} convection.
  The solution of conditionally averaged equations of motion is proposed
  in order to avoid this assumption.
  Separate momentum, continuity and temperature equations are solved for
@@ -220,11 +222,11 @@ This paper presents stable numerical methods for solving the conditionally
  {
 \backslash
 color{blue} Two} transfer terms are presented which couple the fluids together
- in order to stabilise the model; diffusion of mass between the fluids and
- drag between the fluids.
- Mass transfer terms are also proposed to mimic {
+ in order to stabilise the model; diffusion of mass between the fluids (similar
+ to turbulent entrainment) and drag between the fluids.
+ Transfer terms are also proposed to mimic {
 \backslash
-color{blue} clous base mass flux and cloud top detrainment}.
+color{blue} cloud base mass flux and cloud top detrainment}.
  The transfer terms are limited and treated implicitly in order to achieve
  bounded, stable solutions.
  
@@ -628,10 +630,10 @@ ed:
 \end_inset
 
 The sub-filter scale fluxes are typically due to turbulent motions within
- each fluid and 
+ each fluid 
 \color blue
 which are not included in this paper because we assume that all flow is
- well resolved and so we do not need to represent sub-grid-scale fluxes.
+ well resolved and so we do not focus on sub-grid-scale fluxes.
  
 \end_layout
 
@@ -640,7 +642,7 @@ The same averaging can be applied to pressure but we will assume that pressure
  is uniform across all fluids.
  The time-scale for equilibration of pressure across all fluids will be
  related to the speed of sound so uniform pressure across fluids may be
- a good approximation and also makes numerical solution practical.
+ an adequate approximation and also makes numerical solution practical.
  This is also the approximation made when using conditional averaging for
  representing multi-phase flows 
 \begin_inset CommandInset citation
@@ -690,9 +692,13 @@ key "TKP+18"
 \end_layout
 
 \begin_layout Standard
-Applying conditional averaging to the rotating compressible Euler equations
- in flux form, assuming uniform pressure between fluids and ignoring sub-fiter
- scale fluxes leads to the conditionally averaged Euler equations 
+Applying conditional averaging to the 
+\color blue
+dry, adiabatic
+\color inherit
+, rotating, compressible Euler equations in flux form, assuming uniform
+ pressure between fluids and ignoring sub-fiter scale fluxes leads to the
+ conditionally averaged Euler equations 
 \color blue
 for mass, potential temperature and momentum
 \color inherit
@@ -932,7 +938,7 @@ where
 \begin_inset Formula $S_{dij}$
 \end_inset
 
- is due to diffusion if 
+ is due to diffusion of 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -1035,7 +1041,7 @@ reference "eq:condCont-1"
 \end_inset
 
 ).
- This mixing of the fluids is similar to turbulent entrainment at teh lateral
+ This mixing of the fluids is similar to turbulent entrainment at the lateral
  edges of plumes but eqn (
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1083,7 +1089,7 @@ name "sub:drag"
 \begin_layout Standard
 Drag between fluids is 
 \color blue
-used to parameterise the pressure differences between teh fluids which lead
+used to parameterise the pressure differences between the fluids which lead
  to form drag.
  
 \begin_inset CommandInset citation
@@ -1396,7 +1402,21 @@ reference "sub:vanLeerContinuity"
 \end_inset
 
  consistently with the pressure for both stability and energy conservation.
- This is described in more detail in section xxx.
+ This is described in more detail in sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:solveContinuity"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:consistency"
+
+\end_inset
+
+.
  Bounded advection of 
 \begin_inset Formula $\rho_{i}$
 \end_inset
@@ -1428,7 +1448,7 @@ The terms of the Euler equations involved in acoustic waves are solved using
 Other implicit schemes could be chosen and optionally gravity waves could
  also be treated implicitly.
  For the stable solution of the conditionally averaged equations it is necessary
- to include updates from both the plume and environment momentum and continuity
+ to include updates from both the buoyant and stable momentum and continuity
  equations in the implicit solution of the pressure equation (details will
  follow).
  Non-linear terms and advection are treated explicitly using second-order
@@ -1439,7 +1459,7 @@ Other implicit schemes could be chosen and optionally gravity waves could
 \begin_layout Standard
 
 \color blue
-In inner loop solves the pressure equation twice with explicit terms updated
+An inner loop solves the pressure equation twice with explicit terms updated
  for the second iteration.
  The inner iterations are indexed with 
 \begin_inset Formula $\ell=1,2$
@@ -1677,7 +1697,7 @@ where
 \begin_inset Formula $k$
 \end_inset
 
- adn for the intermediate values, 
+ and for the intermediate values, 
 \begin_inset Formula $(\sigma_{i}\rho_{i})^{\prime}$
 \end_inset
 
@@ -1702,7 +1722,7 @@ reference "eq:advectSigma"
 
 \end_inset
 
-), not any newer values such as 
+), no newer values such as 
 \begin_inset Formula $\sigma_{i}^{k-1}$
 \end_inset
 
@@ -1738,14 +1758,14 @@ Next the mass transfer terms are calculated using
  remains positive:
 \begin_inset Formula 
 \begin{equation}
-\sigma_{i}\rho_{i}S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ ((\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1})/\Delta t\right)
+\sigma_{i}\rho_{i}S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ \frac{(\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1}}{\Delta t}\right)
 \end{equation}
 
 \end_inset
 
 
 \color inherit
- where 
+where 
 \begin_inset Formula $\sigma_{\min}=10^{-9}$
 \end_inset
 
@@ -1883,7 +1903,11 @@ reference "eq:transferMass"
 \end_inset
 
 ) so as to use 
-\begin_inset Formula $\sigma_{i}\rho_{i}$
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{\prime}$
+\end_inset
+
+ before it is over-written by 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{k}$
 \end_inset
 
 .
@@ -2085,19 +2109,31 @@ U_{i}^{\prime}=U_{i}^{\prime\prime}-\alpha\Delta tc_{p}\theta_{fi}^{\ell}\nabla_
 
 \end_inset
 
-where the calculation of 
+where 
 \begin_inset Formula $c_{p}\theta_{fi}^{\ell}\nabla_{S}\pi^{n+1}$
 \end_inset
 
- is defined in equation (
+ is an approximation of 
+\begin_inset Formula $c_{p}\theta_{i}\nabla\pi\cdot\mathbf{S}_{f}$
+\end_inset
+
+ and is calculated from equation (
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:pressureGrad"
+reference "eq:gradP"
 
 \end_inset
 
-) and 
-\begin_inset Formula $U_{i}^{\prime}$
+) in appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:gradP"
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $U_{i}^{\prime\prime}$
 \end_inset
 
  is the explicitly calculated part of the volume flux:
@@ -2273,7 +2309,7 @@ reference "sub:solveTheta"
 \end_inset
 
 , 
-\begin_inset Formula $U_{i}^{\ell\ell}$
+\begin_inset Formula $U_{i}^{\ell}$
 \end_inset
 
  can be calculated using:
@@ -2288,7 +2324,7 @@ U_{1}^{\ell} & = & \frac{U_{1}^{\prime}+\Delta t\ \mathbb{T}_{01}U_{0}^{\ell}}{1
 \end_inset
 
 where 
-\begin_inset Formula $\mathbb{T}_{ij}=T_{ij}+\frac{\sigma_{i}^{k}}{\rho_{j^{k}}}\frac{C_{D}\overline{\rho}^{k}}{r_{c}}|\mathbf{u}_{j}-\mathbf{u}_{i}|^{\ell-1}$
+\begin_inset Formula $\mathbb{T}_{ij}=T_{ij}+\frac{\sigma_{i}^{k}}{\rho_{j}^{k}}\frac{C_{D}\overline{\rho}^{k}}{r_{c}}|\mathbf{u}_{j}-\mathbf{u}_{i}|^{\ell-1}$
 \end_inset
 
 .
@@ -2606,7 +2642,7 @@ reference "eq:recontructU"
 \end_deeper
 \end_deeper
 \begin_layout Enumerate
-Update 
+For consistency, update 
 \begin_inset Formula $\Psi$
 \end_inset
 
@@ -2616,7 +2652,7 @@ Update
 
  at the end of each time-step 
 \color blue
-from the equation of state for consistency
+from the equation of state
 \color inherit
  (section 
 \begin_inset CommandInset ref
@@ -4256,7 +4292,14 @@ Pressure Gradient including the
 \begin_inset Formula $\theta_{i}$
 \end_inset
 
- pre-factor
+ pre-factor 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:gradP"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4269,7 +4312,7 @@ The pressure gradient term,
  difference in pressure between the cells either side of the face:
 \begin_inset Formula 
 \begin{equation}
-c_{p}\theta_{i}\nabla\pi\cdot\mathbf{S}_{f}=c_{p}\theta_{fi}\nabla_{S}\pi\approx c_{p}\theta_{fi}\frac{\pi_{c}-\pi_{N}}{\delta}\ |\mathbf{S}_{f}|\label{eq:pressureGrad}
+c_{p}\theta_{i}\nabla\pi\cdot\mathbf{S}_{f}=c_{p}\theta_{fi}\nabla_{S}\pi\approx c_{p}\theta_{fi}\frac{\pi_{c}-\pi_{N}}{\delta}\ |\mathbf{S}_{f}|\label{eq:gradP}
 \end{equation}
 
 \end_inset
