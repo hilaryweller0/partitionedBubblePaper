@@ -757,129 +757,246 @@ Line
  Does it refer to the mean physical variables? 
 \end_layout
 
-\begin_layout Standard
-Line 105: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been changed to 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $I_{i}$
+\end_inset
+
+ is one if the fluid is defined to be fluid 
+\begin_inset Formula $i$
+\end_inset
+
+ at that location and zero otherwise.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-I suggest rephrasing this line as follows for better clarity: ‘and averages
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+105: I suggest rephrasing this line as follows for better clarity: ‘and
+ averages over all fluids (denoted by overbar) are:’.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+106-108: This sentence is confusing.
+ By ‘non-linear’, does it specifically mean the cross-product terms? Is
+ the following approach similar to Reynolds or Favre averaging? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been clarified:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+As with Reynolds or Favre averaging, non-linear conditionally averaged terms
+ such as 
+\begin_inset Formula $\widetilde{I_{i}\rho\mathbf{u}\theta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}}$
+\end_inset
+
+ are not equal to the products of conditionally averaged terms.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+110: Neglecting the sub-filter term is a very strong assumption that requires
+ further justification either here or in the section of conclusion and future
+ work.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We cannot justify that the sub-filter scale fluxes can be ignored, just
+ that we are not proposing parameterisations.
+ We have added:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Parameterisations for sub-filter scale fluxes are not considered in this
+ paper.
+ We are still able to find stable solutions of the equations because the
+ flow that we are solving is very well resolved.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+114: I suggest changing ‘will be’ to ‘is’.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+113-116: I think there are two limits of pressure homogenization.
+ At high resolution (such as the test cases), the pressure can be effectively
+ homogenized by sound waves between different partitions since they are
+ almost collocated.
+ However, at rougher resolution (such as for climate and weather models),
+ the convective plume and environment may be spatially separated, and the
+ sub-grid-scale pressure gradient will manifest as non-uniform pressure
+ among the different partitions.
+ In that case, the sound wave no longer homogenizes pressure – pressure
+ differences can still occur when sound waves are filtered, such as in Boussines
+q or anelastic approximations.
+ I think some discussion this potential limitation is necessary.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ I am not convinced that the pressure equilibration is about horizontal
+ resolution.
+ We can assume that, regardless of resolution, weather and climate models
+ have similar acoustic Courant numbers.
+ If these are greater than zero then pressure equilibration within grid
+ boxes will occur within one time-step.
+ However pressure differences between the plume and the environment will
+ be maintained by different dynamics in each.
+ For example, considering the Bernouilli principle, faster flowing fluids
+ have lower pressure.
+ Also, if we consider a warm rising bubble, cold dense air will flow downwards
+ around the bubble and there will be a form drag created.
+ This is now mentioned here:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+However the plume and environment are not in static equilibrium so pressure
+ differences will not all be equilibrated.
+ Variations in the dynamics between the plume and the environment will lead
+ to form drag which is discussed in section 2.1.2.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+11-13: I suggest reordering the equations consistently with equations 2-4
+ and 6-8 (continuity, temperature, momentum).
+ Also, it should be clarified that these are dry adiabatic equations.
  
 \end_layout
 
 \begin_layout Standard
-over all fluids (denoted by overbar) are:’.
- 
-\end_layout
-
-\begin_layout Standard
-Lines 106–108: This sentence is confusing.
- By ‘non-linear’, does it specifically mean the 
-\end_layout
-
-\begin_layout Standard
-cross-product terms? Is the following approach similar to Reynold or 
-\end_layout
-
-\begin_layout Standard
-Favre averaging? 
-\end_layout
-
-\begin_layout Standard
-Line 110: 
-\end_layout
-
-\begin_layout Standard
-Neglecting the sub-filter term is a very strong assumption that requires
- 
-\end_layout
-
-\begin_layout Standard
-further justification either here or in the section of conclusion and 
-\end_layout
-
-\begin_layout Standard
-future work.
- 
-\end_layout
-
-\begin_layout Standard
-Line 114: 
-\end_layout
-
-\begin_layout Standard
-I suggest changing ‘will be’ to ‘is’.
- 
-\end_layout
-
-\begin_layout Standard
-Lines 113–116: I think there are two limits of pressure homogenization.
- At high 
-\end_layout
-
-\begin_layout Standard
-resolution (such as the test cases), the pressure can be effectively 
-\end_layout
-
-\begin_layout Standard
-homogenized by sound waves between different partitions since they 
-\end_layout
-
-\begin_layout Standard
-are almost collocated.
- However, at rougher resolution (such as for 
-\end_layout
-
-\begin_layout Standard
-climate and weather models), the convective plume and environment 
-\end_layout
-
-\begin_layout Standard
-may be spatially separated, and the sub-grid-scale pressure gradient 
-\end_layout
-
-\begin_layout Standard
-will manifest as non-uniform pressure among the different partitions.
- 
-\end_layout
-
-\begin_layout Standard
-In that case, the sound wave no longer homogenizes pressure – 
-\end_layout
-
-\begin_layout Standard
-pressure differences can still occur when sound waves are filtered, 
-\end_layout
-
-\begin_layout Standard
-such as in Boussinesq or anelastic approximations.
- I think some 
-\end_layout
-
-\begin_layout Standard
-discussion this potential limitation is necessary.
- 
-\end_layout
-
-\begin_layout Standard
-Eqn 11–13: 
-\end_layout
-
-\begin_layout Standard
-I suggest reordering the equations consistently with equations 2–4 and 
-\end_layout
-
-\begin_layout Standard
-6–8 (continuity, temperature, momentum).
- Also, it should be clarified 
-\end_layout
-
-\begin_layout Standard
-that these are dry adiabatic equations.
- 
-\end_layout
-
-\begin_layout Standard
-3 Line 136: 
+Line 136: 
 \end_layout
 
 \begin_layout Standard

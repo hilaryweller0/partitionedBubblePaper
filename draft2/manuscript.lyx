@@ -585,7 +585,15 @@ key "TWV+18"
 \begin_inset Formula $I_{i}$
 \end_inset
 
- is one if the condition is true at that location and zero otherwise.
+ is one if 
+\color blue
+the fluid is defined to be fluid 
+\begin_inset Formula $i$
+\end_inset
+
+ 
+\color inherit
+at that location and zero otherwise.
  A filter (typically volume average) is then applied and averages for each
  condition can be found over each filter region.
  The volume fraction in fluid 
@@ -616,7 +624,7 @@ where the
 
 \end_inset
 
-and averages can be found over all fluids, denoted by overbar:
+and averages over all fluids (denoted by overbar) are:
 \begin_inset Formula 
 \begin{eqnarray}
 1 & = & \sum_{i}\sigma_{i}\\
@@ -627,11 +635,24 @@ and averages can be found over all fluids, denoted by overbar:
 
 \end_inset
 
-Non-linear conditionally averaged terms can be expressed as the products
- of conditionally averaged terms but this is not equal to the conditional
- average of the non-linear terms.
- The difference is expressed as a sub-filter scale flux which can be parameteris
-ed:
+
+\color blue
+As with Reynolds or Favre averaging, 
+\color inherit
+non-linear conditionally averaged terms 
+\color blue
+such as 
+\begin_inset Formula $\widetilde{I_{i}\rho\mathbf{u}\theta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}}$
+\end_inset
+
+ are not equal to
+\color inherit
+ the products of conditionally averaged terms.
+ The difference is expressed as a sub-filter scale flux:
 \begin_inset Formula 
 \begin{eqnarray}
 \widetilde{I_{i}\rho\mathbf{u}\theta} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}+\mathbf{F}_{\text{SF}}^{\theta_{i}}\\
@@ -640,22 +661,45 @@ ed:
 
 \end_inset
 
-The sub-filter scale fluxes are typically due to turbulent motions within
- each fluid 
+The sub-filter scale fluxes could be due to turbulent motions within each
+ fluid.
+ 
 \color blue
-which are not included in this paper because we assume that all flow is
- well resolved and so we do not focus on sub-grid-scale fluxes.
+Parameterisations for sub-filter scale fluxes are not considered in this
+ paper.
+ We are still able to find stable solutions of the equations because the
+ flow that we are solving is very well resolved.
  
 \end_layout
 
 \begin_layout Standard
 The same averaging can be applied to pressure but we will assume that pressure
  is uniform across all fluids.
- The time-scale for equilibration of pressure across all fluids will be
+ The time-scale for equilibration of pressure across all fluids 
+\color blue
+is
+\color inherit
  related to the speed of sound so uniform pressure across fluids may be
  an adequate approximation and also makes numerical solution practical.
- This is also the approximation made when using conditional averaging for
- representing multi-phase flows 
+ 
+\color blue
+However the plume and environment are not in static equilibrium so pressure
+ differences will not all be equilibrated.
+ Variations in the dynamics between the plume and the environment will lead
+ to form drag which is discussed in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:drag"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Uniform pressure across fluids is assumed when using conditional averaging
+ for representing multi-phase flows 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg."
@@ -2793,7 +2837,7 @@ K.
 
 \end_inset
 
- is added for 
+is added for 
 \begin_inset Formula $L<1$
 \end_inset
 
