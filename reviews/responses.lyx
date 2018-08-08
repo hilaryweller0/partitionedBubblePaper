@@ -3,6 +3,31 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage{xcolor}
+\renewenvironment{quote}
+               {\list{}{\rightmargin\leftmargin}%
+                \item\relax\color{blue}}
+               {\endlist}
+
+
+% Long lines with tabs
+\makeatletter
+
+\newlength\tdima
+\newcommand\tabfill[1]{%
+      \setlength\tdima{\linewidth}%
+      \addtolength\tdima{\@totalleftmargin}%
+      \addtolength\tdima{-\dimen\@curtab}%
+      \parbox[t]{\tdima}{#1\ifhmode\strut\fi}}
+
+\newcommand\mytabs{\hspace*{2.5cm}\=\hspace{\tdima}}
+\newenvironment{mysec}[1][\mytabs]
+  {\begin{tabbing}#1\kill\ignorespaces}
+  {\end{tabbing}}
+
+\makeatother
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -24,10 +49,11 @@
 \output_sync 0
 \bibtex_command default
 \index_command default
-\paperfontsize default
+\paperfontsize 12
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -38,9 +64,9 @@
 \use_package stackrel 1
 \use_package stmaryrd 1
 \use_package undertilde 1
-\cite_engine basic
-\cite_engine_type default
-\biblio_style plain
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style 
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -51,6 +77,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -68,6 +98,27 @@
 
 \begin_body
 
+\begin_layout Title
+Responses to Reviewer Comments on
+\begin_inset Newline newline
+\end_inset
+
+QJ 18 0129
+\begin_inset Newline newline
+\end_inset
+
+Numerical Solution of the Conditionally Averaged Equations for Representing
+ Net Mass Flux due to Convection
+\end_layout
+
+\begin_layout Author
+Hilary Weller and William McIntyre
+\end_layout
+
+\begin_layout Quote
+Author responses and additional text in the manuscript are in blue.
+\end_layout
+
 \begin_layout Section*
 Responses to 
 \begin_inset Flex URL
@@ -83,89 +134,46 @@ Review_QJ_18_0129.pdf
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection*
 Summary: 
 \end_layout
 
 \begin_layout Standard
 This paper describes the solution method for the conditionally averaged
- Euler 
-\end_layout
-
-\begin_layout Standard
-equations, which are potentially useful for improving the representation
- of sub-grid 
-\end_layout
-
-\begin_layout Standard
-scale convection in weather and climate models.
- It presents a semi-implicit algorithm 
-\end_layout
-
-\begin_layout Standard
-and several formulations of plume-environment transfer terms that are necessary
- for 
-\end_layout
-
-\begin_layout Standard
-obtaining stable numerical solutions, and the methods are then verified
- with a buoyant 
-\end_layout
-
-\begin_layout Standard
-bubble test case.
+ Euler equations, which are potentially useful for improving the representation
+ of sub-grid scale convection in weather and climate models.
+ It presents a semi-implicit algorithm and several formulations of plume-environ
+ment transfer terms that are necessary for obtaining stable numerical solutions,
+ and the methods are then verified with a buoyant bubble test case.
  
 \end_layout
 
 \begin_layout Standard
 I think this paper is important, because such equations involve numerical
- 
-\end_layout
-
-\begin_layout Standard
-instabilities unseen in the conventional Euler equations, and developing
- a stable 
-\end_layout
-
-\begin_layout Standard
-algorithm for these equations is a major progress that will allow for implementi
-ng them 
-\end_layout
-
-\begin_layout Standard
-in the future generation of models.
+ instabilities unseen in the conventional Euler equations, and developing
+ a stable algorithm for these equations is a major progress that will allow
+ for implementing them in the future generation of models.
  
 \end_layout
 
 \begin_layout Standard
 Although I am generally satisfied with the approach and the results of this
- work, I 
-\end_layout
-
-\begin_layout Standard
-feel that the presentation needs to be improved.
- My main concerns are that the physical 
-\end_layout
-
-\begin_layout Standard
-distinction between the two types (numerical versus physical) of plume–environme
-nt 
-\end_layout
-
-\begin_layout Standard
-transfer terms is not very clearly explained, and that the description of
- the algorithm is 
-\end_layout
-
-\begin_layout Standard
-too detailed and blurs the essential ingredients that guarantee the numerical
+ work, I feel that the presentation needs to be improved.
+ My main concerns are that the physical distinction between the two types
+ (numerical versus physical) of plume–environment transfer terms is not
+ very clearly explained, and that the description of the algorithm is too
+ detailed and blurs the essential ingredients that guarantee the numerical
  stability.
+ Clarifying these issues would make this paper much more comprehensible.
  
 \end_layout
 
-\begin_layout Standard
-Clarifying these issues would make this paper much more comprehensible.
- 
+\begin_layout Quote
+We are very pleased that the reviewer appreciates the importance of the
+ work.
+ The suggestions in order to improve the presentation sound excellent and
+ we have implemented them.
+ Many thanks
 \end_layout
 
 \begin_layout Standard
@@ -173,48 +181,27 @@ My detailed suggestions and specific comments are as follows.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection*
 General Comments: 
 \end_layout
 
-\begin_layout Standard
-1.
- The physical basis of the five transfer terms and their categorization
- should be 
-\end_layout
+\begin_layout Enumerate
 
-\begin_layout Standard
-more physically and systematically explained.
+\series bold
+The physical basis of the five transfer terms and their categorization should
+ be more physically and systematically explained.
  
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 Two types of plume–environment transfer terms are proposed in the paper.
- The 
-\end_layout
-
-\begin_layout Standard
-first type is described as regularization terms (or regulators) that improve
- the 
-\end_layout
-
-\begin_layout Standard
-numerical stability, which include mass diffusion, divergence subject to
- conserved 
-\end_layout
-
-\begin_layout Standard
-mass fraction, and momentum drag.
- The second type is described as to ‘mimic 
-\end_layout
-
-\begin_layout Standard
-convection’ and includes the conversions associated with buoyancy or vertical
- 
-\end_layout
-
-\begin_layout Standard
-motion and horizontal divergence.
+ The first type is described as regularization terms (or regulators) that
+ improve the numerical stability, which include mass diffusion, divergence
+ subject to conserved mass fraction, and momentum drag.
+ The second type is described as to ‘mimic convection’ and includes the
+ conversions associated with buoyancy or vertical motion and horizontal
+ divergence.
  
 \end_layout
 
@@ -224,403 +211,550 @@ I have several concerns about this separation.
 \end_layout
 
 \begin_layout Standard
-First, the three regulators are all related to previously known mechanisms
- of 
-\end_layout
 
-\begin_layout Standard
-convection: the mass diffusion and the divergence regulators are related
- to the 
-\end_layout
-
-\begin_layout Standard
-turbulent and dynamical entrainment (and detrainment) respectively [de Rooy
- et al.
- 
-\end_layout
-
-\begin_layout Standard
-2013], and the momentum drag regulator is related to the pressure perturbation
- [de 
-\end_layout
-
-\begin_layout Standard
-Roode et al.
+\series bold
+First
+\series default
+, the three regulators are all related to previously known mechanisms of
+ convection: the mass diffusion and the divergence regulators are related
+ to the turbulent and dynamical entrainment (and detrainment) respectively
+ [de Rooy et al.
+ 2013], and the momentum drag regulator is related to the pressure perturbation
+ [de Roode et al.
  2012].
- Although I accept that the main point of this paper is to test the 
+ Although I accept that the main point of this paper is to test the numerical
+ stability of the algorithm, I do feel it is helpful to include more discussions
+ on the physical basis of these regulators, and on the consistency between
+ these regulators and the entrainment (and detrainment) formulations in
+ the previous mass flux schemes.
+ 
+\end_layout
+
+\begin_layout Quote
+This is a really good point.
+ Based on another point by the reviewer, the regularisation based on divergence
+ is now omitted.
+ The other transfer terms are now related to existing parameterisation mechanism
+s such as cloud base mass flux based on buoyancy anomalies and moisture
+ convergence, lateral entrainment and detrainment and pressure perturbations.
+ There are changes in the abstract, the last sentence of the introduction
+ and numerous changes in section 2.1.
 \end_layout
 
 \begin_layout Standard
-numerical stability of the algorithm, I do feel it is helpful to include
- more discussions 
+
+\series bold
+Second
+\series default
+, the convection terms and the regulators may not be mutually exclusive.
+ Both convection terms are related to the dynamical entrainment (and detrainment
+) processes, and there may be double-counting issues with the divergence
+ regulator, especially the ‘transfer based on horizontal divergence and
+ vertical velocity’ term.
+ 
 \end_layout
 
-\begin_layout Standard
-on the physical basis of these regulators, and on the consistency between
- these 
-\end_layout
+\begin_layout Quote
+The 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Standard
-regulators and the entrainment (and detrainment) formulations in the previous
- mass 
-\end_layout
+divergence regulator
+\begin_inset Quotes erd
+\end_inset
 
-\begin_layout Standard
-flux schemes.
+ has been removed which removes the concern about the double-counting between
+ this and the horizontal divergence transfer term.
  
 \end_layout
 
 \begin_layout Standard
-Second, the convection terms and the regulators may not be mutually exclusive.
+
+\series bold
+Third
+\series default
+, it is somewhat unclear if all five terms can be used at the same time
+ (which seems physical because they represent different processes), or only
+ one from each type may be used (which is the set-up of the test cases).
  
 \end_layout
 
-\begin_layout Standard
-Both convection terms are related to the dynamical entrainment (and detrainment)
+\begin_layout Quote
+It is now made clear that all of the transfer terms can be added together
+ in section 2.1 and results using more than one transfer terms are presented
+ in section 4.
  
 \end_layout
 
-\begin_layout Standard
-1 processes, and there may be double-counting issues with the divergence
- regulator, 
-\end_layout
+\end_deeper
+\begin_layout Enumerate
 
-\begin_layout Standard
-especially the ‘transfer based on horizontal divergence and vertical velocity’
- term.
+\series bold
+The third section is too technical, and the essential ingredients for the
+ numerical stability are somewhat unclear.
  
 \end_layout
 
-\begin_layout Standard
-Third, it is somewhat unclear if all five terms can be used at the same
- time (which 
-\end_layout
-
-\begin_layout Standard
-seems physical because they represent different processes), or only one
- from each 
-\end_layout
-
-\begin_layout Standard
-type may be used (which is the set-up of the test cases).
- 
-\end_layout
-
-\begin_layout Standard
-2.
- The third section is too technical, and the essential ingredients for the
- 
-\end_layout
-
-\begin_layout Standard
-numerical stability are somewhat unclear.
- 
-\end_layout
-
+\begin_deeper
 \begin_layout Standard
 I feel that the third section is too detailed about one specific implementation
- of the 
-\end_layout
-
-\begin_layout Standard
-algorithm in one specific model.
- This makes it more similar to a model 
-\end_layout
-
-\begin_layout Standard
-documentation that is helpful to its potential users, but it is not sufficiently
- clear 
-\end_layout
-
-\begin_layout Standard
-about the scientific basis of why this algorithm is stable.
- For better readability, I 
-\end_layout
-
-\begin_layout Standard
-would suggest that the detailed implementation (e.g., the discretized equations
- and 
-\end_layout
-
-\begin_layout Standard
-the model subroutine invoked) might be put into an appendix, whereas the
- following 
-\end_layout
-
-\begin_layout Standard
-essential points on the basis of numerical stability should be more clearly
- listed and 
-\end_layout
-
-\begin_layout Standard
-addressed.
+ of the algorithm in one specific model.
+ This makes it more similar to a model documentation that is helpful to
+ its potential users, but it is not sufficiently clear about the scientific
+ basis of why this algorithm is stable.
+ For better readability, I would suggest that the detailed implementation
+ (e.g., the discretized equations and the model subroutine invoked) might
+ be put into an appendix, whereas the following essential points on the
+ basis of numerical stability should be more clearly listed and addressed.
  
 \end_layout
 
-\begin_layout Standard
-a.
- What are the key ingredients that guarantee the numerical stability? Is
- the use 
-\end_layout
-
-\begin_layout Standard
-of TVD advection scheme, implicit mass transfer, the simultaneous solution
- of 
-\end_layout
-
-\begin_layout Standard
-momentum and continuous equations, and some kind of regulator 
-\end_layout
-
-\begin_layout Standard
-sufficient/necessary for the numerical stability in this model, or are other
+\begin_layout Quote
+We are very grateful for this suggestion.
+ The parts of the numerical method that are not specific to the stability
+ of the solution of the conditionally averaged equations has been moved
+ to an appendix.
  
 \end_layout
 
-\begin_layout Standard
-numerical limiters also involved? Why does solving the both equations 
+\begin_layout Enumerate
+What are the key ingredients that guarantee the numerical stability? Is
+ the use of TVD advection scheme, implicit mass transfer, the simultaneous
+ solution of momentum and continuous equations, and some kind of regulator
+ sufficient/necessary for the numerical stability in this model, or are
+ other numerical limiters also involved? Why does solving the both equations
+ simultaneously instead of the original momentum equation provide better
+ numerical stability? 
 \end_layout
 
-\begin_layout Standard
-simultaneously instead of the original momentum equation provide better
+\begin_deeper
+\begin_layout Quote
+The aspects of the numerical method that are important for stability of
+ the conditionally averaged equations are presented in section 3 and each
+ sub-section describes why the specific aspect is important for stability
+ and mentions alternatives that other models may prefer.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Is the use of first-order advection scheme (upwind and van Leer) and Crank-Nicol
+son time-stepping essential for numerical stability? Or is it possible to
+ generalize the algorithm to use higher order advection and time-stepping
+ schemes? 
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+The model uses linear upwind advection for velocity which is second order.
+ This is now clarified in the appendix.
+ van-Leer is a lot more accurate than first-order although it is not uniformly
+ second-order.
  
 \end_layout
 
-\begin_layout Standard
-numerical stability? 
+\begin_layout Quote
+Section 3.1 now states explicitly that other bounded advection schemes could
+ be used for 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ but that we use a TVD scheme with a van Leer limiter which is described
+ in the appendix.
 \end_layout
 
-\begin_layout Standard
-b.
- Is the use of first-order advection scheme (upwind and van Leer) and Crank-
+\end_deeper
+\begin_layout Enumerate
+Is the order of solution (continuity 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ temperature 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ momentum) necessary for the numerical stability? And why does solving the
+ inner loop (for momentum) twice within each outer loop (i.e., four times
+ per entire loop) help improve the stability?
 \end_layout
 
-\begin_layout Standard
-Nicolson time-stepping essential for numerical stability? Or is it possible
- to 
-\end_layout
+\begin_deeper
+\begin_layout Verse
+The inner loop actually solves for momentum and pressure.
+ This is hopefully clearer in the revised section 3.2.
+ The inner and outer loops with temperature in the outer loop is a standard
+ semi-implicit low Mach number solution technique for single fluid equations.
+ The specifics of this semi-implicit method are defined in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WS14"
 
-\begin_layout Standard
-generalize the algorithm to use higher order advection and time-stepping
+\end_inset
+
+.
+ There are similarities with the Met Office EndGame model 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "WSW+14"
+
+\end_inset
+
+ which uses two outer and two inner iterations and the Helmholtz equation
+ for the pressure is therefore solved four times per time-step.
+ These issues are not specific to the multi-fluid equations but are described
+ in section 3.2 rather than in the appendix because the solution of the condition
+ally averaged equations is interwoven with the semi-implicit method.
  
 \end_layout
 
-\begin_layout Standard
-schemes? 
-\end_layout
-
-\begin_layout Standard
-c.
- Is the order of solution (continuity -> temperature -> momentum) necessary
- for 
-\end_layout
-
-\begin_layout Standard
-the numerical stability? And why does solving the inner loop (for momentum)
+\begin_layout Verse
+We have also tried using just one inner iteration which is stable for the
+ test cases presented here but has not been tested on test cases with higher
+ stratification.
+ This is not discussed in the paper.
  
 \end_layout
 
-\begin_layout Standard
-twice within each outer loop (i.e., four times per entire loop) help improve
- the 
+\end_deeper
+\begin_layout Enumerate
+Which of the above are sufficient for small-timestep stability (at small
+ Courant number)? Which are required for large-timestep stability (at large
+ Courant number)? 
 \end_layout
 
-\begin_layout Standard
-stability? 
+\begin_deeper
+\begin_layout Quote
+This is now answered in each of the sub-sections of section 3.2.
 \end_layout
 
-\begin_layout Standard
-d.
- Which of the above are sufficient for small-timestep stability (at small
- Courant 
-\end_layout
-
-\begin_layout Standard
-number)? Which are required for large-timestep stability (at large Courant
- 
-\end_layout
-
-\begin_layout Standard
-number)? 
-\end_layout
-
+\end_deeper
 \begin_layout Standard
 Additionally, it would also be helpful to clarify which terms in which equations
+ (with equation numbers) are being discretized at the beginning of each
+ subsection.
  
 \end_layout
 
-\begin_layout Standard
-(with equation numbers) are being discretized at the beginning of each subsectio
-n.
- 
+\begin_layout Quote
+This should now be clear in sections 3.2 and in the appendix.
 \end_layout
 
 \begin_layout Standard
-Also, the superscripts ‘l’ and ‘ll’ are very confusing throughout this section.
- 
-\end_layout
+Also, the superscripts ‘
+\begin_inset Formula $\ell$
+\end_inset
 
-\begin_layout Standard
-Frequently, the ‘ll’ value in the previous equation reappears as ‘l’ value
- in the next 
-\end_layout
+’ and ‘
+\begin_inset Formula $\ell\ell$
+\end_inset
 
-\begin_layout Standard
-equation.
+’ are very confusing throughout this section.
+ Frequently, the ‘
+\begin_inset Formula $\ell\ell$
+\end_inset
+
+’ value in the previous equation reappears as ‘
+\begin_inset Formula $\ell$
+\end_inset
+
+’ value in the next equation.
  I think it would help to use superscripts like (1), (2), (3), etc.
- for 
-\end_layout
-
-\begin_layout Standard
-uniqueness of the values involved.
- And the discussion in lines 370–374 should be 
-\end_layout
-
-\begin_layout Standard
-moved to the main text since it applies throughout the subsection 3.2.
+ for uniqueness of the values involved.
+ And the discussion in lines 370–374 should be moved to the main text since
+ it applies throughout the subsection 3.2.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Quote
+Good point.
+ We now use 
+\begin_inset Formula $k=1,2$
+\end_inset
+
+ for the outer iterations, 
+\begin_inset Formula $\ell=1,2$
+\end_inset
+
+ for the inner iterations and some primed quantities for intermediate values
+ in section 3.2.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
 Specific Comments: 
 \end_layout
 
-\begin_layout Standard
-Page 1: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Page
+\begin_inset space ~
+\end_inset
+
+1: In the main text, the word ‘conditionally’ (Line 1) is misspelled, and
+ a word ‘of’ is missing (Line 5).
+ Additionally, the description that ‘transfers between the partitions mimic
+ buoyant convection’ does not seem to agree with the figure, which instead
+ represents a test case without the transfer terms of buoyancy convection.
 \end_layout
 
-\begin_layout Standard
-In the main text, the word ‘conditionally’ (Line 1) is misspelled, and a
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks for pointing out the typos.
+ I agree that the figure is not completely consistent with the text in the
+ graphical abstract.
+ The problem is that I wanted a figure with different velocities for the
+ different fluids.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space ~
+\end_inset
+
+L5: I would suggest ordering the equations as continuity, temperature, and
+ momentum throughout the paper (as is consistent to equations 2--4 and 6--8).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
+
+L12: Colon ‘:’ should be use in place of semi-colon ‘;’.
+ Also, reorder the transfer terms according to the results section (drag,
+ diffusion, and divergence).
  
 \end_layout
 
-\begin_layout Standard
-word ‘of’ is missing (Line 5).
- Additionally, the description that 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
 \end_layout
 
-\begin_layout Standard
-‘transfers between the partitions mimic buoyant convection’ does not 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-seem to agree with the figure, which instead represents a test case 
-\end_layout
-
-\begin_layout Standard
-without the transfer terms of buoyancy convection.
+L13: I suggest putting ‘the most novel’ in bracket to make the sentence
+ look cleaner.
  
 \end_layout
 
-\begin_layout Standard
-2 Abstract, L5: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Based on other comments from this reviewer, I have now removed material
+ about this novel regularisation technique.
 \end_layout
 
-\begin_layout Standard
-I would suggest ordering the equations as continuity, temperature, and 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract
+\begin_inset space \space{}
+\end_inset
+
+L14: The phrase ‘convection parameterization’ is unclear.
+ What specific features or processes in the convection parameterization
+ is involved? 
 \end_layout
 
-\begin_layout Standard
-momentum throughout the paper (as is consistent to equations 2–4 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been changed to:
 \end_layout
 
-\begin_layout Standard
-and 6–8).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Transfer terms are also proposed to move buoyant convecting air into the
+ plume fluid and vice-versa as would be needed to represent sub-grid-scale
+ convection.
+ These transfers mimic cloud base mass flux and cloud top detrainment.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
+
+L15: The word ‘limited’ may be ambiguous.
  
 \end_layout
 
-\begin_layout Standard
-Abstract, L12: Colon ‘:’ should be use in place of semi-colon ‘;’.
- Also, reorder the 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+Put 
+\begin_inset Quotes eld
+\end_inset
+
+(clipped in size)
+\begin_inset Quotes erd
+\end_inset
+
+ after 
+\begin_inset Quotes eld
+\end_inset
+
+limited
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-transfer terms according to the results section (drag, diffusion, and 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
+
+L20: By ‘conservation’, does this specifically mean the energy conservation,
+ since this is the only conservation analyzed in detail? 
 \end_layout
 
-\begin_layout Standard
-divergence).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Added 
+\begin_inset Quotes eld
+\end_inset
+
+of momentum and energy
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Momentum conservation is derived but conservation in the implementation
+ is not checked.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+79: Don’t these transfer terms help to regularize the system and improve
+ the stability of the numerical method, rather than to ‘challenge’ its stability
+? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+The source terms are too large to be treated explicitly so their implicit
+ treatment while maintaining conservation and boundedness must be considered.
+ Also they can introduce new extrema.
+ These are now mentioned in the introduction.
  
 \end_layout
 
-\begin_layout Standard
-Abstract, L13: I suggest putting ‘the most novel’ in bracket to make the
- sentence look 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-cleaner.
+80-85: Why can’t the divergence be controlled by pressure gradients? Is
+ it because of the assumption of uniform pressure among the partitions?
  
 \end_layout
 
-\begin_layout Standard
-Abstract, L14: The phrase ‘convection parameterization’ is unclear.
- What specific 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-features or processes in the convection parameterization is involved? 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Abstract, L15: The word ‘limited’ may be ambiguous.
+ Yes.
+ One pressure cannot control equal and opposite divergences in the two fluids.
+ However this sentence has been changed because we no longer present the
+ divergence regularisation.
  
 \end_layout
 
-\begin_layout Standard
-Abstract, L20: By ‘conservation’, does this specifically mean the energy
- conservation, 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-since this is the only conservation analyzed in detail? 
-\end_layout
-
-\begin_layout Standard
-Line 79: 
-\end_layout
-
-\begin_layout Standard
-Don’t these transfer terms help to regularize the system and improve 
-\end_layout
-
-\begin_layout Standard
-the stability of the numerical method, rather than to ‘challenge’ its 
-\end_layout
-
-\begin_layout Standard
-stability? 
-\end_layout
-
-\begin_layout Standard
-Lines 80–85: Why can’t the divergence be controlled by pressure gradients?
- Is it 
-\end_layout
-
-\begin_layout Standard
-because of the assumption of uniform pressure among the partitions? 
-\end_layout
-
-\begin_layout Standard
-Also, the two additional transfer terms that mimic buoyancy 
-\end_layout
-
-\begin_layout Standard
-convection should also be mentioned here.
+ Also, the two additional transfer terms that mimic buoyancy convection
+ should also be mentioned here.
  
 \end_layout
 
-\begin_layout Standard
-Line 100: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ They are mentioned at the beginning of this paragraph so we decided not
+ to repeat.
 \end_layout
 
-\begin_layout Standard
-The word ‘condition’ is vague.
- Does it refer to the mean physical 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-variables? 
+100: The word ‘condition’ is vague.
+ Does it refer to the mean physical variables? 
 \end_layout
 
 \begin_layout Standard
@@ -1168,7 +1302,9 @@ or two among the five terms are enabled concurrently (see also the
 \end_layout
 
 \begin_layout Standard
-third point of my major comment #1).
+third point of my major comment 
+\backslash
+#1).
  
 \end_layout
 
@@ -1429,16 +1565,24 @@ It should be made clear that these additional convection-related mass
 \end_layout
 
 \begin_layout Standard
-transfer terms in point #2 are distinctive from the transfer terms in 
+transfer terms in point 
+\backslash
+#2 are distinctive from the transfer terms in 
 \end_layout
 
 \begin_layout Standard
-point #1.
+point 
+\backslash
+#1.
  Also, it should be pointed out that the following discussion 
 \end_layout
 
 \begin_layout Standard
-(lines 732–739) only addresses point #1, and the terms in point #2 are 
+(lines 732–739) only addresses point 
+\backslash
+#1, and the terms in point 
+\backslash
+#2 are 
 \end_layout
 
 \begin_layout Standard
@@ -1482,6 +1626,8 @@ Lines 755–758: This discussion should be included in section 3 (see major
 \end_layout
 
 \begin_layout Standard
+
+\backslash
 #2a).
  
 \end_layout
@@ -1724,7 +1870,7 @@ Abstract and Lines 54-55: The ``grey zone'' is an artifact of our numerical
 \end_layout
 
 \begin_deeper
-\begin_layout Quotation
+\begin_layout Quote
 Thank you, yes, good point.
  Fixed.
 \end_layout
@@ -1743,6 +1889,17 @@ Line 347.
 \end_inset
 
  Crank-Nicolson
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "numerics"
+options "abbrvnat"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

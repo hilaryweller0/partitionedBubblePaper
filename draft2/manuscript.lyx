@@ -202,7 +202,7 @@ color{blue} as models enter} the grey zone, {
 color{blue} partially resolving} convection.
  The solution of conditionally averaged equations of motion is proposed
  in order to avoid this assumption.
- Separate momentum, continuity and temperature equations are solved for
+ Separate continuity, temperature and momentum equations are solved for
  inside and outside convective plumes which interact via mass transfer terms,
  drag and by a single common pressure.
  
@@ -222,12 +222,16 @@ This paper presents stable numerical methods for solving the conditionally
  {
 \backslash
 color{blue} Two} transfer terms are presented which couple the fluids together
- in order to stabilise the model; diffusion of mass between the fluids (similar
+ in order to stabilise the model: diffusion of mass between the fluids (similar
  to turbulent entrainment) and drag between the fluids.
- Transfer terms are also proposed to mimic {
+ Transfer terms are also proposed to {
 \backslash
-color{blue} cloud base mass flux and cloud top detrainment}.
- The transfer terms are limited and treated implicitly in order to achieve
+color{blue} move buoyant convecting air into the plume fluid and vice-versa
+ as would be needed to represent sub-grid-scale convection.
+ These transfers mimic  cloud base mass flux and cloud top detrainment}.
+ The transfer terms are limited {
+\backslash
+color{blue}(clipped in size)} and treated implicitly in order to achieve
  bounded, stable solutions.
  
 \end_layout
@@ -243,7 +247,9 @@ Results are presented of a well resolved rising warm bubble with rising
  For stability, equations are formulated in advective rather than flux form
  and solved using bounded finite volume methods.
  Discretisation choices are made to preserve boundedness and conservation
- when mass is transferred between fluids.
+ {
+\backslash
+color{blue} of momentum and energy} when mass is transferred between fluids.
 \end_layout
 
 \begin_layout Plain Layout
@@ -526,7 +532,12 @@ This paper presents a stable numerical method for solving the conditionally
  scale convection as this would require more information about sub-grid
  scale variability.
  Instead they are designed to be large source terms that will act to challenge
- the stability of the numerical method.
+ the stability of the numerical method
+\color blue
+ as they are too big to be treated explicitly and they will introduce new
+ extrema
+\color inherit
+.
  We use 
 \color blue
 two
@@ -1437,7 +1448,13 @@ It is crucial to get the time-stepping right for the stable solution of
  In this section we will distinguish between convenient modelling choices
  and choices that are specific to the stable solution of the conditionally
  averaged equations.
- 
+ The solution of the conditionally averaged equations is interwoven with
+ a semi-implicit method so that acoustic waves are treated implicitly for
+ large and small 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1451,15 +1468,19 @@ Other implicit schemes could be chosen and optionally gravity waves could
  to include updates from both the buoyant and stable momentum and continuity
  equations in the implicit solution of the pressure equation (details will
  follow).
- Non-linear terms and advection are treated explicitly using second-order
- Runge-Kutta time-stepping for convenience.
+ If updates to the continuity equation from the buoyant fluid were separated
+ into a distinct convection parameterisation then acoustic waves would no
+ longer be treated implicitly which would lead to instability when the buoyant
+ volume fraction is not close to zero.
  
 \end_layout
 
 \begin_layout Standard
 
 \color blue
-An inner loop solves the pressure equation twice with explicit terms updated
+Non-linear terms and advection are treated explicitly using second-order
+ Runge-Kutta time-stepping for convenience.
+ An inner loop solves the pressure equation twice with explicit terms updated
  for the second iteration.
  The inner iterations are indexed with 
 \begin_inset Formula $\ell=1,2$
@@ -1472,7 +1493,27 @@ An inner loop solves the pressure equation twice with explicit terms updated
 \end_inset
 
 .
- All transfer terms are solved using operator split either explicit or implicit
+ This low Mach number semi-implicit method follows 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WS14"
+
+\end_inset
+
+ and is similar to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WSW+14"
+
+\end_inset
+
+ in the number of inner and outer loops.
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+All transfer terms are solved using operator split either explicit or implicit
  first-order time-stepping.
  The operator splitting is a straightforward way to ensure positivity.
  Implicit updates are necessary for stable treatment of the large source
@@ -1638,7 +1679,17 @@ The first equations to be solved in the outer loop are the continuity equations
 \end_inset
 
 .
- They are solved using operator splitting, first advecting 
+ When transfer terms are included (which lead to terms with 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ in the denominator) it is essential to keep 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ positive for stability.
+ The continuity equations are solved using operator splitting, first advecting
+ 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
@@ -1824,10 +1875,14 @@ After the continuity equation, the
 
 .
  The mass transfer terms are applied implicitly because they can be very
- large due to division by 
+ large due to 
+\color blue
+the presence of 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
 
+ in the denominator
+\color inherit
 .
  Because we are using a finite volume model to solve equations in advective
  form, the advection of 
@@ -2060,12 +2115,15 @@ name "sub:Helmholtz"
 Here we describe how a standard semi-implicit algorithm is adapted to solve
  the momentum and continuity equations from all fluids simultaneously rather
  than just the momentum and continuity equations from the environment.
+ Without a semi-implicit solution there would be a time-step restriction
+ based on the acoustic Courant number.
  If gravity waves were also to be treated implicitly then the temperature
  equation from each fluid would need to be included.
+\end_layout
 
-\color inherit
- The momentum and continuity equations are combined to form a Helmholtz
- equation for 
+\begin_layout Standard
+The momentum and continuity equations are combined to form a Helmholtz equation
+ for 
 \begin_inset Formula $\pi$
 \end_inset
 
@@ -2384,7 +2442,8 @@ So far, each time-step, we have updated each
 
  using the Helmholz equation which is a combination of the momentum and
  continuity equations and the equation of state.
- This is over-specified so to avoid inconsistencies growing, 
+ This is over-specified so to avoid inconsistencies growing (which leads
+ to instability), 
 \begin_inset Formula $\pi$
 \end_inset
 
@@ -3991,9 +4050,9 @@ A stable numerical method is presented for solving the conditionally averaged
  equations of motion for representing atmospheric convection with two fluids,
  one to represent stable, environmental air and the other to represent buoyant
  plumes.
- This builds on traditional mass flux schemes by solving equations for momentum,
- mass and temperature both inside and outside the plumes and so net mass
- transfer by convection can be represented.
+ This builds on traditional mass flux schemes by solving equations for mass,
+ temperature and momentum both inside and outside the plumes and so net
+ mass transfer by convection can be represented.
  Our numerical method would also be suitable for the similar extended EDMF
  scheme 
 \begin_inset CommandInset citation
@@ -4044,7 +4103,7 @@ The transfer terms are applied explicitly to the individual partition continuity
 \end_inset
 
 ) and limited to avoid negative mass in each fluid.
- These mass transfer terms also appear in the momentum and temperature equations
+ These mass transfer terms also appear in the temperature and momentum equations
  since the transferred mass takes its other properties with it.
  In these equations the transfer terms are treated implicitly as they can
  be very large.
@@ -4119,12 +4178,47 @@ name "appx:modelSpace"
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Standard
+
+\color blue
+This appendix defines the spatial discretisation that is used.
+ This is similar to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WS14"
+
+\end_inset
+
+ which was used for single fluid equations.
+ None of the spatial discretisation described is specific for conditionally
+ averaged equations.
+ 
+\end_layout
+
+\begin_layout Subsection
 Reconstruction of velocity fields at cell centres and faces from face normals
 \end_layout
 
 \begin_layout Standard
-The prognostic velocity variable is the volume flux across each face:
+
+\color blue
+The model uses a C-grid so normal components of the velocity (volume fluxes)
+ are stored at cell faces.
+ Full velocity fields are needed in the non-linear advection term, 
+\begin_inset Formula $\mathbf{u}\cdot\nabla\mathbf{u}$
+\end_inset
+
+, of the momentum equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condMomAdv"
+
+\end_inset
+
+).
+ 
+\color inherit
+The volume flux across each face is:
 \begin_inset Formula 
 \begin{equation}
 U_{i}=\mathbf{u}_{fi}\cdot\mathbf{S}_{f}
@@ -4219,12 +4313,29 @@ where the hat denotes the unit vector and the notation
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Non-Linear Advection
 \end_layout
 
 \begin_layout Standard
-The conditionally averaged Euler equations are solved in advective form
+
+\color blue
+This section is again concerned with the discretisation of the non-linear
+ advection term, 
+\begin_inset Formula $\mathbf{u}\cdot\nabla\mathbf{u}$
+\end_inset
+
+, of the momentum equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condMomAdv"
+
+\end_inset
+
+).
+
+\color inherit
+ The conditionally averaged Euler equations are solved in advective form
  so that they are defined where 
 \begin_inset Formula $\sigma_{i}=0$
 \end_inset
@@ -4263,6 +4374,10 @@ where
 \end_inset
 
  is the velocity interpolated from cell centres to faces using the OpenFOAM
+ 
+\color blue
+(second-order)
+\color inherit
  linear upwind advection scheme.
  The prognostic variable is 
 \begin_inset Formula $U_{i}$
@@ -4307,7 +4422,18 @@ The pressure gradient term,
 \begin_inset Formula $c_{p}\theta_{i}\nabla\pi$
 \end_inset
 
-, needs to be calculated on faces in the normal direction to the face.
+, 
+\color blue
+of the momentum equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condMomAdv"
+
+\end_inset
+
+)
+\color inherit
+ needs to be calculated on faces in the normal direction to the face.
  Since we assume an orthogonal mesh this can simply be calculated as the
  difference in pressure between the cells either side of the face:
 \begin_inset Formula 
@@ -4350,7 +4476,7 @@ where
  vertical.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Transfer Terms in the Momentum Equation
 \end_layout
 
@@ -4373,11 +4499,15 @@ reference "eq:condMomAdv"
 
 .
  This is not done using conservative interpolation so momentum could be
+ 
+\color blue
+created or
+\color inherit
  destroyed when mass is transferred.
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Advection of 
 \begin_inset Formula $\sigma_{i}\rho_{i}$
 \end_inset
@@ -4393,6 +4523,19 @@ name "sub:vanLeerContinuity"
 \end_layout
 
 \begin_layout Standard
+
+\color blue
+Here we consider the discretisation of the advection term of the continuity
+ equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont-1"
+
+\end_inset
+
+).
+ 
+\color inherit
 The mass transfer terms that appear in the momentum and 
 \begin_inset Formula $\theta$
 \end_inset
@@ -4539,7 +4682,7 @@ where
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Advection of 
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -4555,7 +4698,19 @@ name "sub:thetaAdvect"
 \end_layout
 
 \begin_layout Standard
-For consistency with advection in the momentum equation (eqn 
+
+\color blue
+Here we consider the advection term in the temperature equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condThetaAdv"
+
+\end_inset
+
+).
+
+\color inherit
+ For consistency with advection in the momentum equation (eqn 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:nonLinearAdvect"
