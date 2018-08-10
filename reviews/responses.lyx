@@ -378,7 +378,7 @@ Is the order of solution (continuity
 \end_layout
 
 \begin_deeper
-\begin_layout Verse
+\begin_layout Quote
 The inner loop actually solves for momentum and pressure.
  This is hopefully clearer in the revised section 3.2.
  The inner and outer loops with temperature in the outer loop is a standard
@@ -406,7 +406,7 @@ ally averaged equations is interwoven with the semi-implicit method.
  
 \end_layout
 
-\begin_layout Verse
+\begin_layout Quote
 We have also tried using just one inner iteration which is stable for the
  test cases presented here but has not been tested on test cases with higher
  stratification.
@@ -995,758 +995,1688 @@ Eqn
  
 \end_layout
 
-\begin_layout Standard
-Line 136: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+136: How is 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ related to 
+\begin_inset Formula $D_{ij}$
+\end_inset
+
+ ? 
 \end_layout
 
-\begin_layout Standard
-Eqn 16: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This is now defined after eqn 19 (
+\begin_inset Formula $D_{ij}=\sigma_{j}d_{ij}/\rho_{i}$
+\end_inset
+
+)
 \end_layout
 
-\begin_layout Standard
-Eqn 15 and 17: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Section 2.1: 
-\end_layout
-
-\begin_layout Standard
-How is d ij related to D ij ? 
-\end_layout
-
-\begin_layout Standard
-This equation simply repeats equation (12) and may be omitted.
+16: This equation simply repeats equation (12) and may be omitted.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ OK, done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+15
+\begin_inset space \space{}
+\end_inset
+
+and
+\begin_inset space \space{}
+\end_inset
+
+17: 
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
 Switch the order (temperature, then momentum).
  
 \end_layout
 
-\begin_layout Standard
-The subsections should be reordered according to the abstract and the 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ OK, done
 \end_layout
 
-\begin_layout Standard
-introduction (drag, diffusion, and divergence), and separate out the 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Section
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-sub-subsections 2.1.3 and 2.1.4 into another subsection, since they are 
-\end_layout
-
-\begin_layout Standard
-terms like buoyancy-convection and are different from the other three 
-\end_layout
-
-\begin_layout Standard
-terms.
+2.1: The subsections should be reordered according to the abstract and the
+ introduction (drag, diffusion, and divergence), and separate out the sub-subsec
+tions 2.1.3 and 2.1.4 into another subsection, since they are terms like buoyancy-co
+nvection and are different from the other three terms.
  
 \end_layout
 
-\begin_layout Standard
-Also, it would be clearer to state at the beginning of this section that
- the 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-following discussions apply to two fluids specifically (with index 0 for
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We have re-ordered.
+ Now that we are no longer considering the divergence regularisation, there
+ is no longer such a clear distinction between the regularisation transfer
+ terms and the cloud base mass flux transfer terms.
+ They are all representing physical processes although some of them act
+ to stabilise and some do not.
  
 \end_layout
 
-\begin_layout Standard
-environment and 1 for updraft plume, or general indices i and j).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ Also, it would be clearer to state at the beginning of this section that
+ the following discussions apply to two fluids specifically (with index
+ 0 for environment and 1 for updraft plume, or general indices 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+).
  
 \end_layout
 
-\begin_layout Standard
-Line 170: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Does ‘steep change’ mean steep spatial difference/gradient? 
-\end_layout
-
-\begin_layout Standard
-Line 194: 
-\end_layout
-
-\begin_layout Standard
-It may be worth clarifying that coefficient 1/2 is only applicable for two
+ 
+\color blue
+Some of the transfer terms formulations, such as diffusion, will work for
+ an arbitrary number of fluids.
+ The transfer terms that have only been derived for two fluids are flagged
+ at the beginning of their sub-section.
  
 \end_layout
 
-\begin_layout Standard
-fluids.
- For N fluids the coefficient should be 1/N.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+170: Does ‘steep change’ mean steep spatial difference/gradient? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been changed to 
+\begin_inset Quotes eld
+\end_inset
+
+high curvature or oscillations in 
+\begin_inset Formula $\sigma$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+194: It may be worth clarifying that coefficient 
+\begin_inset Formula $1/2$
+\end_inset
+
+ is only applicable for two fluids.
+ For 
+\begin_inset Formula $N$
+\end_inset
+
+ fluids the coefficient should be 
+\begin_inset Formula $1/N$
+\end_inset
+
+.
  
 \end_layout
 
-\begin_layout Standard
-Eqn 20: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-This also only applies for two fluids (otherwise, a summation over j is
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Based on the comments below, the work on the divergence regulator has been
+ removed.
  
 \end_layout
 
-\begin_layout Standard
-necessary).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+20: This also only applies for two fluids (otherwise, a summation over 
+\begin_inset Formula $j$
+\end_inset
+
+ is necessary).
  
 \end_layout
 
-\begin_layout Standard
-Lines 203–204: The material conservation of σ i ρ i is a very strong constraint.
- If density 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-does not vary significantly, this constraint implies that the plume area
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Based on the comments below, the work on the divergence regulator has been
+ removed.
  
 \end_layout
 
-\begin_layout Standard
-fraction is almost unchanged following its movement.
- This is quite 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-different from some conventional mass flux schemes in which the 
-\end_layout
+203-204: The material conservation of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
 
-\begin_layout Standard
-plume fraction decreases as it accelerates, and vice versa.
- This feature 
-\end_layout
+ is a very strong constraint.
+ If density does not vary significantly, this constraint implies that the
+ plume area fraction is almost unchanged following its movement.
+ This is quite different from some conventional mass flux schemes in which
+ the plume fraction decreases as it accelerates, and vice versa.
+ This feature is clearly seen in the test case results (figure 4), in which
+ the plume fraction looks quite different with the divergence regulator
+ compared to the other regulators: it seems to never exceed its initial
+ value of 
+\begin_inset Formula $0.5$
+\end_inset
 
-\begin_layout Standard
-is clearly seen in the test case results (figure 4), in which the plume
+ and it does not produce a higher fraction at the top.
  
 \end_layout
 
-\begin_layout Standard
-fraction looks quite different with the divergence regulator compared 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-to the other regulators: it seems to never exceed its initial value of 0.5
+ I think this regulator does its work to stabilize the model in the test
+ cases, but I am somewhat concerned about its possible effect on the simulated
+ convection and cloud fraction (especially the anvil) when it is applied
+ to a weather or climate model.
+ I think it is worth pointing out this feature either here or in the result
+ section, and discuss if there are possible ways to relax this strong constraint
+ (e.g., scaling down the mass transfer term).
  
 \end_layout
 
-\begin_layout Standard
-and it does not produce a higher fraction at the top.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ Additionally, equation (21) implies that the mass sink due to mean divergence
+ is equally partitioned into the two fluids.
+ Why should it be so? Shouldn’t the mean divergence be partitioned more
+ into the fluid with a larger fraction? Especially, the mean divergence
+ seems to cause a mass source/sink even where 
+\begin_inset Formula $\sigma_{1}=0$
+\end_inset
+
+ (the advection term is zero, so the tendency term should equal the mean
+ divergence term).
+ Is this physical, and is there an additional constraint to prevent this?
  
 \end_layout
 
-\begin_layout Standard
-I think this regulator does its work to stabilize the model in the test
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ These are really good points.
+ The material on the divergence regulator has been removed from the manuscript.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+22: The indices don’t agree (
+\begin_inset Formula $j$
+\end_inset
+
+ on the left side, but 
+\begin_inset Formula $i$
+\end_inset
+
+ on the right side).
  
 \end_layout
 
-\begin_layout Standard
-cases, but I am somewhat concerned about its possible effect on the 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-simulated convection and cloud fraction (especially the anvil) when it 
-\end_layout
-
-\begin_layout Standard
-is applied to a weather or climate model.
- I think it is worth pointing out 
-\end_layout
-
-\begin_layout Standard
-this feature either here or in the result section, and discuss if there
- are 
-\end_layout
-
-\begin_layout Standard
-possible ways to relax this strong constraint (e.g., scaling down the 
-\end_layout
-
-\begin_layout Standard
-mass transfer term).
+ 
+\color blue
+Based on the comments above, the work on the divergence regulator has been
+ removed.
  
 \end_layout
 
-\begin_layout Standard
-Additionally, equation (21) implies that the mass sink due to mean 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-divergence is equally partitioned into the two fluids.
- Why should it be 
-\end_layout
+246: Referring to 
+\begin_inset Formula $r_{c}$
+\end_inset
 
-\begin_layout Standard
-so? Shouldn’t the mean divergence be partitioned more into the fluid 
-\end_layout
+ as cloud radius is inaccurate.
+ I think it suffices to just write 
+\begin_inset Formula $r_{c}$
+\end_inset
 
-\begin_layout Standard
-with a larger fraction? Especially, the mean divergence seems to cause 
-\end_layout
-
-\begin_layout Standard
-a mass source/sink even where σ 1 =0 (the advection term is zero, so the
+ here, since it is already described in the lines above.
  
 \end_layout
 
-\begin_layout Standard
-tendency term should equal the mean divergence term).
- Is this physical, 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ OK.
+ Instead we have put at the bottom of this section:
 \end_layout
 
-\begin_layout Standard
-and is there an additional constraint to prevent this? 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+For a more realistic scheme, future work could draw on existing parameterisation
+s of cloud radius.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Eqn 22: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-The indices don’t agree (j on the left side, but i on the right side).
+28: Just write 
+\begin_inset Formula $\sigma_{0}\sigma_{1}$
+\end_inset
+
+ instead of the multiplication form, since the above discussion is specific
+ for two fluids.
  
 \end_layout
 
-\begin_layout Standard
-Line 246: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-Referring to r c as cloud radius is inaccurate.
- I think it suffices to just 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-write r c here, since it is already described in the lines above.
+ We have replaced the multiplication form with 
+\begin_inset Formula $\sigma_{i}\sigma_{j}$
+\end_inset
+
+ since the drag term is general for any two fluids.
  
 \end_layout
 
-\begin_layout Standard
-Eqn 28: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+276: It would be clearer to state the basic features of the reconstruction
+ algorithm.
+ Is it still a linear interpolation, but just involving more faces? Is it
+ first or second order accurate? What specific form does it take in the
+ case of orthogonal mesh? 
 \end_layout
 
-\begin_layout Standard
-Just write σ 0 σ 1 instead of the multiplication form, since the above 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point.
+ We have now added at the beginning of the appendix on spatial discretisaion:
 \end_layout
 
-\begin_layout Standard
-discussion is specific for two fluids.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The spatial discretisation is general for arbitrarily structured meshes
+ (for example including hexagonal prisms, cut cells and refinement) but
+ the meshes used in this study or all fully structured.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ and specific forms of the discretisation for structured meshes are also
+ given.
+ We have also added at the end of A.1:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+This reconstruction is first-order accurate on arbitrary meshes and second-order
+ accurate on uniform structured meshes.
+ I simplifies to simple averaging of nearest neighbours on a uniform structured
+ mesh of hexahedra.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+292: The advecting and advected velocities are computed with different interpola
+tion methods: one is simple linear and the other is upwind.
+ Does this affect the momentum and energy conservation in the model? It
+ would also be helpful to provide some references on why this treatment
+ is necessary for preventing numerical instability.
  
 \end_layout
 
-\begin_layout Standard
-Line 276: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We have added near the beginning of A.2:
 \end_layout
 
-\begin_layout Standard
-It would be clearer to state the basic features of the reconstruction 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-algorithm.
- Is it still a linear interpolation, but just involving more faces? 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-4 Is it first or second order accurate? What specific form does it take
- in 
-\end_layout
-
-\begin_layout Standard
-the case of orthogonal mesh? 
-\end_layout
-
-\begin_layout Standard
-Line 292: 
-\end_layout
-
-\begin_layout Standard
-The advecting and advected velocities are computed with different 
-\end_layout
-
-\begin_layout Standard
-interpolation methods: one is simple linear and the other is upwind.
  
+\begin_inset Quotes eld
+\end_inset
+
+The non-linear advection described is not optimal but yields satisfactory
+ solutions using existing OpenFOAM operators to implement a C-grid on an
+ unstructured mesh.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Does this affect the momentum and energy conservation in the model? 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ and towards the end:
 \end_layout
 
-\begin_layout Standard
-It would also be helpful to provide some references on why this 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-treatment is necessary for preventing numerical instability.
+\color blue
+\begin_inset space \space{}
+\end_inset
+
  
+\begin_inset Quotes eld
+\end_inset
+
+The linear-upwind advection can be replaced by linear advection which gives
+ better energy conservation but the results are a bit noisy.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Line 297: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Does ‘bounded’ mean boundedness or monotonicity (cf.
+297: Does ‘bounded’ mean boundedness or monotonicity (cf.
  line 322)? 
 \end_layout
 
-\begin_layout Standard
-Eqn 34: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The linear upwind advection is not bounded or monotonic.
+ Boundedness is a weaker constraint so we have left the manuscript as it
+ is.
 \end_layout
 
-\begin_layout Standard
-Define the ∇ s operator.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+34: Define the 
+\begin_inset Formula $\nabla_{S}$
+\end_inset
+
+ operator.
  
 \end_layout
 
-\begin_layout Standard
-Line 314: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Done
 \end_layout
 
-\begin_layout Standard
-The sentence seems incomplete.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+314: The sentence seems incomplete.
  I suggest changing it to ‘...
- linearly 
-\end_layout
+ linearly interpolated onto faces, and their dot products with 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
 
-\begin_layout Standard
-interpolated onto faces, and their dot products with S f are taken’.
+ are taken’.
  
 \end_layout
 
-\begin_layout Standard
-Lines 321–322: Advection in which equation? Equation (12)? 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks, done
 \end_layout
 
-\begin_layout Standard
-Lines 348–349: Is there any reference for the ‘off-centering’ and ‘deferred
- correction’ 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+321-322: Advection in which equation? Equation (12)? 
 \end_layout
 
-\begin_layout Standard
-method for the Crank-Nicolson time-stepping? And is the Crank-
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes.
+ This is now specified.
+ Thank you.
 \end_layout
 
-\begin_layout Standard
-Nicolson time-stepping actually semi-implicit (i.e., the first solution 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+348-349: Is there any reference for the ‘off-centering’ and ‘deferred correction
+’ method for the Crank-Nicolson time-stepping? And is the Crank-Nicolson
+ time-stepping actually semi-implicit (i.e., the first solution does an explicit
+ Euler method, and its results are treated as the next-step value for the
+ Crank-Nicolson method in the second solution)? 
 \end_layout
 
-\begin_layout Standard
-does an explicit Euler method, and its results are treated as the next-
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-step value for the Crank-Nicolson method in the second solution)? 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Line 349: 
-\end_layout
-
-\begin_layout Standard
-The ‘pressure equation’ has not been defined.
- Is it the combined form 
-\end_layout
-
-\begin_layout Standard
-of momentum and continuity equations? 
-\end_layout
-
-\begin_layout Standard
-Line 356: 
-\end_layout
-
-\begin_layout Standard
-It is somewhat confusing that the Exner pressure π is diagnostic (i.e., 
-\end_layout
-
-\begin_layout Standard
-no transport equation) in the original form of equations (11-14).
- It is 
-\end_layout
-
-\begin_layout Standard
-only in the transformed equation (53) that π becomes prognostic.
+ The introduction to section 3.2 is re-written with citations.
  
 \end_layout
 
-\begin_layout Standard
-Line 359: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+349: The ‘pressure equation’ has not been defined.
+ Is it the combined form of momentum and continuity equations? 
 \end_layout
 
-\begin_layout Standard
-Why not directly initialize the three variables U i , σ i ρ i and θ i ?
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The following text has been added:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+the pressure or Helmholtz equation will be defined in section 3.2.5 and is
+ the combination of the momentum and continuity equations
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+356: It is somewhat confusing that the Exner pressure 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is diagnostic (i.e., no transport equation) in the original form of equations
+ (11-14).
+ It is only in the transformed equation (53) that 
+\begin_inset Formula $\pi$
+\end_inset
+
+ becomes prognostic.
  
 \end_layout
 
-\begin_layout Standard
-Lines 376–377: Why should a combination of old σ and updated ρ be more accurate?
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes.
+ It is standard for semi-implicit algorithms of the fully compressible Euler
+ equations that no continuous transport equation is written down for Exner
+ pressure but it is a prognostic variable.
+ We now refer to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "MDW+10,WS14,WSW+14"
+
+\end_inset
+
+ for similar algorithms.
  
 \end_layout
 
-\begin_layout Standard
-Since the main prognostic variable is σρ, I would intuitively think that
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+359: Why not directly initialize the three variables 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We have now added:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+A separate code for calculating the initial conditions calculates 
+\begin_inset Formula $\pi$
+\end_inset
+
+ that is in discrete hydrostatic balance with 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This uses initialisation code that existed before the multi-fluid solver
+ was written.
+ It is straightforward to initialise 
+\begin_inset Formula $\pi$
+\end_inset
+
+ to be in discrete hydrostatic balance with 
+\begin_inset Formula $\theta.$
+\end_inset
+
+ The 
+\begin_inset Formula $\sigma$
+\end_inset
+
+s can then be initialised to be anything that sums to one and hydrostatic
+ balance will not be affected.
+ If 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ were initialised then this would influence 
+\begin_inset Formula $\overline{\rho}$
+\end_inset
+
+ which would modify the hydrostatic balance.
+ It seems easier to initialise 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\pi$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+376-377: Why should a combination of old 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and updated 
+\begin_inset Formula $\rho$
+\end_inset
+
+ be more accurate? Since the main prognostic variable is 
+\begin_inset Formula $\sigma\rho$
+\end_inset
+
+, I would intuitively think that the values for both 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ from the same step should be used for consistency.
  
 \end_layout
 
-\begin_layout Standard
-the values for both σ and ρ from the same step should be used for 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This is a tricky issue that foxed us for some time.
+ The old value of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ needs to be used for monotonicity.
+ The updated value of 
+\begin_inset Formula $\rho$
+\end_inset
+
+ needs to be used for consistency with 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+ This is hopefully now better described in section 3.2.2.
 \end_layout
 
-\begin_layout Standard
-consistency.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+380: This does not agree with the set-up of the test cases, in which only
+ one or two among the five terms are enabled concurrently (see also the
+ third point of my major comment #1).
  
 \end_layout
 
-\begin_layout Standard
-Line 380: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Results are now presented which use a wider variety of combinations of
+ transfer terms, including all of them.
 \end_layout
 
-\begin_layout Standard
-This does not agree with the set-up of the test cases, in which only one
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+387: It should be ‘equation 38’ instead of ‘section 38’.
  
 \end_layout
 
-\begin_layout Standard
-or two among the five terms are enabled concurrently (see also the 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This is now changed to 
+\begin_inset Quotes eld
+\end_inset
+
+section A.5
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-third point of my major comment 
-\backslash
-#1).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+398: What ‘numerical treatment’ does this refer to? Does it refer to the
+ implicit equations (44) and (45), or does it refer the use of 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ from after advection? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been changed to:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Calculation of 
+\begin_inset Formula $\theta_{i}^{k}$
+\end_inset
+
+ from eqns (33) and (34) also ensures boundedness of 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ (
+\begin_inset Formula $\theta_{i}^{k}$
+\end_inset
+
+ will remain between 
+\begin_inset Formula $\theta_{i}^{k-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{j}^{k-1}$
+\end_inset
+
+).
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+53: The index 
+\begin_inset Formula $i$
+\end_inset
+
+ only appears once.
+ Should that term be the summation over all 
+\begin_inset Formula $i$
+\end_inset
+
+ instead? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ No.
+ Thank you for pointing this out.
+ It is now fixed in the new eqn 42.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqn
+\begin_inset space \space{}
+\end_inset
+
+57: 
+\begin_inset Formula $T_{ij}$
+\end_inset
+
+ has already been defined in a different form (line 395), so I would suggest
+ using another notation to avoid confusion.
  
 \end_layout
 
-\begin_layout Standard
-Line 387: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point.
+ We now use 
+\begin_inset Formula $\mathbb{T}_{ij}=T_{ij}+\frac{\sigma_{i}^{k}}{\rho_{j}^{k}}\frac{C_{D}\overline{\rho}^{k}}{r_{c}}|\mathbf{u}_{j}-\mathbf{u}_{i}|^{\ell-1}$
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-It should be ‘equation 38’ instead of ‘section 38’.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Section
+\begin_inset space \space{}
+\end_inset
+
+3.2.6 The order of the variable update is unclear.
+ Is each procedure (a) to (c) done for all points before moving to the next
+ procedure? Or are the procedures (a) (b) (c) done on each point first,
+ before they are looped spatially through all points? Also, from lines 372–373
+ it is not very clear if the updated values ‘
+\begin_inset Formula $\ell\ell$
+\end_inset
+
+’ are used immediately for updating the variables at other spatial points
+ during the same procedure, or are they only used for the next procedures.
  
 \end_layout
 
-\begin_layout Standard
-Line 398: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-What ‘numerical treatment’ does this refer to? Does it refer to the 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-implicit equations (44) and (45), or does it refer the use of σ i ρ i from
+ This is a semi-implicit algorithm so all points have to be solved simultaneousl
+y.
+ This is now clarified at the beginning of section 3.2.7.
  
 \end_layout
 
-\begin_layout Standard
-after advection? 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-Eqn 53: 
-\end_layout
-
-\begin_layout Standard
-The index i only appears once.
- Should that term be the summation over 
-\end_layout
-
-\begin_layout Standard
-all i instead? 
-\end_layout
-
-\begin_layout Standard
-Eqn 57: 
-\end_layout
-
-\begin_layout Standard
-T ij has already been defined in a different form (line 395), so I would
+498: It would be better to clarify the initial bound as 300-302 K.
  
 \end_layout
 
-\begin_layout Standard
-suggest using another notation to avoid confusion.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+528: What does ‘dissipative advection’ refer to? Does it mean the van Leer
+ scheme? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This is now clarified:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+dissipative advection of velocity (linear-upwind) and potential temperature
+ (van-Leer)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+556: A word ‘and’ seems missing between ‘change’ and ‘stable’.
  
 \end_layout
 
-\begin_layout Standard
-Section 3.2.6: The order of the variable update is unclear.
- Is each procedure (a) to (c) 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
 \end_layout
 
-\begin_layout Standard
-done for all points before moving to the next procedure? Or are the 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-procedures (a) (b) (c) done on each point first, before they are looped
- 
-\end_layout
-
-\begin_layout Standard
-spatially through all points? Also, from lines 372–373 it is not very 
-\end_layout
-
-\begin_layout Standard
-clear if the updated values ‘ll’ are used immediately for updating the 
-\end_layout
-
-\begin_layout Standard
-variables at other spatial points during the same procedure, or are they
- 
-\end_layout
-
-\begin_layout Standard
-only used for the next procedures.
- 
-\end_layout
-
-\begin_layout Standard
-5 Line 498: 
-\end_layout
-
-\begin_layout Standard
-Line 528: 
-\end_layout
-
-\begin_layout Standard
-It would be better to clarify the initial bound as 300–302 K.
- 
-\end_layout
-
-\begin_layout Standard
-What does ‘dissipative advection’ refer to? Does it mean the van Leer 
-\end_layout
-
-\begin_layout Standard
-scheme? 
-\end_layout
-
-\begin_layout Standard
-Line 556: 
-\end_layout
-
-\begin_layout Standard
-A word ‘and’ seems missing between ‘change’ and ‘stable’.
- 
-\end_layout
-
-\begin_layout Standard
-Lines 579–580: It would be helpful to clarify that this numerical instability
- is caused by 
-\end_layout
-
-\begin_layout Standard
-the ill-posedness of the system (and thus the oscillation is physical, and
- 
-\end_layout
-
-\begin_layout Standard
-using adaptive timestep or implicit advection will not eliminate the 
-\end_layout
-
-\begin_layout Standard
-oscillation), and that the following discussion (lines 582–586) are the
- 
-\end_layout
-
-\begin_layout Standard
-actual mechanisms in the real world that would prevent such 
-\end_layout
-
-\begin_layout Standard
-oscillation.
- It may be helpful to cite Stewart and Wendroff [1984] again, 
-\end_layout
-
-\begin_layout Standard
-since they did mention that ‘with the inclusion of any nonzero 
-\end_layout
-
-\begin_layout Standard
-viscosity...
+579-580: It would be helpful to clarify that this numerical instability
+ is caused by the ill-posedness of the system (and thus the oscillation
+ is physical, and using adaptive timestep or implicit advection will not
+ eliminate the oscillation), and that the following discussion (lines 582–586)
+ are the actual mechanisms in the real world that would prevent such oscillation.
+ It may be helpful to cite Stewart and Wendroff [1984] again, since they
+ did mention that ‘with the inclusion of any nonzero viscosity...
  the basic model becomes well-posed’.
  
 \end_layout
 
-\begin_layout Standard
-Figure 3: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes, thanks.
+ Done
 \end_layout
 
-\begin_layout Standard
-It is worth pointing out that only 1/4 of the entire domain is plotted in
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Figure
+\begin_inset space \space{}
+\end_inset
+
+3: It is worth pointing out that only 1/4 of the entire domain is plotted
+ in these figures.
  
 \end_layout
 
-\begin_layout Standard
-these figures.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Actually less that a quarter of the domain is plotted in figure 3.
+ The caption to figure 1 now includes:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The full domain extends between 
+\begin_inset Formula $x=-10^{3}\ $
+\end_inset
+
+m and 
+\begin_inset Formula $x=10^{3}\ $
+\end_inset
+
+m
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ so only half the domain is plotted in figure 1.
+ Similar text has been added to the caption of figure 3 and the axis labels
+ have been enlarged to clarify the domain plotted.
  
 \end_layout
 
-\begin_layout Standard
-Line 597: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-The ‘diffusion’ should be better clarified as ‘diffusive mass transfer’.
+597: The ‘diffusion’ should be better clarified as ‘diffusive mass transfer’.
  
 \end_layout
 
-\begin_layout Standard
-Line 633: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been clarified as 
+\begin_inset Quotes eld
+\end_inset
+
+diffusion between the fluids
+\begin_inset Quotes erd
+\end_inset
+
+.
+ We do not want the diffusion to be confused with diffusion of mass.
 \end_layout
 
-\begin_layout Standard
-The differences between the σ i patterns for the three regulators should
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+633: The differences between the 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ patterns for the three regulators should also be discussed (see my comments
+ for lines 203–204).
  
 \end_layout
 
-\begin_layout Standard
-also be discussed (see my comments for lines 203–204).
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The divergence regulator is no longer used.
+ The differences in 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{1}$
+\end_inset
+
+ between the two regulators are now discussed:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Once mass is transferred, the peaks in 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+ reduce in comparison to the simulation with drag between the fluids.
+ Temperature and momentum are transferred with the mass so the temperature
+ in fluid 1 no longer remains 300
+\begin_inset space \thinspace{}
+\end_inset
+
+K and the temperature in fluid 0 reduces.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+652: To make it clearer, it should be stated that the mass transfer is just
+ nominal and does not cause any contrast in the physical properties between
+ the two fluids at any location.
+ Or just move the discussion in lines 673–676 here to make this point.
  
 \end_layout
 
-\begin_layout Standard
-Line 652: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The mass transfer is not nominal, it is the initial properties of the empty
+ fluid that are nominal.
+ We think that this is already clear in section 4.3.
 \end_layout
 
-\begin_layout Standard
-To make it clearer, it should be stated that the mass transfer is just 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+660: How is 
+\begin_inset Formula $K_{\theta}$
+\end_inset
+
+ selected, and why is it so much larger than the mass diffusivity? How sensitive
+ is the model to this parameter, and is there a scaling argument for its
+ choice?
 \end_layout
 
-\begin_layout Standard
-nominal and does not cause any contrast in the physical properties 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color red
+\begin_inset space \space{}
+\end_inset
+
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 \end_layout
 
-\begin_layout Standard
-between the two fluids at any location.
- Or just move the discussion in 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-lines 673–676 here to make this point.
+680,
+\begin_inset space \space{}
+\end_inset
+
+701: Can these RMS differences be seen from figure 6? If so, references
+ to figure 6 should be added.
  
 \end_layout
 
-\begin_layout Standard
-Line 660: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Added to the bottom of section 4.3.1:
 \end_layout
 
-\begin_layout Standard
-How is K θ selected, and why is it so much larger than the mass 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-diffusivity? How sensitive is the model to this parameter, and is there
- a 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-scaling argument for its choice? 
-\end_layout
-
-\begin_layout Standard
-Lines 680, 701: Can these RMS differences be seen from figure 6? If so,
- references to 
-\end_layout
-
-\begin_layout Standard
-figure 6 should be added.
  
+\begin_inset Quotes eld
+\end_inset
+
+although these errors are not obvious when comparing the results of figure
+ 5 with those in figure 4 by eye
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Line 726: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ and added to section 4.3.2:
 \end_layout
 
-\begin_layout Standard
-The word ‘close’ is somewhat ambiguous.
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+which again is not big enough to visually see differences between the results
+ in figures 5 and 4
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+726: The word ‘close’ is somewhat ambiguous.
  Close in what sense? 
 \end_layout
 
-\begin_layout Standard
-Line 727: 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This has been changed to:
 \end_layout
 
-\begin_layout Standard
-It should be made clear that these additional convection-related mass 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+transfer terms are formulated to represent drag and entrainment between
+ fluids to ensure that the different fluids do not diverge
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-transfer terms in point 
-\backslash
-#2 are distinctive from the transfer terms in 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-point 
-\backslash
-#1.
- Also, it should be pointed out that the following discussion 
-\end_layout
-
-\begin_layout Standard
-(lines 732–739) only addresses point 
-\backslash
-#1, and the terms in point 
-\backslash
-#2 are 
-\end_layout
-
-\begin_layout Standard
-not summarized.
+727: It should be made clear that these additional convection-related mass
+ transfer terms in point #2 are distinctive from the transfer terms in point
+ #1.
+ Also, it should be pointed out that the following discussion (lines 732–739)
+ only addresses point #1, and the terms in point #2 are not summarized.
  
 \end_layout
 
-\begin_layout Standard
-Line 751: 
-\end_layout
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 
-\begin_layout Standard
-How large? Although the Crank-Nicolson scheme should be 
-\end_layout
+\color blue
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-unconditionally stable, it is mentioned in lines 336–338 that ‘this 
-\end_layout
-
-\begin_layout Standard
-discretization is only monotonic...
- in low Mach number flows’, and in 
-\end_layout
-
-\begin_layout Standard
-line 577 that ‘the advection scheme is only bounded for Courant 
-\end_layout
-
-\begin_layout Standard
-numbers less than 0.5’.
- Do these restrictions induce an upper bound for 
-\end_layout
-
-\begin_layout Standard
-the Courant number? 
-\end_layout
-
-\begin_layout Standard
-Lines 755–758: This discussion should be included in section 3 (see major
- comment 
-\end_layout
-
-\begin_layout Standard
-
-\backslash
-#2a).
+ Without the divergence regulator, the discussion is now confined to points
+ one and two which are clarified.
  
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+751: How large? Although the Crank-Nicolson scheme should be unconditionally
+ stable, it is mentioned in lines 336–338 that ‘this discretization is only
+ monotonic...
+ in low Mach number flows’, and in line 577 that ‘the advection scheme is
+ only bounded for Courant numbers less than 0.5’.
+ Do these restrictions induce an upper bound for the Courant number? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ This line has been changed to say:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+A semi-implicit finite volume method ...
+ removes time-step restrictions based on the speed of sound.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ An additional paragraph has been added to the conclusions:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The results presented in this paper use explicit Eulerian advection schemes
+ and have advective Courant number limits of 0.5.
+ This Courant number restriction could be raised with the use of semi-Lagrangian
+ or implicit advection.
+ This could be important for large updrafts in plumes
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+755-758: This discussion should be included in section 3 (see major comment
+ #2a).
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
 \end_layout
 
 \begin_layout Section*
@@ -1766,217 +2696,207 @@ Weller_review.pdf
 
 \begin_layout Standard
 The authors describe a computational algorithm for solving conditionally
- averaged Euler
-\end_layout
-
-\begin_layout Standard
-equations.
- These equations may form the basis for a subgrid-scale convection
-\end_layout
-
-\begin_layout Standard
-parameterization that overcomes some limitations of many more traditional
- schemes as
-\end_layout
-
-\begin_layout Standard
-simulation resolutions enter the grey zone of model resolutions in which
- the numerical grid
-\end_layout
-
-\begin_layout Standard
-resolves some scales of convective motions.
- This is certainly a compelling motivation and
-\end_layout
-
-\begin_layout Standard
-any modeling approach which can address the grey zone problem is worthy
- of attention.
-\end_layout
-
-\begin_layout Standard
-However, I struggled to align the results and discussion actually presented
- by the authors
-\end_layout
-
-\begin_layout Standard
-with the stated motivation.
- For this reason, I believe this work may be acceptable for
-\end_layout
-
-\begin_layout Standard
-publication after major revisions.
+ averaged Euler equations.
+ These equations may form the basis for a subgrid-scale convection parameterizat
+ion that overcomes some limitations of many more traditional schemes as
+ simulation resolutions enter the grey zone of model resolutions in which
+ the numerical grid resolves some scales of convective motions.
+ This is certainly a compelling motivation and any modeling approach which
+ can address the grey zone problem is worthy of attention.
+ However, I struggled to align the results and discussion actually presented
+ by the authors with the stated motivation.
+ For this reason, I believe this work may be acceptable for publication
+ after major revisions.
  Below I will state my concerns.
 \end_layout
 
-\begin_layout Standard
-1.
- My most outstanding concern is that, while the conditionally averaged equations
- can
+\begin_layout Enumerate
+My most outstanding concern is that, while the conditionally averaged equations
+ can be connected to several different types of subgrid-scale parameterizations
+ as discussed in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWV+18"
+
+\end_inset
+
+ , they are very far from constituting a practical modeling approach as
+ presented in, for example, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+.
+ Until this framework is filled in with more concrete details, it seems
+ numerical solution methods must be viewed contingently.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+In order for the conditionally averaged equations to be used for representing
+ sub-grid-scale convection, parameterisations for the transfer terms and
+ drag terms are needed.
+ Existing parameterisations could be used for all of these and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ give parameterisations closely related to traditional approaches.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ specify a non-zero cloud base mass flux only at the ground whereas we give
+ two alternative cloud base mass fluxes valid for the whole domain.
+ So perhaps we are not far behind in terms of the concrete details.
+ We would like to re-iterate that 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ propose very similar equations but they do not provide a numerical method
+ to solve the equations in three dimensions and they assume that mass transporte
+d in plumes is balanced by descent in the same column.
+ We feel that we would like to be able to solve these equations before we
+ implement and test more realistic transfer terms and attempt to simulate
+ sub-grid-scale convection.
 \end_layout
 
 \begin_layout Standard
-be connected to several different types of subgrid-scale parameterizations
- as
+Two areas particularly stand out to me:
 \end_layout
 
-\begin_layout Standard
-discussed in Thuburn et al., 2018b, they are very far from constituting a
- practical
+\begin_layout Enumerate
+How is the subgrid-scale parameterization based on the conditionally averaged
+ equations linked or coupled to the resolved scale variables of the model?
+ This was completely opaque to me but seems relevant to the formulation
+ of a solution method.
 \end_layout
 
-\begin_layout Standard
-modeling approach as presented in, for example, Tan et al.
- 2018.
- Until this
+\begin_deeper
+\begin_layout Quote
+Yes, this is the most important part of this work and you have pointed out
+ that we have not explained the rationale of this work properly in the introduct
+ion.
+ We have now added a paragraph after points 1 and 2 in the introduction.
 \end_layout
 
-\begin_layout Standard
-framework is filled in with more concrete details, it seems numerical solution
+\end_deeper
+\begin_layout Enumerate
+The three forms of transfer terms are presented in terms of their ability
+ to stabilize the model rather than as physically motivated closures.
+ How confident are the authors that physically motivated closures would
+ provide sufficient stabilization? Again, this seems important if this equation
+ set is to be used as a parameterization.
 \end_layout
 
-\begin_layout Standard
-methods must be viewed contingently.
- Two areas particularly stand out to me:
+\begin_deeper
+\begin_layout Quote
+Yes, this is very important.
+ We now only use two transfer terms to stabilise the model and they are
+ both physically motivated.
+ We are currently working on numerical analysis to find the amount of stabilisat
+ion necessary.
+ This will be the subject a future publication.
+ This is now mentioned towards the end of section 5.
 \end_layout
 
-\begin_layout Standard
-a.
- How is the subgrid-scale parameterization based on the conditionally
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+It would be helpful if the authors would explain the choices they make in
+ their numerical methods in more detail.
+ At several points, it seems they are making what might not be optimal choices
+ so as to use operators available in openFOAM (e.g.
+ lines 296-300).
+ As another example, why is the van Leer advection scheme chosen in lines
+ 330-338? What motivates the time-stepping algorithm (lines 346-348)? It
+ would also be helpful If the authors described and/or used equations to
+ show what is meant by “no off-centering” and “deferred correction of explicitly
+ solved variables.” Presentation of some sensitivity tests to (for example)
+ different choices of advection scheme could be clarifying for the reader.
 \end_layout
 
-\begin_layout Standard
-averaged equations linked or coupled to the resolved scale variables of
- the
+\begin_deeper
+\begin_layout Quote
+Similar points were made by the other reviewer and have been addressed at
+ length.
+ Thank you
 \end_layout
 
-\begin_layout Standard
-model? This was completely opaque to me but seems relevant to the
+\end_deeper
+\begin_layout Enumerate
+Lines 752-758 describe the importance of the treatment of the momentum and
+ continuity equations for allowing net mass transport by convection.
+ It seems appropriate to elaborate on this discussion in the body of the
+ paper, i.e.
+ in section 3.2.5.
 \end_layout
 
-\begin_layout Standard
-formulation of a solution method.
+\begin_deeper
+\begin_layout Quote
+Similar points were made by the other reviewer.
+ They are now addressed in the introduction and in section 3.
+ Thank you
 \end_layout
 
-\begin_layout Standard
-b.
- The three forms of transfer terms are presented in terms of their ability
- to
+\end_deeper
+\begin_layout Enumerate
+All the bubble test cases are well-resolved.
+ When these equations are used as a subgrid-scale parameterization, it seems
+ likely that the flow will not be fully resolved (Is it really a parameterizatio
+n otherwise or only a more cumbersome way to do a high resolution simulation?).
+ In this regard, it seems significant that the term “conditional averaging”
+ is used here while 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWV+18"
+
+\end_inset
+
+ refer to“conditional filtering.” Is the numerical method still stable when
+ there is significant spatial filtering?
 \end_layout
 
-\begin_layout Standard
-stabilize the model rather than as physically motivated closures.
- How
+\begin_deeper
+\begin_layout Quote
+Absolutely, the point of this work is to simulate unresolved convection.
+ We use the term 
+\begin_inset Quotes eld
+\end_inset
+
+conditional averaging
+\begin_inset Quotes erd
+\end_inset
+
+ rather than 
+\begin_inset Quotes eld
+\end_inset
+
+conditional filtering
+\begin_inset Quotes erd
+\end_inset
+
+ because we are drawing on different literature.
+ Both are only of interest to represent unresolved features.
+ We would expect more spatial filtering to improve stability as the sub-filter
+ scale fluxes would need to be modelled with some kind of diffusion term.
+ However this is all the subject of ongoing work and is now mentioned at
+ the end of section 5.
+ 
 \end_layout
 
-\begin_layout Standard
-confident are the authors that physically motivated closures would provide
-\end_layout
-
-\begin_layout Standard
-sufficient stabilization? Again, this seems important if this equation set
- is to
-\end_layout
-
-\begin_layout Standard
-be used as a parameterization.
-\end_layout
-
-\begin_layout Standard
-2.
- It would be helpful if the authors would explain the choices they make
- in their
-\end_layout
-
-\begin_layout Standard
-numerical methods in more detail.
- At several points, it seems they are making what
-\end_layout
-
-\begin_layout Standard
-might not be optimal choices so as to use operators available in openFOAM
- (e.g.
-\end_layout
-
-\begin_layout Standard
-lines 296-300).
- As another example, why is the van Leer advection scheme chosen in
-\end_layout
-
-\begin_layout Standard
-lines 330-338? What motivates the time-stepping algorithm (lines 346-348)?
- It
-\end_layout
-
-\begin_layout Standard
-would also be helpful If the authors described and/or used equations to
- show what
-\end_layout
-
-\begin_layout Standard
-is meant by “no off-centering” and “deferred correction of explicitly solved
-\end_layout
-
-\begin_layout Standard
-variables.” Presentation of some sensitivity tests to (for example) different
- choices
-\end_layout
-
-\begin_layout Standard
-of advection scheme could be clarifying for the reader.
-\end_layout
-
-\begin_layout Standard
-3.
- Lines 752-758 describe the importance of the treatment of the momentum
- and
-\end_layout
-
-\begin_layout Standard
-continuity equations for allowing net mass transport by convection.
- It seems
-\end_layout
-
-\begin_layout Standard
-appropriate to elaborate on this discussion in the body of the paper, i.e.
- in section
-\end_layout
-
-\begin_layout Standard
-3.2.5.
-\end_layout
-
-\begin_layout Standard
-4.
- All the bubble test cases are well-resolved.
- When these equations are used as a
-\end_layout
-
-\begin_layout Standard
-subgrid-scale parameterization, it seems likely that the flow will not be
- fully resolved
-\end_layout
-
-\begin_layout Standard
-(Is it really a parameterization otherwise or only a more cumbersome way
- to do a
-\end_layout
-
-\begin_layout Standard
-high resolution simulation?).
- In this regard, it seems significant that the term
-\end_layout
-
-\begin_layout Standard
-“conditional averaging” is used here while Thurburn et al.
- 2018b refer to“conditional filtering.” Is the numerical method still stable
- when there is significant
-\end_layout
-
-\begin_layout Standard
-spatial filtering?
-\end_layout
-
+\end_deeper
 \begin_layout Subsection*
 Minor points:
 \end_layout
@@ -1995,10 +2915,52 @@ Thank you, yes, good point.
 \end_deeper
 \begin_layout Enumerate
 Section 2.
- Why not use the same notation as Thuburn et al.
- 2018b?
+ Why not use the same notation as 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWV+18"
+
+\end_inset
+
+?
 \end_layout
 
+\begin_deeper
+\begin_layout Quote
+Most of the notation is the same.
+ We use different thermodynamic variables so there are differences here.
+ We do not use the total derivative.
+ The other difference is that 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TWV+18"
+
+\end_inset
+
+ use 
+\begin_inset Formula $\mathscr{M}_{ij}$
+\end_inset
+
+ for mass transfer whereas we use 
+\begin_inset Formula $\sigma_{i}\rho_{i}S_{ij}$
+\end_inset
+
+ so as to ensure numerically that mass is only transferred from fluid 
+\begin_inset Formula $i$
+\end_inset
+
+ to fluid 
+\begin_inset Formula $j$
+\end_inset
+
+ when fluid 
+\begin_inset Formula $i$
+\end_inset
+
+ exists.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 Line 347.
  Crank-Nicholson 
@@ -2008,6 +2970,13 @@ Line 347.
  Crank-Nicolson
 \end_layout
 
+\begin_deeper
+\begin_layout Quote
+Thank you.
+ Fixed.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
