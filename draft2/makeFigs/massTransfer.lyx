@@ -1,7 +1,9 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
 \begin_document
 \begin_header
+\save_transient_properties true
+\origin unavailable
 \textclass article
 \begin_preamble
 \usepackage { fancybox}
@@ -19,16 +21,16 @@
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman times
-\font_sans default
-\font_typewriter default
-\font_math auto
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
-\font_sf_scale 100
-\font_tt_scale 100
+\font_sf_scale 100 100
+\font_tt_scale 100 100
 \graphics pdftex
 \default_output_format pdf2
 \output_sync 0
@@ -85,8 +87,8 @@
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -130,35 +132,7 @@ Mass transfer based on
 \begin_inset Text
 
 \begin_layout Plain Layout
-Stabilised using diffusion with 
-\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using diffusion with 
-\begin_inset Formula $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=3.0\times10^{-10}$
+\begin_inset Formula $\ell_{2}=2.6\times10^{-9}$
 \end_inset
 
  at 
@@ -174,7 +148,7 @@ Stabilised using diffusion with
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=9.5\times10^{-7}$
+\begin_inset Formula $\ell_{2}=1.9\times10^{-7}$
 \end_inset
 
  at 
@@ -229,6 +203,30 @@ Mass transfer based on
 \end_inset
 
  with 
+\begin_inset Formula $K_{\theta}=10^{5}\ \text{m}^{2}\text{s}^{-1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $w$
+\end_inset
+
+ and 
+\begin_inset Formula $\nabla^{2}\theta$
+\end_inset
+
+ with 
 \begin_inset Formula $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$
 \end_inset
 
@@ -237,50 +235,13 @@ Mass transfer based on
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Mass transfer based on 
-\begin_inset Formula $\nabla_{h}\cdot\mathbf{u}$
-\end_inset
-
- and 
-\begin_inset Formula $w$
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-</cell>
 </row>
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Stabilised using divergence
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Stabilised using divergence
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=1.7\times10^{-8}$
+\begin_inset Formula $\ell_{2}=3.8\times10^{-8}$
 \end_inset
 
  at 
@@ -296,7 +257,7 @@ Stabilised using divergence
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}=1.1\times10^{-5}$
+\begin_inset Formula $\ell_{2}=4.5\times10^{-9}$
 \end_inset
 
  at 
@@ -315,7 +276,7 @@ Stabilised using divergence
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferThetaDiv/1000/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferLowTheta/1000/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
@@ -330,7 +291,7 @@ Stabilised using divergence
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferDivDiv/1000/sigmaTheta.pdf
+	filename /home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_withMassTransfer/partitioned_withMassTransferThetaDivw/1000/sigmaTheta.pdf
 	width 48line%
 
 \end_inset
