@@ -23,7 +23,7 @@ convert ~/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_05/noTransfer/20
 #zip figures.zip stencil.pdf solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf sbrc1.png sbrc10.png sbr_dx.pdf sbr_dt.pdf overMountains.png overMountains_dx.pdf deform_init.pdf deform.png deform_dx.pdf deform_dt.pdf
 
 cd figures
-rm ../submission/figures.zip
-zip ../submission/figures.zip *.eps
+rm -f ../../submission2/figures.zip
+zip ../../submission2/figures.zip *.eps
 cd ..
 

@@ -752,7 +752,7 @@ key "GBB+07"
 \end_inset
 
 .
- A single pressure for compressible multiphase flows is know to lead to
+ A single pressure for compressible multiphase flows is known to lead to
  an ill-posed problem 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -891,13 +891,17 @@ where
 \color blue
 we assume that
 \color inherit
- its properties are taken with it which is why 
+ its 
+\color blue
+mean
+\color inherit
+ properties are taken with it which is why 
 \begin_inset Formula $S_{ij}$
 \end_inset
 
  appears in all equations.
  We then also assume the equation of state for dry air both globally and
- for each fluid:
+ for each fluid is given by:
 \begin_inset Formula 
 \begin{equation}
 p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\overline{\rho\theta}=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
@@ -1387,8 +1391,8 @@ name "subsec:hdiv_w_Transfer"
 \begin_layout Standard
 
 \color blue
-This transfer term has only been derived considering two fluids, the stable
- environment (
+This transfer term has also been derived considering only two fluids, the
+ stable environment (
 \begin_inset Formula $i=0$
 \end_inset
 
@@ -1425,7 +1429,7 @@ This transfer term is related to closure based on moisture convergence.
 \end_layout
 
 \begin_layout Section
-Semi-Implicit Numerical Solution Technique
+Semi-Implicit Numerical Solution
 \end_layout
 
 \begin_layout Standard
@@ -1691,7 +1695,32 @@ name "subsec:initialisation"
 \end_layout
 
 \begin_layout Standard
-Transport equations are solved for 
+
+\color blue
+The prognostic variables are 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ where 
+\begin_inset Formula $U_{i}=\mathbf{u}_{i}\cdot\mathbf{S}_{f}$
+\end_inset
+
+ is the volume flux across each cell face (
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+ is the vector normal to each face with magnitude of the face area).
+
+\color inherit
+ Transport equations are solved for 
 \begin_inset Formula $U_{i}$
 \end_inset
 
@@ -1708,7 +1737,7 @@ Transport equations are solved for
 \end_inset
 
 .
- However this system is over specified because 
+ This system is over specified because 
 \begin_inset Formula $\pi$
 \end_inset
 
@@ -1990,7 +2019,7 @@ Next the mass transfer terms are calculated using
  remains positive:
 \begin_inset Formula 
 \begin{equation}
-\sigma_{i}\rho_{i}S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ \frac{(\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1}}{\Delta t}\right)
+S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ \frac{(\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1}}{\Delta t}\right)
 \end{equation}
 
 \end_inset
@@ -2104,7 +2133,7 @@ The implicit addition of mass transfer terms is formulated to be specific
  equation as:
 \begin_inset Formula 
 \begin{equation}
-\theta_{i}^{k}=\theta_{i}^{\prime}+\Delta t\sum_{j\ne i}\left(\frac{(\sigma_{j}\rho_{j})^{\prime}}{(\sigma_{i}\rho_{i})}S_{ji}^{\text{lim}}(\theta_{j}^{k}-\theta_{i}^{k})\right).\label{eq:thetaAddSource}
+\theta_{i}^{k}=\theta_{i}^{\prime}+\Delta t\sum_{j\ne i}\left(\frac{(\sigma_{j}\rho_{j})^{\prime}}{(\sigma_{i}\rho_{i})^{\prime}}S_{ji}^{\text{lim}}(\theta_{j}^{k}-\theta_{i}^{k})\right).\label{eq:thetaAddSource}
 \end{equation}
 
 \end_inset
@@ -3409,7 +3438,7 @@ Different Initial Conditions in each Fluid
 \end_layout
 
 \begin_layout Standard
-Once each fluid can have different properties, the behaviour of the solutions
+Once each fluid has different properties, the behaviour of the solutions
  changes and stable solutions may not exist.
  The total solution is close to divergence free because compressibility
  is small in this low Mach number regime.
@@ -3680,7 +3709,8 @@ Results at
 \begin_inset Formula $t=1000\ \text{s}$
 \end_inset
 
- of simulations with a buoyant perturbation in fluid 1.
+ of simulations with stabilisation with a buoyant perturbation in fluid
+ 1.
  
 \begin_inset Formula $\sigma_{1}$
 \end_inset
@@ -3718,19 +3748,8 @@ reference "fig:diffuse1_noDrag"
 \end_inset
 
 ).
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
+ The time-series shows the normalised energy changes.
+ Dashed lines show negative changes.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3754,7 +3773,7 @@ name "fig:diffuse1_dragDiffuse"
 \begin_layout Standard
 Next the fluids are coupled by adding diffusion 
 \color blue
-between the fluids
+between the fluids (but no drag)
 \color inherit
  as described in section 
 \begin_inset CommandInset ref
@@ -4214,7 +4233,7 @@ reference "fig:energy1part"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -4246,6 +4265,7 @@ Normalised energy changes for the rising bubble solutions with mass transfer
 \end_inset
 
 .
+ Dashed lines show negative changes (all changes are negative).
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -4694,7 +4714,7 @@ where the hat denotes the unit vector and the notation
 \color blue
 This reconstruction is first-order accurate on arbitrary meshes and second-order
  accurate on uniform structured meshes.
- I simplifies to simple averaging of nearest neighbours on a uniform structured
+ It simplifies to simple averaging of nearest neighbours on a uniform structured
  mesh of hexahedra.
 \end_layout
 

@@ -1,7 +1,9 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
 \begin_document
 \begin_header
+\save_transient_properties true
+\origin unavailable
 \textclass article
 \begin_preamble
 \usepackage{xcolor}
@@ -34,16 +36,16 @@
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman default
-\font_sans default
-\font_typewriter default
-\font_math auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
-\font_sf_scale 100
-\font_tt_scale 100
+\font_sf_scale 100 100
+\font_tt_scale 100 100
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -66,7 +68,7 @@
 \use_package undertilde 1
 \cite_engine natbib
 \cite_engine_type authoryear
-\biblio_style 
+\biblio_style \use_bibtopic false
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -191,6 +193,12 @@ General Comments:
 The physical basis of the five transfer terms and their categorization should
  be more physically and systematically explained.
  
+\series default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -293,6 +301,12 @@ It is now made clear that all of the transfer terms can be added together
 The third section is too technical, and the essential ingredients for the
  numerical stability are somewhat unclear.
  
+\series default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -314,7 +328,7 @@ We are very grateful for this suggestion.
  The parts of the numerical method that are not specific to the stability
  of the solution of the conditionally averaged equations has been moved
  to an appendix.
- 
+ Note that this is an entire model rather than a subroutine.
 \end_layout
 
 \begin_layout Enumerate
@@ -325,6 +339,10 @@ What are the key ingredients that guarantee the numerical stability? Is
  other numerical limiters also involved? Why does solving the both equations
  simultaneously instead of the original momentum equation provide better
  numerical stability? 
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -341,6 +359,10 @@ Is the use of first-order advection scheme (upwind and van Leer) and Crank-Nicol
 son time-stepping essential for numerical stability? Or is it possible to
  generalize the algorithm to use higher order advection and time-stepping
  schemes? 
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -375,6 +397,10 @@ Is the order of solution (continuity
  momentum) necessary for the numerical stability? And why does solving the
  inner loop (for momentum) twice within each outer loop (i.e., four times
  per entire loop) help improve the stability?
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -419,6 +445,10 @@ We have also tried using just one inner iteration which is stable for the
 Which of the above are sufficient for small-timestep stability (at small
  Courant number)? Which are required for large-timestep stability (at large
  Courant number)? 
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -504,9 +534,9 @@ Page
 \end_inset
 
  Thanks for pointing out the typos.
- I agree that the figure is not completely consistent with the text in the
- graphical abstract.
- The problem is that I wanted a figure with different velocities for the
+ We agree that the figure is not completely consistent with the text in
+ the graphical abstract.
+ The problem is that we wanted a figure with different velocities for the
  different fluids.
 \end_layout
 
@@ -517,7 +547,7 @@ Abstract,
 \end_inset
 
 L5: I would suggest ordering the equations as continuity, temperature, and
- momentum throughout the paper (as is consistent to equations 2--4 and 6--8).
+ momentum throughout the paper (as is consistent to equations 2–4 and 6–8).
 \end_layout
 
 \begin_layout Labeling
@@ -572,7 +602,7 @@ L13: I suggest putting ‘the most novel’ in bracket to make the sentence
 \begin_inset space \space{}
 \end_inset
 
- Based on other comments from this reviewer, I have now removed material
+ Based on other comments from this reviewer, we have now removed material
  about this novel regularisation technique.
 \end_layout
 
@@ -694,9 +724,12 @@ Line
 
  
 \color blue
-The source terms are too large to be treated explicitly so their implicit
- treatment while maintaining conservation and boundedness must be considered.
- Also they can introduce new extrema.
+No, the transfers to mimic the cloud based mass flux can introduce new extrema
+ and can be very large.
+ Their size means that explicit treatment would not be stable so they are
+ treated implicitly.
+ Also, without numerical methods to maintain conservation and boundedness,
+ the transfer terms can introduce istabilities.
  These are now mentioned in the introduction.
  
 \end_layout
@@ -947,12 +980,12 @@ q or anelastic approximations.
 \begin_inset space \space{}
 \end_inset
 
- I am not convinced that the pressure equilibration is about horizontal
+ We are not convinced that the pressure equilibration is about horizontal
  resolution.
  We can assume that, regardless of resolution, weather and climate models
  have similar acoustic Courant numbers.
- If these are greater than zero then pressure equilibration within grid
- boxes will occur within one time-step.
+ If these are greater than one then pressure equilibration within grid boxes
+ will occur within one time-step.
  However pressure differences between the plume and the environment will
  be maintained by different dynamics in each.
  For example, considering the Bernouilli principle, faster flowing fluids
@@ -993,6 +1026,16 @@ Eqn
  and 6-8 (continuity, temperature, momentum).
  Also, it should be clarified that these are dry adiabatic equations.
  
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks, done.
 \end_layout
 
 \begin_layout Labeling
@@ -1486,7 +1529,7 @@ The spatial discretisation is general for arbitrarily structured meshes
 
 This reconstruction is first-order accurate on arbitrary meshes and second-order
  accurate on uniform structured meshes.
- I simplifies to simple averaging of nearest neighbours on a uniform structured
+ It simplifies to simple averaging of nearest neighbours on a uniform structured
  mesh of hexahedra.
 \begin_inset Quotes erd
 \end_inset
@@ -1681,7 +1724,21 @@ Lines
 \end_inset
 
  The introduction to section 3.2 is re-written with citations.
- 
+ It is a common misconception that semi-implicit means Crank-Nicolson time-stepp
+ing which uses values from the old and new time levels.
+ The reviewer uses semi-implicit to mean some kind of predictor-corrector
+ method.
+ Following the Met-Office, we use 
+\begin_inset Quotes eld
+\end_inset
+
+semi-implicit
+\begin_inset Quotes erd
+\end_inset
+
+ to mean that some terms of the equations (ie acoustic modes) are treated
+ implicitly (we use Crank-Nicolson) and other terms (ie advection) are treated
+ explicitly (we use predictor-corrector).
 \end_layout
 
 \begin_layout Labeling
@@ -2124,7 +2181,7 @@ Section
 \end_inset
 
  This is a semi-implicit algorithm so all points have to be solved simultaneousl
-y.
+y using a matrix solver.
  This is now clarified at the beginning of section 3.2.7.
  
 \end_layout
@@ -2441,7 +2498,20 @@ Line
 \begin_inset space \space{}
 \end_inset
 
- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+\color blue
+The large value of 
+\begin_inset Formula $K_{\theta}$
+\end_inset
+
+ was chosen so that, in the chosen test case, fluid is completely transferred
+ from between fluids.
+ We realise that this is not a good enough reason and now also show results
+ using a smaller value of 
+\begin_inset Formula $K_{\theta}$
+\end_inset
+
+ for which not all fluid is transferred.
 \end_layout
 
 \begin_layout Labeling
@@ -2732,6 +2802,10 @@ key "TKP+18"
  Until this framework is filled in with more concrete details, it seems
  numerical solution methods must be viewed contingently.
  
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2765,8 +2839,8 @@ key "TKP+18"
 \end_inset
 
  propose very similar equations but they do not provide a numerical method
- to solve the equations in three dimensions and they assume that mass transporte
-d in plumes is balanced by descent in the same column.
+ to solve the equations in more than one dimension and they assume that
+ mass transported in plumes is balanced by descent in the same column.
  We feel that we would like to be able to solve these equations before we
  implement and test more realistic transfer terms and attempt to simulate
  sub-grid-scale convection.
@@ -2781,6 +2855,10 @@ How is the subgrid-scale parameterization based on the conditionally averaged
  equations linked or coupled to the resolved scale variables of the model?
  This was completely opaque to me but seems relevant to the formulation
  of a solution method.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2788,7 +2866,8 @@ How is the subgrid-scale parameterization based on the conditionally averaged
 Yes, this is the most important part of this work and you have pointed out
  that we have not explained the rationale of this work properly in the introduct
 ion.
- We have now added a paragraph after points 1 and 2 in the introduction.
+ We have now added a paragraph after points 1 and 2 in the introduction
+ and a sentence in the introduction.
 \end_layout
 
 \end_deeper
@@ -2798,6 +2877,10 @@ The three forms of transfer terms are presented in terms of their ability
  How confident are the authors that physically motivated closures would
  provide sufficient stabilization? Again, this seems important if this equation
  set is to be used as a parameterization.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2825,6 +2908,10 @@ It would be helpful if the authors would explain the choices they make in
  show what is meant by “no off-centering” and “deferred correction of explicitly
  solved variables.” Presentation of some sensitivity tests to (for example)
  different choices of advection scheme could be clarifying for the reader.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2841,6 +2928,10 @@ Lines 752-758 describe the importance of the treatment of the momentum and
  It seems appropriate to elaborate on this discussion in the body of the
  paper, i.e.
  in section 3.2.5.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2866,6 +2957,10 @@ key "TWV+18"
 
  refer to“conditional filtering.” Is the numerical method still stable when
  there is significant spatial filtering?
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2904,6 +2999,10 @@ Minor points:
 \begin_layout Enumerate
 Abstract and Lines 54-55: The ``grey zone'' is an artifact of our numerical
  models, not of the convection itself.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2923,6 +3022,10 @@ key "TWV+18"
 \end_inset
 
 ?
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2968,6 +3071,10 @@ Line 347.
 \end_inset
 
  Crank-Nicolson
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
