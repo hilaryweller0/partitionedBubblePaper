@@ -21,16 +21,22 @@
 %\usepackage{todonotes}
 %\usepackage{afterpage}
 
-\usepackage[switch]{lineno}
-
 \usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
+
+% hack to get hyperref working
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\@combinedblfloats{\box\@outputbox}{\unvbox\@outputbox}{}{\errmessage{\noexpand patch failed}}
+\makeatother
 
 \newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
 T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 %\usepackage{moreverb}
 
-\usepackage{flushend}
+\usepackage[switch]{lineno}
+
+%\usepackage{flushend}
 
 \makeatother
 
@@ -39,7 +45,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \title{Numerical Solution of the Conditionally Averaged Equations for Representing Net Mass Flux due to Convection}
 \author{Hilary Weller,\affil{a}\corrauth\ William McIntyre\affil{a}}
 
-%\abbrevs{EDMF, Eddy Diffusivity Mass Flux; TVD, Totoal Variation Diminishing; KE, Kinetic Energy; PE, Potential Energy; IE, Internal Energy; RMS; Root Mean Square; } 
+%\abbrevs{EDMF, Eddy Diffusivity Mass Flux; TVD, Total Variation Diminishing; KE, Kinetic Energy; PE, Potential Energy; IE, Internal Energy; RMS; Root Mean Square; } 
 
 \address{
 \affilnum{a}Meteorology, University of Reading}
@@ -48,11 +54,13 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \runningheads{H. Weller and W. McIntyre}{Conditional Averaging for Convection}
 
 \begin{abstract}
-The representation of sub-grid scale convection is a weak aspect of weather and climate prediction models and the assumption that no net mass is transported by convection in parameterisations is increasingly unrealistic {\color{blue} as models enter} the grey zone, {\color{blue} partially resolving} convection. The solution of conditionally averaged equations of motion is proposed in order to avoid this assumption. Separate continuity, temperature and momentum equations are solved for inside and outside convective plumes which interact via mass transfer terms, drag and by a single common pressure. {\color{blue} This is not a convection scheme that can be used with an existing dynamical core -- this requires a whole new model.}
+The representation of sub-grid scale convection is a weak aspect of weather and climate prediction models and the assumption that no net mass is transported by convection in parameterisations is increasingly unrealistic as models enter the grey zone, partially resolving convection. The solution of conditionally averaged equations of motion is proposed in order to avoid this assumption. Separate continuity, temperature and momentum equations are solved for inside and outside convective plumes which interact via mass transfer terms, drag and by a single common pressure. This is not a convection scheme that can be used with an existing dynamical core -- this requires a whole new model.
 
-This paper presents stable numerical methods for solving the conditionally averaged equations of motion including large transfer terms between the environmental and plume fluids. Without transfer terms the two fluids are not sufficiently coupled together and solutions diverge. {\color{blue} Two} transfer terms are presented which couple the fluids together in order to stabilise the model: diffusion of mass between the fluids (similar to turbulent entrainment) and drag between the fluids. Transfer terms are also proposed to {\color{blue} move buoyant convecting air into the plume fluid and vice-versa as would be needed to represent sub-grid-scale convection. These transfers mimic  cloud base mass flux and cloud top detrainment}. The transfer terms are limited {\color{blue}(clipped in size)} and treated implicitly in order to achieve bounded, stable solutions. 
+This paper presents stable numerical methods for solving the conditionally averaged equations of motion including large transfer terms between the environmental and plume fluids. Without transfer terms the two fluids are not sufficiently coupled together and solutions diverge. Two transfer terms are presented which couple the fluids together in order to stabilise the model: diffusion of mass between the fluids (similar to turbulent entrainment) and drag between the fluids. Transfer terms are also proposed to move buoyant convecting air into the plume fluid and vice-versa as would be needed to represent
+\textcolor{blue}{initialisation and termination of}
+sub-grid-scale convection. These transfers mimic  cloud base mass flux and cloud top detrainment. The transfer terms are limited (clipped in size) and treated implicitly in order to achieve bounded, stable solutions. 
 
-Results are presented of a well resolved rising warm bubble with rising air being transferred to the buoyant fluid. For stability, equations are formulated in advective rather than flux form and solved using bounded finite volume methods. Discretisation choices are made to preserve boundedness and conservation {\color{blue} of momentum and energy} when mass is transferred between fluids.
+Results are presented of a well resolved rising warm bubble with rising air being transferred to the \textcolor{blue}{plume} fluid. For stability, equations are formulated in advective rather than flux form and solved using bounded finite volume methods. Discretisation choices are made to preserve boundedness and conservation of momentum and energy when mass is transferred between fluids.
 
 The formulation of transfer terms in order to represent sub-grid convection is the subject of future work.
 
@@ -66,8 +74,8 @@ The representation of sub-grid scale convection is arguably the weakest
 aspect of weather and climate prediction models \citep[eg.][]{SLF+10,SAB+13,HPB+14}
 and leads to poor predictions of weather and climate in the extratropics
 \citep[eg. ][]{LCD+08} and the tropics \citep[Chapter 8,][]{ipcc41}.
-The problem gets worse \textcolor{blue}{when modelling convection
-in the grey zone}, where convection is partially resolved and so the
+The problem gets worse when modelling convection
+in the grey zone, where convection is partially resolved and so the
 assumptions made by most convection schemes are particularly bad \citep[eg. ][]{GG05}.
 Two specific assumptions are identified which we aim to avoid:
 \begin{enumerate}
@@ -78,39 +86,41 @@ within each column.
 \item Non-equilibrium dynamics; traditional convection schemes ignore effects
 due to changes in time of the properties of convection \citep[eg. ][]{KF90}. 
 \end{enumerate}
-\textcolor{blue}{Once a convection scheme transports mass as well
+Once a convection scheme transports mass as well
 as heat, moisture and momentum, all of the same equations of motion
-should be solved both inside and outside the convective plumes so
+should be solved both inside and outside the convective plumes. \textcolor{blue}{Therefore} 
 it no longer makes sense to have a convection paramterisation as a
-module to a dynamical core \textendash{} they should both be solving
+module
+\textcolor{blue}{external}
+to a dynamical core -- they should both be solving
 the same equations and so the same model should be used for both.
 Dynamical cores all have some form of implicit solution to control
 divergence, either treating acoustic waves implicitly, at least in
-the vertical direction \citep[eg. ][]{SK92}, so that they do not
+the vertical direction \citep[eg. ][]{WLW13}, so that they do not
 lead to severe time-step restrictions, or some form of implicit technique
 to ensure (psuedo)-incompressibility \citep[eg.][]{SBJ+89}. Once
 convection schemes can transport mass, they will trigger acoustic
 and gravity waves and so terms of the equations related to convective
 mass transport must appear in whatever method that the dynamical core
-uses to control divergence. If, for example, 20\% of a grid box contains
+uses to control divergence. If \textcolor{blue}{a significant fraction} of a grid box contains
 a convective plume, a model will become unstable if the mass transported
 by that plume is treated explicitly and deposited at the top of the
 plume in one time-step. This mass transport must be treated consistently
-with the mass transport of the resolved flow.}
+with the mass transport of the resolved flow.
 
 The conditional averaging (or filtering) process for convection was
 described by \citet{TWV+18} and involves multiplying each equation
 of motion by an indicator function and averaging over a volume (or
 applying a different filter). This leads to equations which are similar
 to those of a mass flux convection scheme but without the approximation
-of zero net mass flux by convection. The conditionally averaged equations
+of zero net mass flux in each column. The conditionally averaged equations
 also have transfer terms to transfer mass, momentum, heat and moisture
 between the fluids. These terms have a similar role to the closures
 for cloud base mass flux and convective entrainment and detrainment. 
 
 There are schemes which account for aspects of non-equilibrium dynamics
 \citep[eg. ][]{GG05,YP12,Par14} but fewer that allow net mass flux
-due to convection, exceptions being \citet{GG05,KGB07,AW13}. \citet{KGB07,KB08}
+due to convection, exceptions being \citet{KB08,AW13}. \citet{KGB07,KB08}
 extend a mass flux convection scheme to transport mass in the vertical
 by creating a source term of the continuity equation due to sub-grid
 scale convection. Their approach is not as general or consistent as
@@ -138,7 +148,7 @@ flows but it has more commonly been used to represent multiphase flow
 \citep[eg. ][]{LB91,GBB+07} with separate fluids for different phases
 which share a single pressure. The conditionally averaged Euler equations
 with a single pressure and without transfers between the fluids are
-in fact ill-posed \citep{SW84} and are usually regularlised by including
+in fact ill-posed \citep{SW84} and are usually regularised by including
 coupling between phases such as drag and other relaxation transfers.
 Alternatively, \citet{HK84} regularised these equations using multiple
 pressures for problems with surface tension. \citet{TEB1x} are also
@@ -153,11 +163,14 @@ air back into the stable fluid. These transfer terms are not designed
 to be used to represent sub-grid scale convection as this would require
 more information about sub-grid scale variability. Instead they are
 designed to be large source terms that will act to challenge the stability
-of the numerical method\textcolor{blue}{{} as they are too big to be
-treated explicitly and they will introduce new extrema}. We use \textcolor{blue}{two}
+of the numerical method as they are too big to be
+treated explicitly and they will introduce new
+\textcolor{blue}{mass, temperature and momentum}
+ extrema
+\textcolor{blue}{in one fluid}. We use two
 techniques to regularise the multifluid equations; the first is with
 drag between fluids and the second is with diffusion between the fluids,
-\textcolor{blue}{similar to lateral entrainment and detrainment}. 
+similar to lateral entrainment and detrainment. 
 
 \section{The Conditionally Averaged Euler Equations}
 
@@ -171,8 +184,9 @@ no net mass flux due to convection. The conditional averaging (or
 filtering) process for convection was described by \citet{TWV+18}
 and involves multiplying each equation of motion by an indicator function,
 $I_{i}$, for a number of different conditions labelled by $i$. $I_{i}$
-is one if \textcolor{blue}{the fluid is defined to be fluid $i$ }at
-that location and zero otherwise. A filter (typically volume average)
+is one if the fluid is defined to be fluid $i$ at
+that location and zero otherwise. \textcolor{blue}{Fluid $i=0$ may be for example the stable environment, fluid $i=1$ convective plumes and fluid $i=2$ may be downdrafts.}
+A filter (typically volume average)
 is then applied and averages for each condition can be found over
 each filter region. The volume fraction in fluid $i$ is defined to
 be
@@ -194,30 +208,26 @@ and averages over all fluids (denoted by overbar) are:
 \overline{\rho\theta} & = & \sum_{i}\sigma_{i}\rho_{i}\theta_{i}\\
 \overline{\rho\mathbf{u}_{i}} & = & \sum_{i}\sigma_{i}\rho_{i}\mathbf{u}_{i}.
 \end{eqnarray}
-\textcolor{blue}{As with Reynolds or Favre averaging, }non-linear
-conditionally averaged terms \textcolor{blue}{such as $\widetilde{I_{i}\rho\mathbf{u}\theta}$
-and $\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}}$ are not equal to}
+As with Reynolds or Favre averaging, non-linear
+conditionally averaged terms such as $\widetilde{I_{i}\rho\mathbf{u}\theta}$
+and $\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}}$ are not equal to
 the products of conditionally averaged terms. The difference is expressed
 as a sub-filter scale flux:
 \begin{eqnarray}
 \widetilde{I_{i}\rho\mathbf{u}\theta} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}+\mathbf{F}_{\text{SF}}^{\theta_{i}}\\
-\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}+\mathsf{F}_{\text{SF}}^{\mathbf{u}_{i}}.
+\widetilde{I_{i}\rho\mathbf{u}\mathbf{u}} & = & \sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}+\mathsf{F}_{\text{SF}}^{\mathbf{u}_{i}}
 \end{eqnarray}
+\textcolor{blue}{where $\mathbf{F}_{\text{SF}}^{\theta_{i}}$ is a vector
+and $\mathsf{F}_{\text{SF}}^{\mathbf{u}_{i}}$ is a tensor.}
 The sub-filter scale fluxes could be due to turbulent motions within
-each fluid. \textcolor{blue}{Parameterisations for sub-filter scale
+each fluid. Parameterisations for sub-filter scale
 fluxes are not considered in this paper. We are still able to find
 stable solutions of the equations because the flow that we are solving
-is very well resolved. }
+is well resolved.
 
 The same averaging can be applied to pressure but we will assume that
-pressure is uniform across all fluids. The time-scale for equilibration
-of pressure across all fluids \textcolor{blue}{is} related to the
-speed of sound so uniform pressure across fluids may be an adequate
-approximation and also makes numerical solution practical. \textcolor{blue}{However
-the plume and environment are not in static equilibrium so pressure
-differences will not all be equilibrated. Variations in the dynamics
-between the plume and the environment will lead to form drag which
-is discussed in section \ref{subsec:drag}. }
+pressure is uniform across all fluids. \textcolor{blue}{Pressure differences}
+between the plume and the environment will \textcolor{blue}{be parameterised as} form drag which is discussed in section \ref{subsec:drag}.
 
 Uniform pressure across fluids is assumed when using conditional averaging
 for representing multi-phase flows \citep[eg.][]{GBB+07}. A single
@@ -230,18 +240,18 @@ is equal in both fluids, except where it influences buoyancy. \citet{TKP+18}
 also assume that drag is high enough that horizontal velocities are
 equal between fluids. 
 
-Applying conditional averaging to the \textcolor{blue}{dry, adiabatic},
+Applying conditional averaging to the dry, adiabatic,
 rotating, compressible Euler equations in flux form, assuming uniform
 pressure between fluids and ignoring sub-fiter scale fluxes leads
-to the following conditionally averaged Euler equations \textcolor{blue}{for
-mass, potential temperature and momentum}:
+to the following conditionally averaged Euler equations for
+mass, potential temperature and momentum:
 \begin{eqnarray}
 \frac{\partial\sigma_{i}\rho_{i}}{\partial t} & + & \nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})=\sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont}\\
 \frac{\partial\sigma_{i}\rho_{i}\theta_{i}}{\partial t} & + & \nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}\right)\label{eq:condTheta}\\
  & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\theta_{j}S_{ji}-\sigma_{i}\rho_{i}\theta_{i}S_{ij}-\sigma_{i}\rho_{i}H_{ij}\right)\nonumber \\
 \frac{\partial\sigma_{i}\rho_{i}\mathbf{u}_{i}}{\partial t} & + & \nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}\right)=-2\sigma_{i}\rho_{i}\boldsymbol{\Omega}\times\mathbf{u}_{i}\label{eq:condMom}\\
- & - & \sigma_{i}\rho_{i}c_{p}\theta_{i}\nabla\pi+\sigma_{i}\rho_{i}\mathbf{g}\\
- & + & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\mathbf{u}_{j}S_{ji}-\sigma_{i}\rho_{i}\mathbf{u}_{i}S_{ij}-\sigma_{i}\sigma_{j}\mathbf{d}_{ij}\right)
+ & - & \sigma_{i}\rho_{i}c_{p}\theta_{i}\nabla\pi+\sigma_{i}\rho_{i}\mathbf{g} \nonumber\\
+ & + & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\mathbf{u}_{j}S_{ji}-\sigma_{i}\rho_{i}\mathbf{u}_{i}S_{ij}-\sigma_{i}\sigma_{j}\mathbf{d}_{ij}\right) \nonumber
 \end{eqnarray}
 where $\pi=(p/p_{0})^{\kappa}$ is the Exner pressure, $p$ is the
 pressure, $p_{0}$ is a reference pressure, $\kappa=R/c_{p}$, $R$
@@ -249,25 +259,27 @@ is the gas constant of dry air, $c_{p}$ is the heat capacity of dry
 air at constant pressure, $\theta=T/\pi$ is the potential temperature,
 $\boldsymbol{\Omega}$ is the rotation rate of the domain, $\mathbf{g}$
 is the acceleration due to gravity, $\sigma_{i}\rho_{i}S_{ij}$ is
-the transfer rate of mass from fluid $i$ to fluid $j$, $\mathbf{D}_{ij}$
+the transfer rate of mass from fluid $i$ to fluid $j$, $\mathbf{d}_{ij}$
 is the drag exerted from fluid $i$ onto fluid $j$ and $H_{ij}$
-is the heat transfer from fluids $i$ to $j$. When mass is transferred,
-\textcolor{blue}{we assume that} its \textcolor{blue}{mean} properties
+is the heat transfer from fluids $i$ to $j$. 
+\textcolor{blue}{Formulation of the transfer terms, $S_{ij}$, $H_{ij}$ and $\mathbf{d}_{ij}$ is needed to create a parameterisation of convection. The mass transfer, $S_{ij}$, will be dependent on the definitions of each fluid and on sub-grid scale variability. Heat transfer and drag between fluids, $H_{ij}$ and $\mathbf{d}_{ij}$, will depend on the surface area between fluids.}
+When mass is transferred,
+we assume that its mean properties
 are taken with it which is why $S_{ij}$ appears in all equations.
 We then also assume the equation of state for dry air both globally
 and for each fluid is given by:
 \begin{equation}
 p_{0}\pi^{\frac{1-\kappa}{\kappa}}=R\rho_{i}\theta_{i}=R\overline{\rho\theta}=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}.\label{eq:condState}
 \end{equation}
-The \textcolor{blue}{temperature and momentum equations} can be expressed
+The temperature and momentum equations can be expressed
 in advective form so that the primitive variables $\mathbf{u}_{i}$
 and $\theta_{i}$ are well defined when $\sigma_{i}$ is zero:
 \begin{eqnarray}
 \frac{\partial\theta_{i}}{\partial t} & + & \mathbf{u}_{i}\cdot\nabla\theta_{i}=\sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\theta_{j}-\theta_{i})-H_{ij}\right)\label{eq:condThetaAdv}\\
 \frac{\partial\mathbf{u}_{i}}{\partial t} & + & \mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}=-2\boldsymbol{\Omega}\times\mathbf{u}_{i}-c_{p}\theta_{i}\nabla\pi+\mathbf{g}\label{eq:condMomAdv}\\
- & + & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\mathbf{u}_{j}-\mathbf{u}_{i})-\mathbf{D}_{ij}\right)
+ & + & \sum_{j\ne i}\left(\frac{\sigma_{j}\rho_{j}}{\sigma_{i}\rho_{i}}S_{ji}(\mathbf{u}_{j}-\mathbf{u}_{i})-\mathbf{D}_{ij}\right) \nonumber
 \end{eqnarray}
-\textcolor{blue}{where $D_{ij}=\sigma_{j}d_{ij}/\rho_{i}$. }Note
+where $D_{ij}=\sigma_{j}d_{ij}/\rho_{i}$. Note
 that if $\sigma_{i}$ is zero, there is a division by zero in the
 mass transfer terms in eqns (\ref{eq:condThetaAdv}) and (\ref{eq:condMomAdv})
 which leads to an infinite source term when $\theta$ and $\mathbf{u}$
@@ -279,30 +291,29 @@ term will require careful numerical treatment.
 
 \subsection{Transfers and Exchanges between Fluids\label{subsec:transfers}}
 
-The conditionally averaged equations can only become useful for representing
-sub-grid scale convection when transfer terms $\mathbf{D}_{ij}$,
-$S_{ij}$ and $H_{ij}$ are formulated. $S_{ij}$ is particularly
+\textcolor{blue}{In order to represent sub-grid scale convection with the multi-fluid equations we first need to give labels to parts of the fluid with different properties. For example, fluid zero could be the stable environment fluid, fluid one could be the convectively unstable buoyant plumes and fluid two could be downdrafts. For now it doesn't matter precisely how this is done. The next essential stage is to formulate transfer terms, $\mathbf{D}_{ij}$,
+$S_{ij}$ and $H_{ij}$.} $S_{ij}$ is particularly
 important for moving mass in and out of the fluid related to convection
-and will inevitably be associated with sub-grid scale variability
+and will \textcolor{blue}{presumably} be associated with sub-grid scale variability
 of buoyancy and other properties related to convection. In this paper
 we do not propose new closures for how mass moves from the stable
 to the convectively active fluid (such as cloud base mass flux). Instead
 we will use transfer terms formulated in terms of differential operators
-that transfer resolved flow into the convectively active fluid and
-back again. The purpose of this is to test the stability, boundedness
+that transfer \textcolor{blue}{fluid based on the properties of the resolved flow, neglecting sub-grid-scale variability.}
+The purpose of this is to test the stability, boundedness
 and conservation properties of the numerical methods rather than proposing
 a useful parameterisation of convection.
 
-\textcolor{blue}{We also include transfer terms to stabilise the equations.
+We also include transfer terms to stabilise the equations.
 For further justification of the need for stabilisation, we should
 consider the physical meaning of a mixture of fluids. $0<\sigma_{0}<1$
 implies that at least two fluids are present at scales down to the
 grid-scale. This implies that there will be a large surface area between
 the two fluids and so they are likely to exchange mass and momentum.
 We therefore couple the two fluids using mass exchanges or drag between
-the fluids. }
+the fluids. \textcolor{blue}{Sensible and radiative heat transfer between fluids is not considered in this paper and appears not to be needed for stability because the temperature of the fluids does not diverge.}
 
-\textcolor{blue}{We will consider one form of drag and three types
+We will consider one form of drag and three types
 of mass transfer. The total mass transfer from fluid $i$ to $j$
 is:
 \begin{equation}
@@ -310,44 +321,40 @@ S_{ij}=S_{dij}+S_{bij}+S_{hij}
 \end{equation}
 where $S_{dij}$ is due to diffusion of $\sigma$, $S_{bij}$ is due
 to buoyancy perturbations and $S_{hij}$ is due to horizontal divergence.
-$S_{bij}$ and $S_{hij}$ are forms of cloud base mass flux and can
-be compared with the cloud base mass flux of \citet{TKP+18} which
-occurs at the ground and is based on sub-grid-scale variability. $S_{dij}$
-is similar to lateral entrainment and is used to regularise the ill-posed
-equations. These and the drag term will be described next. }Throughout
+$S_{bij}$ and $S_{hij}$ are forms of cloud base mass flux. \textcolor{blue}{The diffusion of $\sigma$, $S_{dij}$, mixes the fluids in regions where the gradient of $\sigma$ varies rapidly.} $S_{dij}$ \textcolor{blue}{could be}
+similar to lateral entrainment and is used to regularise the ill-posed
+equations. These and the drag term will be described next. Throughout
 we assume $H_{ij}=0$.
 
 \subsubsection{Drag in the Momentum Equation\label{subsec:drag}}
 
-Drag between fluids is \textcolor{blue}{used to parameterise the pressure
-differences between the fluids which lead to form drag. \citet{DSJD12}
-used LES data to show that this is a large sub-grid scale term. We
-use a model for the drag on a rising bubble based on} \citet{RLD+11}.
+\textcolor{blue}{Pressure differences between the fluid are parameterized as form drag.}
+We use a model for the drag on a rising bubble based on \citet{RLD+11} \textcolor{blue}{which is similar to the form used by \citet{SW69} for modelling buoyant plumes and the form recommended by \citet{RC15} for deep convection}.
 Assuming exactly two fluids and remembering that we need $\sigma_{i}\rho_{i}D_{ij}=-\sigma_{j}\rho_{j}D_{ji}$
 we can use: 
 \begin{equation}
 \mathbf{D}_{ij}=\frac{\sigma_{j}}{\rho_{i}}\frac{C_{D}\rho_{ij}}{r_{c}}|\mathbf{u}_{i}-\mathbf{u}_{j}|\left(\mathbf{u}_{i}-\mathbf{u}_{j}\right)\label{eq:dragBubble}
 \end{equation}
-where $C_{D}$ is a drag coefficient, $r_{c}$ is the radius or length
-scale of a region of fluid (which needs to be the same for both fluids)
-and \textcolor{blue}{$\rho_{ij}=(\sigma_{i}\rho_{i}+\sigma_{j}\rho_{j})/(\sigma_{i}+\sigma_{j})$}.
-As $\sigma_{i}$ becomes small in any fluid, we need $r_{c}$ to become
-small which increases the drag between fluids. If we assume a maximum
+where $C_{D}$ is a drag coefficient, $r_{c}$ is a radius
+and $\rho_{ij}=(\sigma_{i}\rho_{i}+\sigma_{j}\rho_{j})/(\sigma_{i}+\sigma_{j})$. 
+\textcolor{blue}{The radius, $r_c$, needs to be the same for both fluids and could be, for example, the plume radius or a length scale for the region of fluid with lower volume fraction.}
+\textcolor{blue}{Initial testing without any form of stabilisation showed that the velocity of the vanishing fluid diverges which is clearly unrealistic -- a tiny bubble of a different fluid would move with the main fluid. This can be achieved by making $r_{c}$ small}
+as $\sigma_{i}$ becomes small in any fluid which increases the drag between fluids. If we assume a maximum
 and minimum, $r_{\max}$ and $r_{\min}$, then $r_{c}$ can take the
 form:
 \begin{equation}
 r_{c}=\max\left(r_{\min},\ \sigma_{i}\sigma_{j}r_{\max}\right).\label{eq:dragRadius}
 \end{equation}
-\textcolor{blue}{For a more realistic scheme, future work could draw
-on existing parameterisations of cloud radius.}
+For a more realistic scheme, future work could draw
+on existing parameterisations of cloud radius.
+\textcolor{blue}{From geometric arguments, it is reasonable to expect $r_c$ to be small when $\sigma$ is small but stability restrictions on $r_c$ are not known.}
 
 \subsubsection{Diffusion of $\sigma$\label{subsec:diffuseSigma}}
 
-\textcolor{blue}{A diffusive mass transfer term is created to smooth
+A diffusive mass transfer term is created to smooth
 out high curvature or oscillations in $\sigma$. The form used ensures
-that total mass is not diffused and that the transfer from $i$ to
-$j$ is always positive:}
-
+that total mass is not diffused and that 
+\textcolor{blue}{mass transfer terms are never negative}:
 \begin{equation}
 \sigma_{i}\rho_{i}S_{dij}=\frac{K_{\sigma}}{2}\max\left(\nabla^{2}\left(\sigma_{j}\rho_{j}-\sigma_{i}\rho_{i}\right),\ 0\right)\label{eq:diffusionTransfer}
 \end{equation}
@@ -363,15 +370,16 @@ used to set $K_{\sigma}$.
 
 \subsubsection{Transfers based on buoyancy perturbations\label{subsec:buoyancyTransfer}}
 
-\textcolor{blue}{This transfer term has only been derived considering
+This transfer term has only been derived considering
 two fluids, the stable environment ($i=0$) and the buoyant plume
 ($i=1$). It is formulated to mimic a parameterisation for cloud base
-mass flux rather than to regularise the equations: it will introduce
-new extrema rather than removing extrema. Air will rise if buoyancy
+mass flux rather than to regularise the equations: 
+\textcolor{blue}{transfer from fluid $i=0$ to fluid $i=1$ could introduce new extrema of $\sigma_i$, $\theta_1$ and $\mathbf{u}_1$.}
+Air will rise if buoyancy
 perturbations make it lighter than the air above or lighter that the
 surroundings. These observations are usually used in closures for
 cloud base mass flux by testing the (conditional) stability of a parcel
-\citep[eg. ][]{GR90}. }We want to formulate transfer terms as part
+\citep[eg. ][]{GR90}. We want to formulate transfer terms as part
 of PDEs rather than introducing criteria comparing the buoyancy of
 grid boxes with surrounding grid boxes. Therefore we use the Laplacian
 of $\theta$ to inform us of positive and negative perturbations.
@@ -388,12 +396,13 @@ K_{\theta}\frac{\nabla^{2}\theta_{1}}{\theta_{1}} & \ \text{when}\ \nabla^{2}\th
 \end{cases}\label{eq:thetaTransfer10}
 \end{eqnarray}
 where $K_{\theta}$ is a diffusivity. 
+\textcolor{blue}{These transfer terms do not guarantee that fluid 0 is stable or that fluid 1 is buoyant but that is the ultimate aim.}
 
 \subsubsection{Transfers Based on Horizontal Divergence and Vertical Velocity\label{subsec:hdiv_w_Transfer}}
 
-\textcolor{blue}{This transfer term has also been derived considering
+This transfer term has also been derived considering
 only two fluids, the stable environment ($i=0$) and the buoyant plume
-($i=1$). It }is also formulated to mimic convection rather than to
+($i=1$). It is also formulated to mimic convection rather than to
 regularise the equations. The transfer term moves fluid from fluids
 zero to one when fluid zero is converging in the horizontal and rising
 and that moves fluid from fluid one to fluid zero when fluid one is
@@ -410,21 +419,19 @@ diverging in the horizontal and falling:
 0 & \ \text{otherwise.}
 \end{cases}\label{eq:divTransfer10}
 \end{eqnarray}
-\textcolor{blue}{This transfer term is related to closure based on
-moisture convergence.}
 
 \section{Semi-Implicit Numerical Solution}
 
-\textcolor{blue}{Solving the conditionally averaged equations needs
+Solving the conditionally averaged equations needs
 an entire atmospheric model rather than just the convection parameterisation.
-Once the sub-grid-scale convection interacts with the continuity equation,
-convection can no longer be an isolated parameterisation \textendash{}
+Once the sub-grid-scale convection interacts with the \textcolor{blue}{grid-scale} continuity equation,
+convection can no longer be an isolated parameterisation --
 the whole model needs to change, particularly if the mass changes
 due to convection are to be treated implicitly, which is needed to
 avoid time-step restrictions based on the acoustic or gravity wave
 speed. Therefore the entire numerical model is described here. Aspects
 that are not specific to the stability of solving the conditionally
-averaged equations are given in appendix \ref{appx:modelSpace}. }
+averaged equations are given in appendix \ref{appx:modelSpace}.
 
 The equations are discretised and solved using the OpenFOAM library
 (\url{https://openfoam.org}) and the full implementation is part
@@ -433,9 +440,9 @@ The spatial discretisation uses standard OpenFOAM operators.
 
 \subsection{Spatial Discretisation \label{subsec:modelSpace}}
 
-\textcolor{blue}{Most of the spatial discretisation is not specific
+Most of the spatial discretisation is not specific
 to the stable solution of the conditionally averaged equations and
-is described in appendix \ref{appx:modelSpace}. }The spatial discretisation
+is described in appendix \ref{appx:modelSpace}. The spatial discretisation
 uses a finite-volume C-grid for an arbitrary mesh, similar to that
 described by \citet{WS14} with $\theta_{i}$ , $\sigma_{i}\rho_{i}$
 and $\pi$ defined as volumetric mean quantities (or at cell centres)
@@ -444,8 +451,10 @@ used are orthogonal and the focus of this paper is not spatial discretisation
 therefore for simplicity the discretisation is described for orthogonal
 meshes. 
 
-\textcolor{blue}{Specific to the conditionally averaged equations,
-it is important to use bounded advection of $\sigma_{i}$. A TVD advection
+Specific to the conditionally averaged equations,
+it is important to use bounded advection of $\sigma_{i}$. A 
+\textcolor{blue}{total variation diminishing}
+(TVD) advection
 scheme with a van-Leer limiter is described in appendix \ref{subsec:vanLeerContinuity}.
 Note that it is the advection of $\sigma_{i}$ that is bounded, not
 the advection of $\sigma_{i}\rho_{i}$ because it is necessary to
@@ -453,117 +462,123 @@ discretise $\rho_{i}$ consistently with the pressure for both stability
 and energy conservation. This is described in more detail in sections
 \ref{subsec:solveContinuity} and \ref{subsec:consistency}. Bounded
 advection of $\rho_{i}$ is not needed because density is sufficiently
-smooth and far from zero so that it remains positive.}
+smooth and far from zero so that it remains positive.
 
 \subsection{Time Stepping Algorithm}
 
-\textcolor{blue}{It is crucial to get the time-stepping right for
+It is crucial to get the time-stepping right for
 the stable solution of the conditionally averaged equations. In this
 section we will distinguish between convenient modelling choices and
 choices that are specific to the stable solution of the conditionally
 averaged equations. The solution of the conditionally averaged equations
 is interwoven with a semi-implicit method so that acoustic waves are
-treated implicitly for large and small $\sigma_{i}$.}
+treated implicitly
+\textcolor{blue}{for any value of $\sigma_{i}$}.
 
 The terms of the Euler equations involved in acoustic waves are solved
-using second-order Crank-Nicolson time-stepping. \textcolor{blue}{Other
+using second-order Crank-Nicolson time-stepping. Other
 implicit schemes could be chosen and optionally gravity waves could
 also be treated implicitly. For the stable solution of the conditionally
 averaged equations it is necessary to include updates from both the
-buoyant and stable momentum and continuity equations in the implicit
-solution of the pressure equation.}
+\textcolor{blue}{plume and environment} momentum and continuity equations in the implicit
+solution of the pressure equation.
 
-\textcolor{blue}{Non-linear terms and advection are treated explicitly
+Non-linear terms and advection are treated explicitly
 using second-order Runge-Kutta time-stepping for convenience \citep{WLW13}.
-An inner loop solves the pressure equation twice with explicit terms
+An inner loop solves the pressure equation
+\textcolor{blue}{for $\pi$ and $\mathbf{u}_i$}
+twice with explicit terms
 updated for the second iteration. The inner iterations are indexed
 with $\ell=1,2$. An outer loop solves the continuity and temperature
-equations explicitly. The outer iterations are indexed with $k=1,2$.
+equations explicitly 
+\textcolor{blue}{for $\sigma_i \rho_i$ and $\theta_i$}.
+The outer iterations are indexed with $k=1,2$.
 This low Mach number semi-implicit method follows \citet{WS14} and
-is similar to \citet{WSW+14} in the number of inner and outer loops.}
+is similar to \citet{WSW+14} in the number of inner and outer loops.
 
-\textcolor{blue}{All transfer terms are solved using operator split
+All transfer terms are solved using operator split
 either explicit or implicit first-order time-stepping. The operator
 splitting is a straightforward way to ensure positivity. Implicit
 updates are necessary for stable treatment of the large source terms
-(the source terms with $\sigma_{i}\rho_{i}$ in the denominator which
-can tend to infinity as $\sigma_{i}\rightarrow0$).}
+(the source terms of
+\textcolor{blue}{the temperature equation (\ref{eq:condThetaAdv}) momentum equation (\ref{eq:condMomAdv})}
+with $\sigma_{i}\rho_{i}$ in the denominator which
+can tend to infinity as $\sigma_{i}\rightarrow0$).
 
 \subsubsection{Initialisation \label{subsec:initialisation}}
 
-\textcolor{blue}{The prognostic variables are $U_{i}$, $\sigma_{i}\rho_{i}$,
+The prognostic variables are $U_{i}$, $\sigma_{i}\rho_{i}$,
 $\theta_{i}$ where $U_{i}=\mathbf{u}_{i}\cdot\mathbf{S}_{f}$ is
 the volume flux across each cell face ($\mathbf{S}_{f}$ is the vector
-normal to each face with magnitude of the face area).} Transport equations
+normal to each face with magnitude of the face area). Transport equations
 are solved for $U_{i}$, $\sigma_{i}\rho_{i}$, $\theta_{i}$ and
-$\pi$. This system is over specified because $\pi$ can be calculated
-from all of the $\sigma_{i}\rho_{i}$ and $\theta_{i}$ using the
+$\pi$. This system is overspecified because $\pi$ can be calculated
+for all of the $\sigma_{i}\rho_{i}$ and $\theta_{i}$ using the
 equation of state. To avoid over specification, only $\mathbf{u}_{i}$,
 $\sigma_{i}$, $\theta_{i}$ and $\pi$ are read in at initialisation
-\textcolor{blue}{and each $\rho_{i}$ is calculated from the equation
+and each $\rho_{i}$ is calculated from the equation
 of state (\ref{eq:condState}). A separate code for calculating the
 initial conditions calculates $\pi$ that is in discrete hydrostatic
-balance with $\theta_{0}$.}
+balance with $\theta_{0}$ 
+\textcolor{blue}{(ie $\theta$ for fluid zero)}.
 
-\textcolor{blue}{In order to start each time-step, $(\sigma_{i}\rho_{i})^{k=0}$
+In order to start each time-step, $(\sigma_{i}\rho_{i})^{k=0}$
 is set to $(\sigma_{i}\rho_{i})^{n}$ where $n$ is the label for
 the old time step, $\theta_{i}^{k=0}$ is set to $\theta_{i}^{n}$
 , $\pi^{\ell=0}$ is set to $\pi^{n}$ and $U_{i}^{\ell=0}$ to $U_{i}^{n}$.
 After the loops over $k$ and $\ell$, the values at time $n+1$ are
-set the final values at the end of the iterations. }
+set the final values at the end of the iterations. 
 
-\subsubsection{Solving the Continuity Equation\label{subsec:solveContinuity}}
+\subsubsection{Solving the Continuity Equation \label{subsec:solveContinuity}}
 
-\textcolor{blue}{The first equations to be solved in the outer loop
-are the continuity equations for each $\sigma_{i}\rho_{i}$. When
-transfer terms are included (which lead to terms with $\sigma_{i}\rho_{i}$
-in the denominator) it is essential to keep $\sigma_{i}\rho_{i}$
+The first equations to be solved in the outer loop
+are the continuity equations for each $\sigma_{i}\rho_{i}$ (\ref{eq:condCont}). When
+transfer terms are included (which lead to terms with $\sigma_{i}\rho_{i}$ in the denominator
+\textcolor{blue}{of the source terms of the temperature (\ref{eq:condThetaAdv}) and momentum (\ref{eq:condMomAdv}) equations})
+it is essential to keep $\sigma_{i}\rho_{i}$
 positive for stability. The continuity equations are solved using
 operator splitting, first advecting $\sigma_{i}\rho_{i}$ and then
 applying the transfer terms. This is the most straightforward way
-to maintain positivity. We have chosen }a TVD advection scheme with
-a van-Leer limiter (section \ref{subsec:vanLeerContinuity}) \textcolor{blue}{to
-advect } \textcolor{blue}{$\sigma_{i}\rho_{i}$ for iterations $k=1,2$:
+to maintain positivity. We have chosen a TVD advection scheme with
+a van-Leer limiter (section \ref{subsec:vanLeerContinuity}) to
+calculate $\sigma_{i}$ inside the divergence for iterations $k=1,2$:
 \begin{equation}
 (\sigma_{i}\rho_{i})^{\prime}=(\sigma_{i}\rho_{i})^{n}-\Delta t\ \nabla\cdot\left(\left[(1-\alpha)\rho_{i}^{n}\mathbf{u}_{i}^{n}+\alpha\rho_{i}^{k-1}\mathbf{u}_{i}^{\ell-1}\right]\sigma_{i}^{n}\right)\label{eq:advectSigma}
 \end{equation}
 where $\Delta t$ is the time-step and $\alpha$ is the off-centering
 parameter. For all the simulations presented, $\alpha=1/2$ is used
-making the time-stepping second-order accurate. Values of $\sigma_{i}\rho_{i}$
-for all values of $k$ and for the intermediate values, $(\sigma_{i}\rho_{i})^{\prime}$
-share the same memory as $(\sigma_{i}\rho_{i})^{n+1}$.}
+making the time-stepping second-order accurate.
+\textcolor{blue}{$\rho_i$ inside the divergence is calculated using linear interpolation.}
+\textcolor{blue}{$(\sigma_{i}\rho_{i})^{k}$ for all values of $k$ and the intermediate values $(\sigma_{i}\rho_{i})^{\prime}$ share the same memory as $(\sigma_{i}\rho_{i})^{n+1}$.}
 
-\textcolor{blue}{Only $\sigma_{i}^{n}$ appears on the right hand
+Only $\sigma_{i}^{n}$ appears on the right hand
 side of eqn (\ref{eq:advectSigma}), no newer values such as $\sigma_{i}^{k-1}$.
 This is because the advection scheme assumes that the upwind values
 are at the old time-level and it is only guaranteed bounded when using
 $\sigma_{i}^{n}$ on the right hand side. However updated values of
 $\rho_{i}$ are used on the right hand side of eqn (\ref{eq:advectSigma})
 so that the solution of eqn (\ref{eq:advectSigma}) remains consistent
-with the Exner pressure, $\pi$.}
+with the Exner pressure, $\pi$.
 
-\textcolor{blue}{Next the mass transfer terms are calculated using
+Next the mass transfer terms are calculated using
 $\sigma_{i}^{\prime}$, $\mathbf{u}_{i}^{\ell-1}$ and $\theta_{i}^{\ell-1}$
 (the most up to date values) and limited to ensure that $\sigma_{i}\rho_{i}$
 remains positive:
 \begin{equation}
 S_{ij}^{\text{lim}}=\frac{1}{(\sigma_{i}\rho_{i})^{\prime}}\min\left((\sigma_{i}\rho_{i})^{\prime}S_{ij},\ \frac{(\sigma_{i}\rho_{i})^{\prime}-\sigma_{\min}\rho_{i}^{k-1}}{\Delta t}\right)
 \end{equation}
-}where $\sigma_{\min}=10^{-9}$ is used in the simulations presented
+where $\sigma_{\min}=10^{-9}$ is used in the simulations presented
 in section \ref{sec:results}. Then the mass transfer is used to update
-$\sigma_{i}\rho_{i}$ explicitly with operator splitting:\textcolor{blue}{
+$\sigma_{i}\rho_{i}$ explicitly with operator splitting:
 \begin{equation}
 (\sigma_{i}\rho_{i})^{k}=(\sigma_{i}\rho_{i})^{\prime}+\Delta t\left((\sigma_{j}\rho_{j})^{\prime}S_{ji}^{\text{lim}}-(\sigma_{i}\rho_{i})^{\prime}S_{ij}^{\text{lim}}\right).\label{eq:transferMass}
 \end{equation}
-}
 
-\subsubsection{Solving the $\theta_{i}$ equation\label{subsec:solveTheta}}
+\subsubsection{Solving the $\theta_{i}$ equation \label{subsec:solveTheta}}
 
-After the continuity equation, the $\theta_{i}$ equation is solved
+After the continuity equation, the $\theta_{i}$ equation (\ref{eq:condThetaAdv}) is solved
 using operator splitting; first advecting $\theta_{i}$ then applying
-the mass transfer terms to the advected $\theta_{i}$. The mass transfer
-terms are applied implicitly because they can be very large due to
-\textcolor{blue}{the presence of $\sigma_{i}\rho_{i}$ in the denominator}.
+the mass transfer terms to the advected $\theta_{i}$. 
 Because we are using a finite volume model to solve equations in advective
 form, the advection of $\theta_{i}$ is calculated as:
 \begin{multline}
@@ -572,6 +587,9 @@ form, the advection of $\theta_{i}$ is calculated as:
 \end{multline}
 where the spatial discretisation is described in section \ref{subsec:thetaAdvect}.
 
+\textcolor{blue}{The mass transfer
+terms are applied implicitly because they can be very large due to
+the presence of $\sigma_{i}\rho_{i}$ in the denominator.}
 The implicit addition of mass transfer terms is formulated to be specific
 for having two fluids although it would be straightforward to generalise.
 In order to derive the equations for adding the mass transfer terms
@@ -593,8 +611,8 @@ For conservation of internal energy, it is necessary that the values
 of $\sigma_{i}\rho_{i}$ from after advection but before the mass
 transfer are used in the calculation of $T_{ij}$. This ensures that
 $\sum_{\text{cells}}\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})^{n}=\sum_{\text{cells}}\sum_{i}(\sigma_{i}\rho_{i}\theta_{i})^{n+1}$.
-\textcolor{blue}{Calculation of $\theta_{i}^{k}$ from eqns (\ref{eq:theta0Transfer})
-and (\ref{eq:theta1Transfer})} also ensures boundedness of $\theta_{i}$
+Calculation of $\theta_{i}^{k}$ from eqns (\ref{eq:theta0Transfer})
+and (\ref{eq:theta1Transfer}) also ensures boundedness of $\theta_{i}$
 ($\theta_{i}^{k}$ will remain between $\theta_{i}^{k-1}$ and $\theta_{j}^{k-1}$).
 
 \subsubsection{Diagnosing $\sigma_{i}$\label{subsec:diagnoseSigma}}
@@ -604,7 +622,7 @@ and $\theta_{i}$, the diagnostic variable $\sigma_{i}$ can be updated.
 $\sigma_{i}$ is not used in isolation from $\rho_{i}$ anywhere in
 the equations (\ref{eq:condCont}, \ref{eq:condState}-\ref{eq:condMomAdv}).
 However $\sigma_{i}$ and $\rho_{i}$ may be needed independently
-in closure assumptions, such as the approximation of the drag (below).
+in closure assumptions, such as the approximation of the drag (\ref{eq:dragBubble}).
 Firstly, each $\rho_{i}$ is calculated from the equation of state
 using the most up to date values:
 \begin{equation}
@@ -618,14 +636,14 @@ This calculation will guarantee $\sum_{i}\sigma_{i}=1$.
 
 \subsubsection{Momentum and Continuity\label{subsec:Helmholtz}}
 
-\textcolor{blue}{Here we describe how a standard semi-implicit algorithm
-is adapted to solve the momentum and continuity equations from all
-fluids simultaneously. }The momentum and continuity equations are
+Here we describe how a standard semi-implicit algorithm
+is adapted to solve the momentum (\ref{eq:condMomAdv})  and continuity (\ref{eq:condCont}) equations from all
+fluids simultaneously. The momentum and continuity equations are
 combined to form a Helmholtz equation for $\pi$. This is done by
 expressing the volume flux, $U_{i}$, and the mean density, $\overline{\rho}$,
 as linear functions of $\pi$ and substituting these into the continuity
-equation. \textcolor{blue}{This is done twice per outer loop, in an
-inner loop indexed by $\ell$.}
+equation. This is done twice per outer loop, in an
+inner loop indexed by $\ell$.
 
 The normal component of the volume flux, $U_{i}$ is expressed as
 a linear function of $\pi$ using the momentum equation:
@@ -667,9 +685,10 @@ to calculate the divergence term:
 \frac{\Psi^{\ell-1}\pi^{\ell}-\Psi^{n}\pi^{n}}{\Delta t}+\frac{1-\alpha}{V}\sum_{f\in c}F^{n}\\
 \frac{\alpha}{V}\sum_{f\in c}\left\{ \sum_{i}(\sigma_{i}\rho_{i})_{f}^{k}U_{i}^{\prime\prime}-\alpha\Delta tc_{p}\left(\overline{\rho\theta}_{f}^{k}\right)\nabla_{S}\pi^{\ell}\right\} =0\label{eq:Helmholtz}
 \end{multline}
-where $V$ is the cell volume. There are no source terms to this equation
-because the source terms transfer mass between fluids and the total
-continuity equation is summed over fluids. This is a Helmholtz equation
+where $V$ is the cell volume. There are no transfer terms in this equation
+because
+\textcolor{blue}{they cancel when}
+summed over fluids. This is a Helmholtz equation
 that can be solved for $\pi^{\ell}$. Back substitutions are then
 made to calculate each $U_{i}^{\prime}$ using equation (\ref{eq:volFluxFromMom}). 
 
@@ -688,25 +707,25 @@ U_{i}^{\ell} & = & U_{i}^{\prime}-\Delta t\ \left(T_{ji}+\sigma_{j}\frac{C_{D}\o
 \end{eqnarray}
 Using the same block implicit solution technique as was described
 in section \ref{subsec:solveTheta}, $U_{i}^{\ell}$ can be calculated
-using:\textcolor{blue}{
+using:
 \begin{eqnarray}
 U_{0}^{\ell} & = & \frac{\left(1+\Delta t\ \mathbb{T}_{01}\right)U_{0}^{\prime}+\Delta t\ \mathbb{T}_{10}U_{1}^{\prime}}{1+\Delta t\ \mathbb{T}_{10}+\Delta t\ \mathbb{T}_{01}}\label{eq:Utransfer0}\\
 U_{1}^{\ell} & = & \frac{U_{1}^{\prime}+\Delta t\ \mathbb{T}_{01}U_{0}^{\ell}}{1+\Delta\mathbb{T}_{01}}\label{eq:Utransfer1}
 \end{eqnarray}
 where $\mathbb{T}_{ij}=T_{ij}+\frac{\sigma_{i}^{k}}{\rho_{j}^{k}}\frac{C_{D}\overline{\rho}^{k}}{r_{c}}|\mathbf{u}_{j}-\mathbf{u}_{i}|^{\ell-1}$.
-}As with the numerical method for applying the mass transfer terms
+As with the numerical method for applying the mass transfer terms
 to the $\theta_{i}$ equations, this technique ensures that the $U_{i}$
 remain bounded and the use of the values of $\sigma_{i}\rho_{i}$
 from before mass transfer in the calculation of $T_{ij}$ gives momentum
 conservation on transfer.
 
-\subsubsection{\textcolor{blue}{Updates for Consistency \label{subsec:consistency}}}
+\subsubsection{Updates for Consistency \label{subsec:consistency}}
 
-\textcolor{blue}{So far, each time-step, we have updated each $\sigma_{i}\rho_{i}$
+So far, each time-step, we have updated each $\sigma_{i}\rho_{i}$
 using the continuity equations, $U_{i}$ using the momentum equations,
 $\theta_{i}$ using the temperature equations and and $\pi$ using
 the Helmholz equation which is a combination of the momentum and continuity
-equations and the equation of state. This is over-specified so to
+equations and the equation of state. This is overspecified so to
 avoid inconsistencies growing (which leads to instability), $\pi$
 is re-calculated from $\sigma_{i}\rho_{i}$ and $\theta_{i}$ at the
 end of every time-step using just the equation of state (\ref{eq:condState}).
@@ -716,23 +735,23 @@ grow. Therefore $\rho_{i}$ must be solved with the same spatial discretisation
 as $\pi$ which, for best energy conservation (given 2nd order numerics)
 is centred linear differencing. This is why only $\sigma_{i}$, not
 $\sigma_{i}\rho_{i}$ is solved with a bounded advection scheme as
-described in section \ref{subsec:solveContinuity}. }
+described in section \ref{subsec:solveContinuity}.
 
 \subsubsection{Overview of the Solution Algorithm}
 
-\textcolor{blue}{Each item below is carried out for all cells before
+Each item below is carried out for all cells before
 moving on to the next item. This is crucial for the semi-implicit
-formulation. }
+formulation.
 \begin{enumerate}
-\item \textcolor{blue}{We start by initialising all iterated variables at
-$k=0$ and $\ell=0$ to the values at time level $n$.}
+\item We start by initialising all iterated variables at
+$k=0$ and $\ell=0$ to the values at time level $n$.
 \item For $k=1,2$:
 
 \begin{enumerate}
 \item Solve for $(\sigma_{i}\rho_{i})^{k}$ as described in section \ref{subsec:solveContinuity}.
 \item Solve for $\theta_{i}^{k}$ as described in section \ref{subsec:solveTheta}.
 \item Update $\sigma_{i}^{k}$ as described in section \ref{subsec:diagnoseSigma}.
-\item \textcolor{blue}{For $\ell=1,2$}
+\item For $\ell=1,2$
 
 \begin{enumerate}
 \item Update each $U_{i}^{\prime\prime}$ using eqn (\ref{eq:Uprime}) which
@@ -744,12 +763,12 @@ pressure gradient term and excluding transfer terms.
 to get $U_{i}^{\prime}$ using eqn (\ref{eq:volFluxFromMom}).
 \item Add the transfer terms to $U_{i}^{\prime}$ to get $U_{i}^{\ell}$
 using eqn (\ref{eq:Utransfer0},\ref{eq:Utransfer1}).
-\item Calculate $\mathbf{u}_{i}^{\ell}$ from $U_{i}^{\ell}$ using eqn
+\item Calculate $\mathbf{u}_{i}^{\ell}$ from $U_{i}^{\ell}$ using appendix eqn
 (\ref{eq:recontructU}).
 \end{enumerate}
 \end{enumerate}
 \item For consistency, update $\Psi$ and $\pi$ at the end of each time-step
-\textcolor{blue}{from the equation of state} (section \ref{subsec:consistency}).
+from the equation of state (section \ref{subsec:consistency}).
 \end{enumerate}
 
 \section{Results\label{sec:results}}
@@ -788,7 +807,7 @@ and $302\ $K.
 \subsection{Two Identical Fluids}
 
 First the warm rising bubble of \citet{BF02} is simulated with the
-fluid divided into two fluids with identical initial conditions in
+fluid divided into two with identical initial conditions in
 each fluid. No transfers or exchanges between fluids are used. Two
 different initial fluid fractions are used as shown at the top of
 figure \ref{fig:identicalParts}. These should not influence the evolution
@@ -823,8 +842,8 @@ as expected.
 \caption{Initial fluid fraction and $\theta_{i}$ (top) for simulations with
 identical properties in each fluid and properties after 1000\,s (bottom).
 The vectors and contours for $\theta_{i}$ and $\mathbf{u}_{i}$ for
-each fluid are identical. \textcolor{blue}{The full domain extends
-between $x=-10^{3}\ $m and $x=10^{3}\ $m.} \label{fig:identicalParts}}
+each fluid are identical. The full domain extends
+between $x=-10^{3}\ $m and $x=10^{3}\ $m. \label{fig:identicalParts}}
 \end{figure*}
 
 The stability of the model is demonstrated by plotting the total energy
@@ -851,17 +870,17 @@ transfers between internal and potential energy. Throughout the simulation
 the kinetic energy increases as the rising bubble accelerates while
 the total energy decreases monotonically due to stable, dissipative
 nature of the model. Part of this dissipation is due to the dissipative
-advection of velocity \textcolor{blue}{(linear-upwind)} and potential
-temperature \textcolor{blue}{(van-Leer)}. A simulation is also run
+advection of velocity (linear-upwind) and potential
+temperature (van-Leer). A simulation is also run
 using centred, linear differencing for advection and the total energy
 is shown in the right hand of figure \ref{fig:energy1part}. This
-simulation looses energy less slowly and the energy loss is no longer
+simulation loses energy \textcolor{blue}{more} slowly and the energy loss is no longer
 monotonic. The results of this simulation are noisy but stable with
 overshoots and undershoots of temperature (not shown).
 
 The accuracy of the energy conservation in figure \ref{fig:energy1part}
 appears to be good partly because the energy changes are divided by
-a large number \textendash{} the total initial energy, including unavailable
+a large number -- the total initial energy, including unavailable
 energy. The initial potential energy, which is mostly unavailable,
 is 31,444\ Joules and the initial internal energy is 141,446\ Joules,
 making the total initial energy 172,891\ Joules. A fairer accuracy
@@ -873,7 +892,7 @@ state. If we were to normalise the energy changes with this value
 then they would be 7,057 times bigger, making a normalised change
 of $10^{-6}$ close to a change of 0.01.
 
-The total energy for the the simulations with two identical fluids
+The total energy for the simulations with two identical fluids
 with symmetric and asymmetric distributions of $\sigma$ are shown
 in figure \ref{fig:energy1part}. This confirms that the presence
 of more than one identical fluid does not influence the energy conservation.
@@ -888,7 +907,9 @@ for the rising bubble test case for the model with a single fluid
 and the normalised total energy change for models with one fluid with
 different advection schemes and for a model with two identical fluids
 and no mass transfer. Solid lines show positive changes and dashed
-lines show negative changes.\label{fig:energy1part}}
+lines show negative changes. 
+\textcolor{blue}{The x-axis is on a square root scale to emphasise the changes that occur early in the simulations.}
+\label{fig:energy1part}}
 \end{figure*}
 
 \subsection{Different Initial Conditions in each Fluid}
@@ -930,22 +951,24 @@ remains identically 300\,K throughout the simulation, as expected.
 \caption{Zoomed in initial conditions and results of a simulation with a buoyant
 perturbation in fluid 1 and no mass transfer. $\sigma_{1}$ is shaded,
 $\theta_{1}$ is contoured every 0.2\,K, $\mathbf{u}_{0}$ is shown
-by black vectors and $\mathbf{u}_{1}$ by red vectors. \textcolor{blue}{The
+by black vectors and $\mathbf{u}_{1}$ by red vectors. The
 full domain extends between $x=-10^{3}\ $m and $x=10^{3}\ $m and
-between $z=0$ and $z=10^{3}\ $m.} \label{fig:diffuse1_noDrag}}
+between $z=0$ and $z=10^{3}\ $m. \label{fig:diffuse1_noDrag}}
 \end{figure*}
 
 The buoyancy perturbation in fluid one makes fluid one rise which
-raises the pressure above the bubble which forces fluid zero downwards.
+raises the pressure above the bubble and forces fluid zero downwards.
 Consequently total divergence is controlled but the divergence in
 each fluid grows and hence the velocities become large. The advection
 scheme is only bounded for Courant numbers less than 0.5. At 276\,s,
 the mean Courant number becomes larger than 0.5 and oscillations grow
 in $\sigma_{1}$. The solution diverges at $t=296\ \text{s}$. A stable
-simulation could be maintained for \textcolor{blue}{a little }longer
-by using a smaller time-step or by treating advection implicitly \textcolor{blue}{but
+simulation could be maintained for a little longer
+by using a smaller time-step or by treating advection implicitly but
 the PDEs that we are solving are unstable \citep{SW84} so numerics
-cannot be used to maintain stability indefinitely.} 
+cannot be used to maintain stability indefinitely.
+
+\subsubsection{\textcolor{blue}{Coupling the two fluids with drag or diffusion}}
 
 We first add drag between the fluids but no mass transfer. The drag
 takes the form described in section \ref{subsec:drag} with length
@@ -967,20 +990,22 @@ and $\theta_{2}$ are contoured every 0.2\,K, $\mathbf{u}_{0}$ is
 shown by black vectors and $\mathbf{u}_{1}$ by red vectors. Initially
 $\sigma=\frac{1}{2}$ in circle near the ground (as in fig \ref{fig:diffuse1_noDrag}).
 The time-series shows the normalised energy changes. Dashed lines
-show negative changes. \label{fig:diffuse1_dragDiffuse}}
+show negative changes.
+\textcolor{blue}{The x-axis is on a square root scale to emphasise the changes that occur early in the simulations.}
+\label{fig:diffuse1_dragDiffuse}}
 \end{figure*}
 
-Next the fluids are coupled by adding diffusion \textcolor{blue}{between
-the fluids (but no drag)} as described in section \ref{subsec:diffuseSigma}.
+Next the fluids are coupled by adding diffusion between
+the fluids (but no drag) as described in section \ref{subsec:diffuseSigma}.
 This is similar to convective entrainment and detrainment due to turbulence.
 The results using a diffusion coefficient of $K_{\sigma}=200\ \text{m}^{2}\text{s}^{-1}$
 are shown in figure \ref{fig:diffuse1_dragDiffuse}. The diffusion
 is treated explicitly and this diffusion coefficient is well below
-the stability limit. Once mass is transferred, \textcolor{blue}{the
+the stability limit. Once mass is transferred, the
 peaks in $\sigma_{1}$ reduce in comparison to the simulation with
-drag between the fluids. }Temperature and momentum are transferred
-\textcolor{blue}{with the mass} so the temperature in fluid 1 no longer
-remains 300\,K \textcolor{blue}{and the temperature in fluid 0 reduces}.
+drag between the fluids. Temperature and momentum are transferred
+with the mass so the temperature in fluid 1 no longer
+remains 300\,K and the temperature in fluid 0 reduces.
 
 The total energy changes for all of the simulations with warm air
 in a diffuse fluid 1 are shown in the bottom right of figure \ref{fig:diffuse1_dragDiffuse}.
@@ -997,11 +1022,10 @@ so for $\Delta t=2\text{s}$ and $\Delta x=100\text{m}$ the stability
 limit is $K_{\sigma}=2500\ \text{m}^{2}\text{s}^{-1}$.) The simulation
 is also stabilised by using drag between the fluids. The low drag
 coefficient of $C_{D}=1$, $r_{\min}=1\ \text{m}$ and $r_{\max}=2000\ \text{m}$
-leads more rapid energy loss than any of the other effective stabilisation
+leads to more rapid energy loss than any of the other effective stabilisation
 methods. A high drag coefficient ($C_{D}=10^{6}$) is also used to
-check the stability of the implicit treatment of drag. The simulation
-stabilised by mass transfer based on divergence looses energy monotonically,
-more slowly than the other stabilisations. 
+check the stability of the implicit treatment of drag. 
+\textcolor{blue}{It is not immediately obvious why the high drag coefficient would lead to less energy loss when we usually think of drag as removing kinetic energy. With high drag between the fluids, kinetic energy is more evenly spread between the fluids and lower velocities and lower shear could lead to less kinetic energy dissipation by the dissipative advection.}
 
 \subsection{Transfers Between Fluids to mimic convection parameterisation}
 
@@ -1013,10 +1037,10 @@ and comparison with the single fluid case. These simulations start
 with no fluid one (all the mass initially in fluid zero). Whenever
 mass is transferred into fluid one it takes its properties with it
 so the solution should be identical to the single fluid case and energy
-should be conserved. \textcolor{blue}{In order to maintain stability,
+should be conserved. In order to maintain stability,
 diffusion between fluids of $K_{\sigma}=100\ \text{m}^{2}\text{s}^{-1}$
 and drag with coefficient of $C_{D}=1/2$, $r_{\min}=1\ \text{m}$
-and $r_{\max}=2000\ \text{m}$ are used.}
+and $r_{\max}=2000\ \text{m}$ are used.
 
 \subsubsection{Transfers based on buoyancy perturbations}
 
@@ -1026,13 +1050,13 @@ To test that warm air is transferred from fluid zero to fluid one,
 we initialise the simulation with $\sigma_{0}=0$ everywhere and the
 warm perturbation in fluid zero only. The solutions for $\sigma_{1}$,
 $\theta_{0,1}$ and $\mathbf{u}_{0,1}$ after 1000\,s are shown in
-figure \ref{fig:massTransfer}\textcolor{blue}{{} using diffusivities
+figure \ref{fig:massTransfer} using diffusivities
 $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$ (top left) and $K_{\theta}=10^{5}\ \text{m}^{2}\text{s}^{-1}$
 (bottom left). Figure \ref{fig:massTransfer} confirms that $\theta_{i}$
 and $\mathbf{u}_{i}$ are similar in each fluid and also similar to
 the solutions in figure \ref{fig:identicalParts}. Using $K_{\theta}=10^{6}\ \text{m}^{2}\text{s}^{-1}$,
-warm fluid is completely transferred to fluid one however using $K_{\theta}=10^{5}\ \text{m}^{2}\text{s}^{-1}$,
-the transfer is partial.}
+warm fluid is completely transferred to fluid one whereas using $K_{\theta}=10^{5}\ \text{m}^{2}\text{s}^{-1}$,
+the transfer is partial.
 
 The $\ell_{2}$ errors shown in figure \ref{fig:massTransfer} show
 the root mean square difference between the single fluid $\theta$
@@ -1041,15 +1065,15 @@ normalised by the root mean square single fluid $\theta$. Fluid one
 is initialised with no mass and without a warm bubble. The zero mass
 in fluid one means that once mass is transferred to fluid one it should
 have identical properties to fluid zero. This does not happen exactly;
-the RMS errors are low \textcolor{blue}{but not zero}. These RMS errors
+the RMS errors are low but not zero. These RMS errors
 can be compared with the RMS differences between the simulations initialised
 with identical properties in both fluids and the single fluid in figure
 \ref{fig:identicalParts}. These have RMS differences of $7.7\times10^{-14}$.
 Therefore the simulation of a zero mass fluid with different initial
-conditions is introducing numerical error \textcolor{blue}{although
+conditions is introducing numerical error although
 these errors are not obvious when comparing the results of figure
 \ref{fig:massTransfer} with those in figure \ref{fig:identicalParts}
-by eye}. 
+by eye. 
 
 \begin{figure*}
 \includegraphics[width=1\linewidth]{massTransfer}
@@ -1057,12 +1081,12 @@ by eye}.
 \caption{Rising bubble solutions of $\sigma_{1}$, $\theta_{0,1}$ and $\mathbf{u}_{0,1}$
 after 1000\,s with mass transfers based on $K_{\theta}\nabla^{2}\theta/\theta$
 and based on $\nabla_{h}\cdot\mathbf{u}$ and $\mathbf{u}\cdot\mathbf{g}$.
-\textcolor{blue}{All simulations use $K_{\sigma}=100\ \text{m}^{2}\text{s}^{-1}$
+All simulations use $K_{\sigma}=100\ \text{m}^{2}\text{s}^{-1}$
 and drag with coefficient of $C_{D}=1/2$, $r_{\min}=1\ \text{m}$
 and $r_{\max}=2000\ \text{m}$. }The $\ell_{2}$ error norms are the
 normalised root mean square difference between the single fluid $\theta$
 and the mean $\theta$ across all partitions ($\sum_{i}\sigma_{i}\rho_{i}\theta_{i}/\sum_{i}\sigma_{i}\rho_{i}$).
-\label{fig:massTransfer}}
+\label{fig:massTransfer}
 \end{figure*}
 
 The changes in energy for both solutions with mass transfer based
@@ -1076,7 +1100,9 @@ The energy loss is very similar to the single fluid case (figure \ref{fig:energy
 \caption{Normalised energy changes for the rising bubble solutions with mass
 transfer based on $K_{\theta}\nabla^{2}\theta/\theta$ and based on
 $\nabla_{h}\cdot\mathbf{u}$ and $\mathbf{u}\cdot\mathbf{g}$. Dashed
-lines show negative changes (all changes are negative). \label{fig:massTransferEnergy}}
+lines show negative changes (all changes are negative).
+\textcolor{blue}{The x-axis is on a square root scale to emphasise the changes that occur early in the simulations.}
+\label{fig:massTransferEnergy}}
 \end{figure}
 
 \subsubsection{Transfers based on horizontal divergence and vertical velocity}
@@ -1088,32 +1114,31 @@ since fluid one is initially empty, its initial properties should
 not influence the final solution. Instead, properties are transferred
 from fluid zero and the two fluids evolve in the same way and the
 solutions are very similar to the single fluid simulation, with normalised
-RMS differences of $1.9\times10^{-7}$ \textcolor{blue}{which again
+RMS differences of $1.9\times10^{-7}$ which again
 is not big enough to visually see differences between the results
-in figures \ref{fig:massTransfer} and \ref{fig:identicalParts} }.
+in figures \ref{fig:massTransfer} and \ref{fig:identicalParts}.
 Using mass transfer based on horizontal divergence leads to larger
 differences from the single fluid case but more mass is transferred
 so this is not a disadvantage of mass transfer based on horizontal
 divergence. However transfer based on horizontal divergence leads
 to transfer of the fluid that is behind the warm air and not the warm
-air itself. The warm air itself actually initially expands to satisfy
-the perfect gas law \textcolor{blue}{and so is not transferred}. 
-
+air itself.
+\textcolor{blue}{The warm air actually expands horizontally and so is not transferred.}
 Using mass transfer based on horizontal divergence, the drop in energy
 is again very similar to the single fluid case (comparing figures
 \ref{fig:energy1part} and \ref{fig:massTransferEnergy}). 
 
-\subsubsection{\textcolor{blue}{Transfers based on buoyancy perturbations, horizontal
-divergence and vertical velocity}}
+\subsubsection{Transfers based on buoyancy perturbations, horizontal
+divergence and vertical velocity}
 
-\textcolor{blue}{Finally we use both types of mass transfer in the
+Finally we use both types of mass transfer in the
 simulation shown in the bottom right of figure \ref{fig:massTransfer}.
 One might expect the fluid transferred to be the sum of the fluids
-transferred based on both processes seaparately but this is not the
+transferred based on both processes separately but this is not the
 case because of inconsistencies between the two transfer processes.
 For example, $\nabla^{2}\theta$ is positive behind the warm anomaly
 so fluid is transferred back to fluid 1, despite the horizontal convergence
-and rising air. It does not appear useful to use both types of transfer. }
+and rising air. It does not appear useful to use both types of transfer.
 
 \section{Summary, Conclusions and Further Work}
 
@@ -1128,10 +1153,9 @@ the similar extended EDMF scheme \citep{TKP+18} and would allow net
 mass transport by convection. Transfers of mass between the fluids
 are proposed for two purposes:
 \begin{enumerate}
-\item The conditionally averaged equations with a single pressure are ill-posed
-so transfer terms are formulated to \textcolor{blue}{represent drag
-and entrainment between fluids} to ensure that the different fluids
-\textcolor{blue}{do not diverge}. 
+\item The conditionally averaged equations with a single pressure are ill-posed so transfer terms are formulated to represent drag and 
+\textcolor{blue}{mass transfer}
+between fluids to ensure that the different fluids do not diverge. 
 \item Transfer terms are proposed so that well resolved convection is transferred
 to the buoyant fluid and stable or sinking air is transferred to the
 stable fluid. These are based on buoyancy anomalies (measured by the
@@ -1149,40 +1173,43 @@ transfer.
 
 A semi-implicit finite volume method is used to solve the equations
 of motion in advective form which ensures boundedness of the fluid
-fraction, $\sigma_{i}$, and \textcolor{blue}{removes time-step restrictions
-based on the speed of sound}. This aspect of the solution entails
-substituting both (or all) momentum equations into the continuity
+fraction, $\sigma_{i}$, and removes time-step restrictions
+based on the speed of sound. This aspect of the solution entails
+substituting
+\textcolor{blue}{momentum equations of both (or all) fluids}
+into the continuity
 equation rather than just the mean flow momentum equation as is done
 in semi-implicit weather forecast models. Without this numerical treatment,
 net mass transport by convection would trigger acoustic waves that
 are not handled by the implicit part of the model which would lead
 to instability for moderate time-steps. 
 
-\textcolor{blue}{The results presented in this paper use explicit
+The results presented in this paper use explicit
 Eulerian advection schemes and have advective Courant number limits
 of 0.5. This Courant number restriction could be raised with the use
 of semi-Lagrangian or implicit advection. This could be important
-for large updrafts in plumes. }
+for large updrafts in plumes.
 
-Results are presented of a well resolved rising warm bubble \textcolor{blue}{simulated
+Results are presented of a well resolved rising warm bubble simulated
 with the two fluid equations. Without transfer terms the model is
 unstable since divergence in each fluid is not controlled. The model
 is stabilised by adding either lateral entrainment as diffusion of
-mass between the fluids or may adding drag between the fluids. Transfer
+mass between the fluids or by adding drag between the fluids. Transfer
 terms are also included to move the warm rising air from the stable
-fluid to the buoyant fluid.}
+fluid to the buoyant fluid.
+\textcolor{blue}{The model loses energy slowly due mainly to dissipative advection. The transfer terms are implemented for stability and so that internal energy is conserved.}
 
-\textcolor{blue}{This paper has not answered the question of how much
+This paper has not answered the question of how much
 stabilisation of the conditionally averaged equations is necessary,
 just that two different techniques can stabilise a model of the conditionally
 averaged equations. Numerical analysis to find the minimum necessary
-stabilisation will be the subject of a future publication. }
+stabilisation will be the subject of future work.
 
 The formulation of transfer terms in order to represent sub-grid convection
-is the subject of future work. These transfer terms should depend
+is also the subject of future work. These transfer terms should depend
 on sub-grid variability of the primitive variables in each fluid.
-\textcolor{blue}{For representing unresolved flow, parameterisations
-for sub-filter-scale fluxes will also be essential.}
+For representing unresolved flow, parameterisations
+for sub-filter-scale fluxes will also be essential.
 
 \section*{Acknowledgements}
 
@@ -1197,21 +1224,21 @@ project. We acknowledge funding from the RevCon Paracon project NE/N013743/1.
 
 \section{Spatial Discretisation \label{appx:modelSpace}}
 
-\textcolor{blue}{This appendix defines the spatial discretisation
+This appendix defines the spatial discretisation
 that is used. This is similar to \citet{WS14} which was used for
 single fluid equations. None of the spatial discretisation described
 is specific for conditionally averaged equations. The spatial discretisation
 is general for arbitrarily structured meshes (for example including
 hexagonal prisms, cut cells and refinement) but the meshes used in
-this study or all fully structured. }
+this study are all fully structured.
 
 \subsection{Reconstruction of velocity fields at cell centres and faces from
 face normals}
 
-\textcolor{blue}{The model uses a C-grid so normal components of the
+The model uses a C-grid so normal components of the
 velocity (volume fluxes) are stored at cell faces. Full velocity fields
 are needed in the non-linear advection term, $\mathbf{u}\cdot\nabla\mathbf{u}$,
-of the momentum equation (\ref{eq:condMomAdv}). }The volume flux
+of the momentum equation (\ref{eq:condMomAdv}). The volume flux
 across each face is:
 \begin{equation}
 U_{i}=\mathbf{u}_{fi}\cdot\mathbf{S}_{f}
@@ -1238,18 +1265,18 @@ is a tensor defined on each cell that depends only on the mesh and
 its inverse multiplies the vector $\sum_{f\in c}U_{i}\mathbf{\hat{S}}_{f}$
 for each cell. 
 
-\textcolor{blue}{This reconstruction is first-order accurate on arbitrary
+This reconstruction is first-order accurate on arbitrary
 meshes and second-order accurate on uniform structured meshes. It
 simplifies to simple averaging of nearest neighbours on a uniform
-structured mesh of hexahedra.}
+structured mesh of hexahedra.
 
 \subsection{Non-Linear Advection}
 
-\textcolor{blue}{This section is again concerned with the discretisation
+This section is again concerned with the discretisation
 of the non-linear advection term, $\mathbf{u}\cdot\nabla\mathbf{u}$,
 of the momentum equation (\ref{eq:condMomAdv}). The non-linear advection
 described is not optimal but yields satisfactory solutions using existing
-OpenFOAM operators to implement a C-grid on an unstructured mesh. }
+OpenFOAM operators to implement a C-grid on an unstructured mesh. 
 
 The conditionally averaged Euler equations are solved in advective
 form so that they are defined where $\sigma_{i}=0$ and so that a
@@ -1266,21 +1293,21 @@ onto faces. Both terms use Gauss's divergence theorem:
 \mathbf{u}_{i}\cdot\nabla\mathbf{u}_{i}\approx\frac{1}{V}\left(\sum_{f\in c}\mathbf{u}_{ai}U_{i}-\mathbf{u}_{ci}\sum_{f\in c}U_{i}\right)\label{eq:nonLinearAdvect}
 \end{equation}
 where $V$ is the cell volume and $\mathbf{u}_{ai}$ is the velocity
-interpolated from cell centres to faces using the OpenFOAM \textcolor{blue}{(second-order)}
+interpolated from cell centres to faces using the OpenFOAM (second-order)
 linear upwind advection scheme. The prognostic variable is $U_{i}$
 so the non-linear advection term from eqn (\ref{eq:nonLinearAdvect})
 is linearly interpolated onto faces and then the dot product is taken
 with $\mathbf{S}_{f}$. This advection is not bounded and requires
 more interpolations and reconstructions than are usually used for
 C-grid advection of velocity. It is used because it makes implementation
-of C-grid advection straightforward in OpenFOAM. \textcolor{blue}{The
+of C-grid advection straightforward in OpenFOAM. The
 linear-upwind advection can be replaced by linear advection which
-gives better energy conservation but the results are a bit noisy. }
+gives better energy conservation but the results are a bit noisy.
 
 \subsubsection{Pressure Gradient including the $\theta_{i}$ pre-factor \label{subsec:gradP}}
 
-The pressure gradient term, $c_{p}\theta_{i}\nabla\pi$, \textcolor{blue}{of
-the momentum equation (\ref{eq:condMomAdv})} needs to be calculated
+The pressure gradient term, $c_{p}\theta_{i}\nabla\pi$, of
+the momentum equation (\ref{eq:condMomAdv}) needs to be calculated
 on faces in the normal direction to the face. Since we assume an orthogonal
 mesh this can simply be calculated as the difference in pressure between
 the cells either side of the face:
@@ -1301,14 +1328,14 @@ The transfer terms on the right hand side of the momentum equation
 to be linearly interpolated onto faces, and their dot products with
 $\mathbf{S}_{f}$ are taken in order to calculate the rate of change
 of $U_{i}$. This is not done using conservative interpolation so
-momentum could be \textcolor{blue}{created or} destroyed when mass
+momentum could be created or destroyed when mass
 is transferred. 
 
 \subsection{Advection of $\sigma_{i}\rho_{i}$\label{subsec:vanLeerContinuity}}
 
-\textcolor{blue}{Here we consider the discretisation of the advection
-term of the continuity equation (\ref{eq:condCont}). }The mass transfer
-terms that appear in the $\theta$ $\theta$ and momentum equations
+Here we consider the discretisation of the advection
+term of the continuity equation (\ref{eq:condCont}). The mass transfer
+terms that appear in the $\theta$ and momentum equations
 (\ref{eq:condMomAdv},\ref{eq:condThetaAdv}) involve division by
 $\sigma_{i}\rho_{i}$ so for stability, $\sigma_{i}\rho_{i}$ should
 remain positive. Therefore $\sigma_{i}\rho_{i}$ should be advected
@@ -1316,8 +1343,8 @@ using a monotonic scheme. However for energy conservation and for
 consistency between the continuity and pressure equation (which uses
 the continuity equation, see section \ref{subsec:Helmholtz}), $\rho_{i}$
 should be advected using centred differencing. The advection term
-of eqn \ref{eq:condCont-1} is therefore discretised using Gauss's
-divergence theorem as:
+of eqn \ref{eq:condCont} is therefore discretised using Gauss's divergence
+theorem as:
 \begin{equation}
 \nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i})\approx\frac{1}{V}\sum_{f\in c}\sigma_{ia}\rho_{if}U_{f}
 \end{equation}
@@ -1345,8 +1372,8 @@ is usually achieved in low Mach number flows.
 
 \subsection{Advection of $\theta_{i}$\label{subsec:thetaAdvect}}
 
-\textcolor{blue}{Here we consider the advection term in the temperature
-equation (\ref{eq:condThetaAdv}).} For consistency with advection
+Here we consider the advection term in the temperature
+equation (\ref{eq:condThetaAdv}). For consistency with advection
 in the momentum equation (eqn \ref{eq:nonLinearAdvect}), $\theta$
 advection is calculated in advective form using finite volume operators
 (using Gauss's theorem):

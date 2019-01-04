@@ -1,0 +1,2498 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{xcolor}
+\renewenvironment{quote}
+               {\list{}{\rightmargin\leftmargin}%
+                \item\relax\color{blue}}
+               {\endlist}
+
+
+% Long lines with tabs
+\makeatletter
+
+\newlength\tdima
+\newcommand\tabfill[1]{%
+      \setlength\tdima{\linewidth}%
+      \addtolength\tdima{\@totalleftmargin}%
+      \addtolength\tdima{-\dimen\@curtab}%
+      \parbox[t]{\tdima}{#1\ifhmode\strut\fi}}
+
+\newcommand\mytabs{\hspace*{2.5cm}\=\hspace{\tdima}}
+\newenvironment{mysec}[1][\mytabs]
+  {\begin{tabbing}#1\kill\ignorespaces}
+  {\end{tabbing}}
+
+\makeatother
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style \use_bibtopic false
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Responses to Second Round of Reviewer Comments on
+\begin_inset Newline newline
+\end_inset
+
+QJ 18 0129
+\begin_inset Newline newline
+\end_inset
+
+Numerical Solution of the Conditionally Averaged Equations for Representing
+ Net Mass Flux due to Convection
+\end_layout
+
+\begin_layout Author
+Hilary Weller and William McIntyre
+\end_layout
+
+\begin_layout Quote
+Author responses and additional text in the manuscript are in blue.
+\end_layout
+
+\begin_layout Section*
+Responses to Reviewer 1
+\end_layout
+
+\begin_layout Standard
+I thank the authors for clearing up my overarching sources of concern about
+ the manuscript.
+ The changes made to the description of the numerical algorithm enhance
+ the clarity of that discussion significantly and are appreciated.
+ At this point, I would recommend minor revisions to address textual issues.
+ Portions of the manuscript (as listed below, and in particular section
+ 2) remain confusing and would benefit from further revision.
+ Also, the text added in this first revision would benefit from additional
+ proofreading.
+ I have indicated some typos that especially caught my attention but my
+ list is not necessarily exhaustive.
+\end_layout
+
+\begin_layout Quote
+Many thanks for your extensive comments.
+ We have revised based on your suggestions and carried out further proof
+ reading.
+\end_layout
+
+\begin_layout Subsection*
+Specific Comments: 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Coverpage: I’m not sure why 
+\begin_inset Quotes eld
+\end_inset
+
+Geophysical sphere
+\begin_inset Quotes erd
+\end_inset
+
+ was selected as a keyword.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ From the list of keywords, there are a few options under 
+\begin_inset Quotes eld
+\end_inset
+
+Geophysical sphere
+\begin_inset Quotes erd
+\end_inset
+
+; atmosphere, ocean, boundary layer, space, stratosphere ...
+ We chose 
+\begin_inset Quotes eld
+\end_inset
+
+Atmosphere
+\begin_inset Quotes erd
+\end_inset
+
+ as this is the appropriate geophysical sphere.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+20-26 This sentence runs on a bit – splitting into two or more sentences
+ might enhance readability.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Split
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+35: Does 20% convective area actually represent some stability threshold?
+ If it is it just meant to illustrate what might be a destabilizing convective
+ area fraction, I believe it would be better to avoid giving a numerical
+ value here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Replaced 20% with 
+\begin_inset Quotes eld
+\end_inset
+
+a significant fraction
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+85: spelling: regularlised -->regularised
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+
+\color blue
+ Thanks.
+ Fixed
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+135-143: These sentences appear totally contradictory: the pressure is equal
+ but pressure differences are not equilibrated? Are the authors referring
+ to a situation with a uniform background pressure but varying dynamic pressure?
+ This requires more explanation.
+ Also, the plume and environment fluids have not been formally introduced
+ in terms of the indicator function 
+\begin_inset Formula $I_{i}$
+\end_inset
+
+ yet; I found it confusing for them to be mentioned here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We have put 
+\begin_inset Quotes eld
+\end_inset
+
+Fluid 
+\begin_inset Formula $i=0$
+\end_inset
+
+ may be for example the stable environment, fluid 
+\begin_inset Formula $i=1$
+\end_inset
+
+ convective plumes and fluid 
+\begin_inset Formula $i=2$
+\end_inset
+
+ may be downdrafts.
+\begin_inset Quotes erd
+\end_inset
+
+ near the beginning of section 2.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The discussion of pressure equilibration has been simplified:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The same averaging can be applied to pressure but we will assume that pressure
+ is uniform across all fluids.
+ Pressure differences between the plume and the environment will be parameterise
+d as form drag which is discussed in section 2.1.1.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqs.
+\begin_inset space \space{}
+\end_inset
+
+11-15: It might be helpful to state more clearly whether the transfer terms
+ (in some form, perhaps totally intractable!) naturally appear during the
+ process of deriving the conditionally filtered equations.
+ It would be great if the distinction between pure mathematical manipulation/der
+ivation of these equations, physical closures, and numerical techniques
+ could be brought out more clearly.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+Added
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+Formulation of the transfer terms, $S_{ij}$, $H_{ij}$ and $
+\backslash
+mathbf{d}_{ij}$ is needed to create a parameterisation of convection.
+ The mass transfer, $S_{ij}$, will be dependent on the definitions of each
+ fluid and on sub-grid scale variability.
+ Heat transfer and drag between fluids, $H_{ij}$ and $
+\backslash
+mathbf{d}_{ij}$, will depend on the surface area between fluids.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We don't feel confident to provide the insight requested by the reviewer
+ at this stage.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eqs.
+\begin_inset space \space{}
+\end_inset
+
+13-15: Each line of the equation is receiving a different number, rather
+ than a single number for the entire equation.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+165: 
+\begin_inset Formula $D_{ij}$
+\end_inset
+
+ does not appear in the equation, 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ does.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Eq.
+\begin_inset space \space{}
+\end_inset
+
+18,
+\begin_inset space \space{}
+\end_inset
+
+19: same numbering issue.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+187: “presumably” might be a better word choice than “inevitably” here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good suggestion.
+ Thanks, done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+188: As for Line 140, there seems to be some jump here where the identities
+ of the fluids go from being left vague to identified with “convectively
+ active” fluid and “stable” fluid.
+ This needs to be clarified.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+
+\color blue
+ Good point.
+ Section 2.1 now starts: 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+In order to represent sub-grid scale convection with the multi-fluid equations
+ we first need to give labels to parts of the fluid with different properties.
+ For example, fluid zero could be the stable environment fluid, fluid one
+ could be the convectively unstable buoyant plumes and fluid two could be
+ downdrafts.
+ For now it doesn't matter precisely how this is done.
+ The next essential stage is to formulate transfer terms, $
+\backslash
+mathbf{D}_{ij}$, $S_{ij}$ and $H_{ij}$.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+192: It seems odd to talk about transfers of “resolved flow”– I think the
+ authors mean that transfers are based on the properties of the resolved
+ flow, neglecting subgrid scale variability.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes, thanks for the suggested.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+197-204: Why not heat also? It works at least as well as mass for this thought
+ experiment.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+Have now added 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+Sensible and radiative heat transfer between fluids is not considered in
+ this paper and appears not to be needed for stability because the temperature
+ of the fluids does not diverge.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+207: What is meant by “diffusion of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+” should be explained.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+
+\color blue
+ Have now added 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+The diffusion of $
+\backslash
+sigma$, $S_{dij}$, mixes the fluids in regions where the gradient of $
+\backslash
+sigma$ varies rapidly.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+210: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ provide surface/near-surface boundary conditions for their convective plumes
+ and no closure is used for cloud base mass flux.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+Agreed, we did not describe 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ correctly here and the comparison is not useful.
+ Have removed the reference to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TKP+18"
+
+\end_inset
+
+ here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+216: Perhaps better to say: Pressure differences between the fluid are parameter
+ized as form drag.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+220: Might want to mention some references from the atmospheric science
+ literature for similar expressions for drag being used, e.g.
+ historically, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "SW69"
+
+\end_inset
+
+, more recently, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "RC15"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+224-226: Could you provide more explanation on the need for 
+\begin_inset Formula $r_{c}$
+\end_inset
+
+ to become small (and how small, how rapidly).
+ What type of numerical stability restrictions would need to be accounted
+ for in adopting a more physically based cloud radius closure?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+
+\color blue
+ I am afraid that we haven't made enough progress on this.
+ The following has been added:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+Initial testing without any form of stabilisation showed that the velocity
+ of the vanishing fluid diverges which is clearly unrealistic -- a tiny
+ bubble of a different fluid would move with the main fluid.
+ This can be achieved by making $r_{c}$ small as $
+\backslash
+sigma_{i}$ becomes small in any fluid which increases the drag between fluids
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+and
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+From geometric arguments, it is reasonable to expect $r_c$ to be small when
+ $
+\backslash
+sigma$ is small but stability restrictions on $r_c$ are not known.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+233-234: Then transfer from 
+\begin_inset Formula $j$
+\end_inset
+
+ to 
+\begin_inset Formula $i$
+\end_inset
+
+ is always negative? How are the associations with 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ made? From the discussion it seems like 
+\begin_inset Formula $i=$
+\end_inset
+
+plume, 
+\begin_inset Formula $j=$
+\end_inset
+
+environment.
+ Is that so?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+No, 
+\begin_inset Formula $S_{01}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{10}$
+\end_inset
+
+ are both always positive.
+ This has been re-phrased:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+mass transfer terms are never negative.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+244-245,
+\begin_inset space \space{}
+\end_inset
+
+line
+\begin_inset space \space{}
+\end_inset
+
+261-263: “Stable” and “buoyant” are just being used descriptively here,
+ right? I don’t see anything about these equations that ensures fluid 0
+ is stable and fluid 1 is buoyant.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ We have added
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+These transfer terms do not guarantee that fluid 0 is stable or that fluid
+ 1 is buoyant but that is the ultimate aim.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+268-269: Can you provide an example/reference of this type of closure in
+ a convection scheme?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Actually the proposed transfer terms are so different from closure based
+ on moisture convergence that we have removed the whole sentence.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+298: I would prefer for TVD to spelled out on its first use.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes, done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+346: 
+\begin_inset Formula $\theta_{0}$
+\end_inset
+
+ has not been defined clearly – is this 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $i=0$
+\end_inset
+
+ or some reference value of 
+\begin_inset Formula $\theta$
+\end_inset
+
+? I believe it to be the former, but this might be a source of confusion
+ for readers.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ Good point.
+ Added:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+($
+\backslash
+theta$ for fluid zero)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+407: Can you provide the equation numbers for the momentum and continuity
+ equations?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Done
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+563: “The” is repeated.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+589: Perhaps change the second “which” to “and”
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Fig.
+\begin_inset space \space{}
+\end_inset
+
+4
+\begin_inset space \space{}
+\end_inset
+
+and
+\begin_inset space \space{}
+\end_inset
+
+pertaining
+\begin_inset space \space{}
+\end_inset
+
+text: Could some comment be made on the importance of the early period of
+ the simulation, i.e.
+ before approximately 100
+\begin_inset space \space{}
+\end_inset
+
+s? Also perhaps I am totally misunderstanding this figure, but it surprises
+ me that the normalized energy loss is orders of magnitude lower (at long
+ times) for the very high drag coefficient 
+\begin_inset Formula $C_{D}=10^{6}$
+\end_inset
+
+ than for 
+\begin_inset Formula $C_{D}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+Good points.
+ The x-axis of all of the energy change graphs have now been square rooted
+ to emphasise the early changes.
+ The following text has been added to the captions:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+The x-axis is on a square root scale to emphasise the  changes that occur
+ early in the simulations.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We were also surprised by the lower energy loss for the high drag coefficient.
+ We have added this conjecture:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+It is not immediately obvious why the high drag coefficient would lead to
+ less energy loss when we usually think of drag as removing kinetic energy.
+ With high drag between the fluids, kinetic energy is more evenly spread
+ between the fluids and lower velocities and lower shear could lead to less
+ kinetic energy dissipation by the dissipative advection.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We are not sure what additional comments to make about the early stages
+ of the energy change graph beyond the existing comments about the unstable
+ configurations having energy increases at early stages.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+633: Missing “to”
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed (not in blue).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+636-638: where is this line in Figure 4?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Removed
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+663: Some punctuation is missing here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Changed 
+\begin_inset Quotes eld
+\end_inset
+
+however
+\begin_inset Quotes erd
+\end_inset
+
+ to 
+\begin_inset Quotes eld
+\end_inset
+
+whereas
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+709: “Separately” is misspelled.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+763: “May”? Seems like a typo.
+ I think “by” is meant.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+886: “Or’ → “are”
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+959: 
+\begin_inset Formula $\theta$
+\end_inset
+
+ repeated? 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Section*
+Responses to Reviewer 2
+\end_layout
+
+\begin_layout Standard
+This paper describes the numerical solution method for the conditionally
+ averaged Euler equations.
+ It presents a semi-implicit algorithm in detail, as well as formulations
+ of drag and diffusion that are important for a stable coupling between
+ the plume and the environment, and mass transfer terms representing the
+ initialization and termination of the convective plume.
+ A buoyant bubble test case is then presented for validating this numerical
+ method.
+ I am satisfied with the extensive revisions by the authors, which have
+ addressed most (if not all) of my previous concerns.
+ Admittedly, the numerical solution section is still quite difficult to
+ read, but I assume this is inevitable because of the nature of this study.
+ So I would suggest this manuscript be accepted for publication subject
+ to minor revision.
+ My specific comments are as follows.
+ Many of the suggested changes are merely my personal preferences and might
+ not be strictly followed.
+\end_layout
+
+\begin_layout Quote
+
+\color blue
+Many thanks.
+ We have revised as you suggest.
+ They seem like excellent suggestions.
+\end_layout
+
+\begin_layout Subsection*
+Specific Comments:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
+
+L17: I suggest adding 
+\begin_inset Quotes eld
+\end_inset
+
+initialization and termination of
+\begin_inset Quotes erd
+\end_inset
+
+ between 
+\begin_inset Quotes eld
+\end_inset
+
+represent
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+sub-grid-scale convection
+\begin_inset Quotes erd
+\end_inset
+
+ to further clarify the physical interpretation of the convection-motivated
+ mass transfer terms.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Abstract,
+\begin_inset space \space{}
+\end_inset
+
+L21: I suggest using 
+\begin_inset Quotes eld
+\end_inset
+
+plume fluid
+\begin_inset Quotes erd
+\end_inset
+
+ instead of 
+\begin_inset Quotes eld
+\end_inset
+
+buoyant fluid
+\begin_inset Quotes erd
+\end_inset
+
+ for consistent terminology throughout the abstract (it is okay to me to
+ use both terms interchangeably in the main text).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+24: For emphasis, I suggest changing 
+\begin_inset Quotes eld
+\end_inset
+
+a module to a dynamical core
+\begin_inset Quotes erd
+\end_inset
+
+ to 
+\begin_inset Quotes eld
+\end_inset
+
+a module 
+\shape italic
+external
+\shape default
+ to a dynamical core
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+102: Could you clarify which extrema (e.g., velocity, temperature, or area
+ fraction) are referred to here? This comment also applies to Line 248.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+The original line 102 has been changed to
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+they will introduce new mass, temperature and momentum extrema in one fluid.
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The original line 248 has been changed to
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+transfer from fluid $i=0$ to fluid $i=1$ could introduce new extrema of
+ $
+\backslash
+sigma_i$, $
+\backslash
+theta_1$ and $
+\backslash
+mathbf{u}_1$.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Equation
+\begin_inset space \space{}
+\end_inset
+
+10: The font of ‘F’ looks different from the font in equation 9.
+ Please fix.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ They are supposed to be different.
+ A clarification is now put after equation 10:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+where $
+\backslash
+mathbf{F}_{
+\backslash
+text{SF}}^{
+\backslash
+theta_{i}}$ is a vector and $
+\backslash
+mathsf{F}_{
+\backslash
+text{SF}}^{
+\backslash
+mathbf{u}_{i}}$ is a tensor
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+165: 
+\begin_inset Formula $D_{ij}$
+\end_inset
+
+ does not appear in equation 15.
+ Was it a typo for 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ ?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The relationship between 
+\begin_inset Formula $D_{ij}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ is now described after equation 19 and they are now used correctly.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+222: The word 
+\begin_inset Quotes eld
+\end_inset
+
+a region of fluid
+\begin_inset Quotes erd
+\end_inset
+
+ sounds a bit ambiguous.
+ Would it be clearer to state this as the 
+\begin_inset Quotes eld
+\end_inset
+
+interface between the fluids
+\begin_inset Quotes erd
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ The following text has been added:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+The radius, $r_c$, needs to be the same for both fluids and could be, for
+ example, the plume radius or a length scale for the region of fluid with
+ lower volume fraction.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+268: The formulation of equation 26 is more directly related to mass convergence
+, instead of moisture convergence.
+ Note that the cloud- bottom dynamical entrainment in previous study is
+ also usually formulated just as mass (not moisture) convergence, e.g., equation
+ 14 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "DSJD12"
+
+\end_inset
+
+ (their formulation uses vertical divergence, which corresponds to horizontal
+ mass convergence).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+ 
+\color blue
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "DSJD12"
+
+\end_inset
+
+ do not have an equation 14 or a closure based on convergence.
+ I am wondering if you are referring to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "DS10"
+
+\end_inset
+
+.
+ I have removed references to moisture convergence here based on comments
+ from the other reviewer.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+274: Did this refer to the 
+\shape italic
+grid-scale
+\shape default
+ continuity equation?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Yes.
+ We have inserted 
+\begin_inset Quotes eld
+\end_inset
+
+grid-scale
+\begin_inset Quotes erd
+\end_inset
+
+ here.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+313: Why are large and small 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ stated separately in this sentence? Did they require different treatments
+ for acoustic waves?
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ No.
+ This has been changed to: 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+for any value of $
+\backslash
+sigma_{i}$
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+317-319: The word 
+\begin_inset Quotes eld
+\end_inset
+
+stable
+\begin_inset Quotes erd
+\end_inset
+
+ is used twice in this sentence, but with different meanings: the first
+ means numerical stability; the second means the environment fluid.
+ To avoid confusion, I suggest using ‘plume and environment’ instead of
+ ‘buoyant and stable’ in Line 319.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point, thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+323-326: It would be helpful to write out the variables solved by the inner
+ and outer loops here (inner: 
+\begin_inset Formula $\pi$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+; outer: 
+\begin_inset Formula $\sigma\rho$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+340-342: I thought ‘overspecified’ (‘overspecification’) should be one word
+ without a space after ‘over’.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+353-355: This sentence discusses the transfer term limiter and thus fits
+ better at Lines 373-375.
+ Also, I was a bit confused by this sentence at first, since the transfer
+ terms with 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+ in the denominator do not appear in the continuity equation, but instead
+ appear in the momentum and temperature equations.
+ So it might be worth clarifying a bit.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point, thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+355: I suggest adding a reference to equation (11) when discussing the continuit
+y equations (and a reference to equation (17) in Line 380).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point, thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+358–359: This statement 
+\begin_inset Quotes eld
+\end_inset
+
+we have chosen a TVD advection scheme ...
+ to advect 
+\begin_inset Formula $\sigma_{i}\rho_{i}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ seems somewhat inaccurate.
+ Based on Appendix A.4, the discretization methods for 
+\begin_inset Formula $\rho$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ are different (van-Leer for 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and centered difference for 
+\begin_inset Formula $\rho$
+\end_inset
+
+), so van-Leer is NOT directly applied on (
+\begin_inset Formula $\sigma\rho$
+\end_inset
+
+).
+ Clarifying this point here helps prevent the apparent contradiction by
+ Lines 461-462, which states that 
+\begin_inset Quotes eld
+\end_inset
+
+only 
+\begin_inset Formula $σ_{i}$
+\end_inset
+
+ , not 
+\begin_inset Formula $σ_{i}ρ_{i}$
+\end_inset
+
+ is solved with a bounded advection scheme’.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+363-365: This sentence seems a bit convoluted.
+ I suggest rewriting it such as 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $(σ_{i}ρ_{i})^{k}$
+\end_inset
+
+ for all values of 
+\begin_inset Formula $k$
+\end_inset
+
+ and the intermediate values 
+\begin_inset Formula $(σ_{i}ρ_{i})^{\prime}$
+\end_inset
+
+ share the same memory as 
+\begin_inset Formula $(σ_{i}ρ_{i})^{n+1}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+380: The sentence 
+\begin_inset Quotes eld
+\end_inset
+
+the mass transfer terms are applied implicitly...
+\begin_inset Quotes erd
+\end_inset
+
+ seems to fit better at Line 384.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+402: What ‘below’? I thought it should refer to the drag equation (21).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Fixed.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+484: Equation (60) is referenced before its occurrence in the paper, so
+ it may be helpful to make clear that it comes from the appendix.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+546: Is 
+\begin_inset Quotes eld
+\end_inset
+
+loose
+\begin_inset Quotes erd
+\end_inset
+
+ a typo of 
+\begin_inset Quotes eld
+\end_inset
+
+lose
+\begin_inset Quotes erd
+\end_inset
+
+ (see also Line 637)? Also it seems to me that the centered linear difference
+ scheme shows a smaller negative energy change than the other schemes, so
+ it should lose energy 
+\shape italic
+more
+\shape default
+ slowly, not 
+\begin_inset Quotes eld
+\end_inset
+
+less slowly
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Thanks.
+ Both are corrected.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+600-638: I suggest breaking this part into a subsection with a title like
+ 
+\begin_inset Quotes eld
+\end_inset
+
+coupling/regularization of the two fluids by drag or diffusion
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good idea.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Figure
+\begin_inset space \space{}
+\end_inset
+
+2: It would be more consistent if the same y-axis limits (
+\begin_inset Formula $10^{-4}$
+\end_inset
+
+ to 
+\begin_inset Formula $10^{-10}$
+\end_inset
+
+ ) were used for both panels.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Lines
+\begin_inset space \space{}
+\end_inset
+
+699-700: I am not sure if the ideal gas law is a good explanation of the
+ horizontal expansion of the air bubble.
+ The vertical squeezing of the buoyant fluid seems remarkable and it is
+ consistent to the horizontal expansion (for satisfying continuity); however,
+ it is not explained by the ideal gas law.
+ Overall, I think it should be emphasized that the two formulations of mass
+ transfer correspond to different definitions of convective plume: the buoyancy
+ definition tends to mark the most buoyant part of the fluid as the convective
+ plume, whereas the horizontal divergence definition tends to mark the fastest
+ upward motion.
+ These two criteria do not always coincide (at least not in this rising
+ bubble case).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \space{}
+\end_inset
+
+
+\color blue
+ Good point.
+ The ideal gas law explains the expansion that happens in the first few
+ time-steps but the warm air continues to expand horizontally and hence
+ is not transferred to fluid 1.
+ This sentence has been changed to
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+The warm air actually expands horizontally and so is not transferred.
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The horizontal divergence definition doesn't mark the fastest upward motion
+ – the warm bubble is moving upwards faster than the air next to the ground
+ in figure 5 top right but the air next to the ground is in fluid 1 whereas
+ the warm part of the bubble is in fluid 0.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+728: I suggest using ‘mass transfer’ in place of ‘entrainment’ for better
+ generality.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good point.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+748: I suggest rephrasing ‘both (or all) momentum equations’ as ‘momentum
+ equations of both (or all) fluids’, for better clarity.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Good idea.
+ Done.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+763: The words ‘may adding’ seem redundant.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Have replace with 
+\begin_inset Quotes eld
+\end_inset
+
+by adding
+\begin_inset Quotes erd
+\end_inset
+
+ for best clarity.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Line
+\begin_inset space \space{}
+\end_inset
+
+765: I suggest adding a sentence to briefly summarize the energy conservation
+ properties of the model.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\color blue
+\begin_inset space \space{}
+\end_inset
+
+ Have added
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+The model loses energy slowly due mainly to dissipative advection.
+ The transfer terms are implemented for stability and so that internal energy
+ is conserved.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "numerics"
+options "abbrvnat"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

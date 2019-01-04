@@ -5008,7 +5008,7 @@ reference "subsec:Helmholtz"
  The advection term of eqn 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:condCont-1"
+reference "eq:condCont"
 
 \end_inset
 

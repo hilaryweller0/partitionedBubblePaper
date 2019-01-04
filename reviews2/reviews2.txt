@@ -1,0 +1,108 @@
+Manuscript ID QJ-18-0129.R1 entitled "Numerical Solution of the Conditionally Averaged Equations for Representing Net Mass Flux due to Convection" .
+
+The paper which you submitted to the QJRMS has been reviewed. The comments of the referees are included at the bottom of this letter. You will see that whilst both referees are positive about the merits of your work, the paper requires some minor revision before it could be considered suitable for publication. Having consulted the Associate Editor handling your paper, and provided you make the requested changes, I would hope to accept the paper for publication.
+
+When you submit a revised version of your manuscript, please provide a point-by-point response to the reviewer’s comments along with your submission. Within the revised manuscript any revisions should also be indicated: you can do this by using the “track changes” feature in Microsoft Word, or, if you are using LaTeX, simply by changing the font colour to red to highlight what has been edited.
+
+Please submit your revised paper by 13-Dec-2018.
+
+The free page limit is 17 pages. Any papers for which the proof page extent is greater than the limit will attract a page charge of £110 per additional page (please note that different page charges may apply for supplemental Special Issue Articles). We also charge for colour printing. A charge of £250 for the first colour printed page and £150 per page thereafter will be levied to cover the additional printing costs involved. There is no charge for figures that appear colour online and black and white in print, but such figures must be provided in a format that reproduces well in grayscale. See http://onlinelibrary.wiley.com/journal/10.1002/(ISSN)1477-870X/homepage/ForAuthors.html#page_charges for details.
+
+You can upload your revised manuscript and submit it through your Author Centre. Log into http://mc.manuscriptcentral.com/qj and enter your Author Centre, where you will find your manuscript title listed under "Manuscripts with Decisions".
+
+IMPORTANT: Please make sure you closely follow the instructions for acceptable files. When submitting (uploading) your revised manuscript, please delete the file(s) that you wish to replace and then upload the revised file(s).
+
+Should your manuscript be accepted for publication, please notify the Editorial Office if you do not wish your manuscript to be published in Accepted Articles prior to the final version of record. For more information please access: http://onlinelibrary.wiley.com/journal/10.1002/(ISSN)1477-870X/homepage/ForAuthors.html#accepted_articles
+
+Once again, thank you for submitting your manuscript to the Quarterly Journal of the Royal Meteorological Society. I look forward to receiving your revision.
+
+Yours sincerely,
+
+
+Prof. Alan Blyth
+Chief Editor, QJRMS
+a.m.blyth@leeds.ac.uk
+
+Referee(s)' Comments to Author:
+
+Reviewer: 2
+
+Comments to the Author
+Dear Authors,
+
+Sorry for the delay. I am satisfied with the extensive revision and would be happy to see this paper accepted after some minor revision is made. Please see my attached review for more details.
+
+Thanks!
+
+Reviewer: 1
+
+Comments to the Author
+I thank the authors for clearing up my overarching sources of concern about the manuscript. The changes made to the description of the numerical algorithm enhance the clarity of that discussion significantly and are appreciated. At this point, I would recommend minor revisions to address textual issues.  Portions of the manuscript (as listed below, and in particular section 2) remain confusing and would benefit from further revision. Also, the text added in this first revision would benefit from additional proofreading. I have indicated some typos that especially caught my attention but my list is not necessarily exhaustive.
+
+Coverpage: I’m not sure why “Geophysical sphere” was selected as a keyword.
+
+Line 20-26. This sentence runs on a bit--splitting into two or more sentences might enhance readability.
+
+Line 35: Does 20% convective area actually represent some stability threshold? If it is it just meant to illustrate what might be a destabilizing convective area fraction, I believe it would be better to avoid giving a numerical value here.
+
+Line 85: spelling: regularlised -->regularised
+
+Line 135-143.  These sentences appear totally contradictory: the pressure is equal but pressure differences are not equilibrated? Are the authors referring to a situation with a uniform background pressure but varying dynamic pressure? This requires more explanation. Also, the plume and environment fluids have not been formally introduced in terms of the indicator function I_i yet; I found it confusing for them to be mentioned here.
+
+Eqs. 11-15. It might be helpful to state more clearly whether the transfer terms (in some form, perhaps totally intractable!) naturally appear during the process of deriving the conditionally filtered equations. It would be great if the distinction between pure mathematical manipulation/derivation of these equations, physical closures, and numerical techniques could be brought out more clearly.
+
+Eqs. 13-15. Each line of the equation is receiving a different number, rather than a single number for the entire equation.
+
+Line 165. D_{ij} does not appear in the equation, d_{ij} does.
+
+Eq. 18, 19: same numbering issue.
+
+Line 187: “presumably” might be a better word choice than “inevitably” here.
+
+Line 188: As for Line 140,  there seems to be some jump here where the identities of the fluids go from being left vague to identified with “convectively active” fluid and “stable” fluid. This needs to be clarified.
+
+Line 192: It seems odd to talk about transfers of “resolved flow”--I think the authors mean that transfers are based on the properties of the resolved flow, neglecting subgrid scale variability.
+
+Line 197-204: Why not heat also? It works at least as well as mass for this thought experiment.
+
+Line 207: What is meant by “diffusion of \sigma” should be explained.
+
+Line 210: Tan et al. provide surface/near-surface boundary conditions for their convective plumes and no closure is used for cloud base mass flux.
+
+Line 216. Perhaps better to say: Pressure differences between the fluid are parameterized as form drag.
+
+Line 220. Might want to mention some references from the atmospheric science literature for similar expressions for drag being used, e.g. historically, Simpson and Wiggert, 1969, more recently, Romps and Charn, 2015, etc.
+
+Line 224-226: Could you provide more explanation on the need for r_c to become small (and how small, how rapidly). What type of numerical stability restrictions would need to be accounted for in adopting a more physically based cloud radius closure?
+
+Line 233-234: Then transfer from j to i is always negative? How are the associations with i and j made? From the discussion it seems like i=plume, j=environment. Is that so?
+
+Lines 244-245, line 261-263: “Stable” and “buoyant” are just being used descriptively here, right? I don’t see anything about these equations that ensures fluid 0 is stable and fluid 1 is buoyant.
+
+Line 268-269: Can you provide an example/reference of this type of closure in a convection scheme?
+
+Line 298: I would prefer for TVD to spelled out on its first use.
+
+Line 346: \theta_0 has not been defined clearly- is this \theta_i, i=0 or some reference value of \theta? I believe it to be the former, but this might be a source of confusion for readers.
+
+Line 407: Can you provide the equation numbers for the momentum and continuity equations?
+
+Line 563. “The” is repeated.
+
+Line 589. Perhaps change the second “which” to “and”
+
+Fig. 4 and pertaining text: Could some comment be made on the importance of the early period of the simulation, i.e. before approximately 100 s? Also perhaps I am totally misunderstanding this figure, but it surprises me that the normalized energy loss is orders of magnitude lower (at long times) for the very high drag coefficient C_D=10^6 than for C_D=1.
+
+Line 633. Missing “to”
+
+Line  636-638: where is this line in Figure 4?
+
+Line 663. Some punctuation is missing here.
+
+Line 709. “Separately” is misspelled.
+
+Line 763. “May”? Seems like a typo. I think “by” is meant.
+
+Line 886. “Or’ → “are”
+
+Line 959: \theta repeated? 

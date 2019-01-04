@@ -1,0 +1,8 @@
+manuscript.pdf was generaged using:
+
+pdflatex manuscript2
+bibtex manuscript2
+pdflatex manuscript2
+pdflatex manuscript2
+
+

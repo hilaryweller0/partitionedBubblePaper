@@ -1,0 +1,50 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{Initial $\sigma$ (shaded) and initial $\theta_{i}$ (contoured every
+0.2\,K)}\tabularnewline
+\includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/0/sigmaTheta} & \includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble2/0/sigmaTheta}\tabularnewline
+\multicolumn{2}{c}{$\sigma$ scale \includegraphics[width=0.75\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant\lyxdot sigma}}\tabularnewline
+\multicolumn{2}{c}{$\theta$ scale \includegraphics[width=0.75\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/legends/sigmaTheta_buoyant\lyxdot theta}}\tabularnewline
+\multicolumn{2}{c}{$\sigma$ , $\theta_{i}$ and $\mathbf{u}_{i}$ after 1000\,s (results
+identical in each fluid)}\tabularnewline
+\includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble/1000/sigmaTheta} & \includegraphics[width=0.48\linewidth]{/home/hilary/OpenFOAM/hilary-dev/run/hilary/warmBubble/partitioned_identical/sigmaBubble2/1000/sigmaTheta}\tabularnewline
+\end{tabular}
+\end{document}
